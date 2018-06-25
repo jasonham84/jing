@@ -1,5 +1,5 @@
 <template>
-	<div id="Main" style="-webkit-user-select:none;" @click="goo">
+	<div id="Main" style="-webkit-user-select:none;overflow: hidden;" @click="goo">
 		<el-container class="main">
 	    <el-header style="height: 80px;border-top-left-radius: 10px;border-top-right-radius: 10px;display: flex;background: #434343;">
 	    	
@@ -148,6 +148,7 @@
 body{
 		margin: 0;
 		padding: 0;
+		font-size: 12px !important;
 	}
 #Main .el-menu-vertical-demo{
 	border: 0;
@@ -177,7 +178,7 @@ body{
 	
 	#Main{
 		height: 100vh;
-		
+		overflow: hidden;
 		margin: 0;
 		padding: 0;
 	}
@@ -246,6 +247,7 @@ body{
   }
   .contentRightDiv{
   	flex: 1;
+  	overflow: hidden;
   	
   }
   .el-aside {

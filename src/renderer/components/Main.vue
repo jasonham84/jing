@@ -156,11 +156,11 @@ body{
 #Main .el-menu-item:focus, .el-menu-item:hover {
 	background: #f1f1f1;
 }
-.el-popover{
+#Main .el-popover{
 	min-width: 80px;
 }
 
-.headHover:hover{
+#Main .headHover:hover{
 		background: yellow;
 	}
 .a{

@@ -60,12 +60,13 @@
 		</el-row>	
 		</transition>
 		</div>
-		<div style="flex: 1;width: 100%;">			
-			<div :class="{aa:flageClass,bb:!flageClass}" id="scroll-1">
+		<div style="flex: 1;width: 100%;position: relative;" id="box">			
+			<div :class="{aa:flageClass,bb:!flageClass}" id="scroll-1" @contextmenu.stop='rightMeun'>
 		  <el-table
 		    ref="multipleTable"
 		    :data="tableData3"
 		    tooltip-effect="dark"
+		    @row-contextmenu="hoo"
 		    style="width: 100%;font-size: 12px;"
 		   >
 		    <el-table-column
@@ -75,13 +76,13 @@
 		    <el-table-column
 		      prop="id"
 		      label="编号"
-		      width="60">
+		      width="50">
 		   
 		    </el-table-column>
 		    <el-table-column
 		      prop="singName"
 		      label="歌曲名称"
-		      width="80">
+		      width="70">
 		    </el-table-column>
 		    <el-table-column
 		      prop="singerName"
@@ -141,27 +142,47 @@
 		      <el-table-column
 		      prop="banchang"
 		      label="绊唱"
-		      width="60"
+		      width="50"
 		    	>		    	
 		    </el-table-column>
 		      <el-table-column
 		      prop="shangDate"
 		      label="上传日期"
-		      width="80"
-		    	>		    	
+		      width="80"		      
+		    	>
+		    <!--<template slot-scope="scope">
+	        <el-popover trigger="hover" placement="top">
+	          <p>日期：{{ scope.row.shangDate }}</p>	          
+	          <div slot="reference" style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
+	            <p size="mini">{{ scope.row.shangDate }}</p>
+	          </div>
+	        </el-popover>
+	       </template>-->
 		    </el-table-column>
-		      <el-table-column
-		      prop="chaozhuo"
+		      <el-table-column		      
 		      label="操作"
-		      width="60"
-		    	>		    	
+		      width="162"
+		    	>	
+		    	<template slot-scope="scope">
+		    	<i class="iconfont icon-bofang" style="font-size: 20px;cursor: pointer;margin: 0 5px;" v-tishi:30="msg[0].content"></i>
+		    	<i class="iconfont icon-bianji" style="font-size: 20px;cursor: pointer;margin: 0 5px;" v-tishi:30="msg[1].content"></i>
+		    	<i class="iconfont icon-dianliangqiang_daohang_tihuan_moren" style="font-size: 20px;cursor: pointer;margin: 0 5px;" v-tishi:30="msg[2].content"></i>
+		    	<i class="iconfont icon-shanchu" style="font-size: 20px;cursor: pointer;margin: 0 5px;" v-tishi:30="msg[3].content"></i>
+		    	</template>
 		    </el-table-column>
 		    </el-table>	
 			</div>
 		</div>
 		<div style="height: 30px;width:100%;position: absolute;bottom: 0;right: 0;background: gainsboro;">111</div>
-
-		  </div>		
+       	<div class="rightBox" ref='pppp'>
+       		<ul>
+       			<li>播放视频</li>
+       			<li>编辑</li>
+       			<li>替换</li>
+       			<li>删除</li>
+       		</ul>
+       	</div>
+		 </div>		
 	</div>
 </template>
 <script>
@@ -176,7 +197,192 @@
 			       },
 			    flage:false,
 			    flageClass:false,
+			    showFlage:true,
+			    rowData:"",
+			    msg:[
+				 {content:'播放'},
+				 {content:'编辑'},
+				 {content:'替换'},
+				 {content:"删除"}
+				 
+				],
 			    tableData3: [{
+			    	id:'001',
+			    	singName:"稻香",
+			    	singerName:'周杰伦',
+			    	yuyan:'国语',
+			    	movie:"原版MV",
+			    	localtion:"大陆",
+			    	geshi:"Mp4",
+			    	soundbanben:"消音",
+			    	qufeng:"影视金曲",
+			    	zhujiName:"我想和你唱",
+			    	company:"滚石纸片公司",
+			    	yuanchang:"1",
+			    	banchang:"2",
+			    	shangDate:"2016-09-21 08:50:08",
+			    	chaozhuo:"操作"
+			    },{
+			    	id:'001',
+			    	singName:"稻香",
+			    	singerName:'周杰伦',
+			    	yuyan:'国语',
+			    	movie:"原版MV",
+			    	localtion:"大陆",
+			    	geshi:"Mp4",
+			    	soundbanben:"消音",
+			    	qufeng:"影视金曲",
+			    	zhujiName:"我想和你唱",
+			    	company:"滚石纸片公司",
+			    	yuanchang:"1",
+			    	banchang:"2",
+			    	shangDate:"2016-09-21 08:50:08",
+			    	chaozhuo:"操作"
+			    },{
+			    	id:'001',
+			    	singName:"稻香",
+			    	singerName:'周杰伦',
+			    	yuyan:'国语',
+			    	movie:"原版MV",
+			    	localtion:"大陆",
+			    	geshi:"Mp4",
+			    	soundbanben:"消音",
+			    	qufeng:"影视金曲",
+			    	zhujiName:"我想和你唱",
+			    	company:"滚石纸片公司",
+			    	yuanchang:"1",
+			    	banchang:"2",
+			    	shangDate:"2016-09-21 08:50:08",
+			    	chaozhuo:"操作"
+			    },{
+			    	id:'001',
+			    	singName:"稻香",
+			    	singerName:'周杰伦',
+			    	yuyan:'国语',
+			    	movie:"原版MV",
+			    	localtion:"大陆",
+			    	geshi:"Mp4",
+			    	soundbanben:"消音",
+			    	qufeng:"影视金曲",
+			    	zhujiName:"我想和你唱",
+			    	company:"滚石纸片公司",
+			    	yuanchang:"1",
+			    	banchang:"2",
+			    	shangDate:"2016-09-21 08:50:08",
+			    	chaozhuo:"操作"
+			    },{
+			    	id:'001',
+			    	singName:"稻香",
+			    	singerName:'周杰伦',
+			    	yuyan:'国语',
+			    	movie:"原版MV",
+			    	localtion:"大陆",
+			    	geshi:"Mp4",
+			    	soundbanben:"消音",
+			    	qufeng:"影视金曲",
+			    	zhujiName:"我想和你唱",
+			    	company:"滚石纸片公司",
+			    	yuanchang:"1",
+			    	banchang:"2",
+			    	shangDate:"2016-09-21 08:50:08",
+			    	chaozhuo:"操作"
+			    },{
+			    	id:'001',
+			    	singName:"稻香",
+			    	singerName:'周杰伦',
+			    	yuyan:'国语',
+			    	movie:"原版MV",
+			    	localtion:"大陆",
+			    	geshi:"Mp4",
+			    	soundbanben:"消音",
+			    	qufeng:"影视金曲",
+			    	zhujiName:"我想和你唱",
+			    	company:"滚石纸片公司",
+			    	yuanchang:"1",
+			    	banchang:"2",
+			    	shangDate:"2016-09-21 08:50:08",
+			    	chaozhuo:"操作"
+			    },{
+			    	id:'001',
+			    	singName:"稻香",
+			    	singerName:'周杰伦',
+			    	yuyan:'国语',
+			    	movie:"原版MV",
+			    	localtion:"大陆",
+			    	geshi:"Mp4",
+			    	soundbanben:"消音",
+			    	qufeng:"影视金曲",
+			    	zhujiName:"我想和你唱",
+			    	company:"滚石纸片公司",
+			    	yuanchang:"1",
+			    	banchang:"2",
+			    	shangDate:"2016-09-21 08:50:08",
+			    	chaozhuo:"操作"
+			    },{
+			    	id:'001',
+			    	singName:"稻香",
+			    	singerName:'周杰伦',
+			    	yuyan:'国语',
+			    	movie:"原版MV",
+			    	localtion:"大陆",
+			    	geshi:"Mp4",
+			    	soundbanben:"消音",
+			    	qufeng:"影视金曲",
+			    	zhujiName:"我想和你唱",
+			    	company:"滚石纸片公司",
+			    	yuanchang:"1",
+			    	banchang:"2",
+			    	shangDate:"2016-09-21 08:50:08",
+			    	chaozhuo:"操作"
+			    },{
+			    	id:'001',
+			    	singName:"稻香",
+			    	singerName:'周杰伦',
+			    	yuyan:'国语',
+			    	movie:"原版MV",
+			    	localtion:"大陆",
+			    	geshi:"Mp4",
+			    	soundbanben:"消音",
+			    	qufeng:"影视金曲",
+			    	zhujiName:"我想和你唱",
+			    	company:"滚石纸片公司",
+			    	yuanchang:"1",
+			    	banchang:"2",
+			    	shangDate:"2016-09-21 08:50:08",
+			    	chaozhuo:"操作"
+			    },{
+			    	id:'001',
+			    	singName:"稻香",
+			    	singerName:'周杰伦',
+			    	yuyan:'国语',
+			    	movie:"原版MV",
+			    	localtion:"大陆",
+			    	geshi:"Mp4",
+			    	soundbanben:"消音",
+			    	qufeng:"影视金曲",
+			    	zhujiName:"我想和你唱",
+			    	company:"滚石纸片公司",
+			    	yuanchang:"1",
+			    	banchang:"2",
+			    	shangDate:"2016-09-21 08:50:08",
+			    	chaozhuo:"操作"
+			    },{
+			    	id:'001',
+			    	singName:"稻香",
+			    	singerName:'周杰伦',
+			    	yuyan:'国语',
+			    	movie:"原版MV",
+			    	localtion:"大陆",
+			    	geshi:"Mp4",
+			    	soundbanben:"消音",
+			    	qufeng:"影视金曲",
+			    	zhujiName:"我想和你唱",
+			    	company:"滚石纸片公司",
+			    	yuanchang:"1",
+			    	banchang:"2",
+			    	shangDate:"2016-09-21 08:50:08",
+			    	chaozhuo:"操作"
+			    },{
 			    	id:'001',
 			    	singName:"稻香",
 			    	singerName:'周杰伦',
@@ -220,11 +426,35 @@
 		     },
 		     beforeEnter(){
 		     	this.flageClass = !this.flageClass
-		     }
+		     },
+		     isScrollEnd() {
+		     	
+			  this.t2 = this.scroll.scrollTop;
+			  if(this.t2 == this.t1){
+			    this.propFlage = false
+			  }
+			},
+			rightMeun(e){
+				e.preventDefault();				
+				var menu=document.querySelector(".rightBox");				
+				menu.style.left=e.clientX - 200+'px';
+				menu.style.top=e.clientY- document.querySelector("#scroll-1").offsetTop-130+'px';
+				menu.style.width = 100 + 'px'
+			},
+			hoo(row,event){
+				this.rowData = row
+				console.log(this.rowData)
+			}
 
 		},
 		mounted(){
-//			this.open2()
+			var _this = this
+            window.onclick = function(){
+            	var menu=document.querySelector(".rightBox");
+            	if(menu){
+            		menu.style.width = 0 + "px"
+            	}
+            }
 		}
 	}
 </script>
@@ -233,11 +463,21 @@
 		
 		
 	}
+	ul,li{
+		margin: 0;
+		padding: 0;
+	}
+	li {
+		list-style: none;
+	}
 	#LibraryManagement .el-input__inner{
 		width: 150px;
 	}
 	#LibraryManagement .el-button{
 		font-size: 12px;
+	}
+	#LibraryManagement .cell{
+		text-align: center;
 	}
 	.el-notification{
 		width: 200px;
@@ -251,6 +491,36 @@
 		flex-direction: column;
 		overflow: hidden;
 		position: relative;
+	}
+	#LibraryManagement .rightBox{
+		width: 0px;
+		height: 140px;
+		background: yellow;
+		position: absolute;
+		z-index: 20000;
+		display: flex;
+		overflow: hidden;
+		box-shadow: 1px 1px 7px #a59e9e;
+	}
+   #LibraryManagement .rightBox ul{
+   	width: 100%;
+   	height: 100%;
+   	background: #fff;
+   	padding: 10px 0;
+   	
+   }
+   #LibraryManagement .rightBox ul li{
+   	width: 100%;
+   	height: 30px;
+   	line-height: 30px;
+   	cursor: pointer;  	
+   	
+   }
+    #LibraryManagement .rightBox ul li:hover{
+    	background: #ececec;
+    }
+	#LibraryManagement .chaozhuo{
+		font-size: 14px;
 	}
 	#LibraryManagement .demo-form-inline{				
 		height: 30px;		
@@ -271,17 +541,17 @@
 	  opacity: 0;
 	}
     .aa{
-    	width: 99%;
+    	
     	height: 410px;
     	overflow: auto;
-    	margin-right:0px ;
+    	margin-right:5px ;
     	font-size: 12px;
     }
     .bb{
-    	width: 99%;
+    	
     	height: 460px;
     	overflow: auto;
-    	margin-right:0px ;
+    	margin-right:5px ;
     	font-size: 12px;
     }
    #scroll-1::-webkit-scrollbar-track

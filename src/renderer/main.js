@@ -63,6 +63,14 @@ Vue.directive('tishi',{
 					box=""
 				}	
 			}
+			el.onclick=function(){
+				 clearTimeout(time)
+				 if(box){
+					console.log(box)
+					document.body.removeChild(box)
+					box=""
+				}
+			}
 		}		
 	})
 

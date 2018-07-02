@@ -1,10 +1,10 @@
 <template>
 	<div id="Main" style="-webkit-user-select:none;overflow: hidden;" @click="goo">
 		<el-container class="main">
-	    <el-header style="height: 80px;border-top-left-radius: 10px;border-top-right-radius: 10px;display: flex;background: #434343;">
+	    <el-header style="height: 80px;border-top-left-radius: 10px;border-top-right-radius: 10px;display: flex;background: #7f74ef;">
 	    	
 	    		<div style="height: 100%;width: 180px;display: flex;justify-content: center;align-items: center;-webkit-app-region: drag;">
-	    			<div style="width: 160px;height: 30px;color: white;border-radius: 5px;background: #6a6a6a;text-align: center;line-height: 30px;margin-left: -20px;">LOGO</div>
+	    			<div style="width: 160px;height: 30px;color: white;border-radius: 5px;background: #5849f0;text-align: center;line-height: 30px;margin-left: -20px;">LOGO</div>
 	    		    
 	    		</div>
 	    		<div style="height: 100%;flex: 1;">
@@ -27,16 +27,83 @@
 	    					<i class="el-icon-arrow-down"></i>
 	    				
 	    				</div>
-	    				<div style="flex: 1;-webkit-app-region: drag;"></div>
+	    				<div style="flex: 1;display: flex;">
+	    				   <div class="headBtn">
+	    				   	 <span class="headBtn_back">
+	    				   	 	<i class="el-icon-arrow-left el-icon-arrow-left1"></i>
+	    				   	 </span>
+	    				   	 <span class="headBtn_refresh" @click="pageRefresh">
+	    				   	 	<i class="el-icon-refresh el-icon-refresh1"></i>
+	    				   	 </span>
+	    				   	 <b style="display: block;margin: 3px 10px ;background:#a8a0fb;height: 24px;width: 1px;margin-right: 30px;"></b>
+	    				   	 <!--
+                                	
+                                	描述：曲库页面显示
+                                -->
+	    				   	  <span class="headBtn_stop" v-show="pageBtn1">
+	    				   	 	<i class="el-icon-delete el-icon-stop1"></i>
+	    				   	 	<i class="headBtn_stop_font">导出</i>
+	    				   	 </span>
+	    				   	  <span class="headBtn_stop" v-show="pageBtn1">
+	    				   	 	<i class="el-icon-delete el-icon-stop1"></i>
+	    				   	 	<i class="headBtn_stop_font">删除</i>
+	    				   	 </span>
+	    				   	 <!--
+                                	
+                                	描述：定制页面显示
+                                -->
+	    				   	<span class="headBtn_stop" v-show="pageBtn2">
+	    				   	 	<i class="el-icon-delete el-icon-stop1"></i>
+	    				   	 	<i class="headBtn_stop_font">导出</i>
+	    				   	 </span>
+	    				   	  <span class="headBtn_stop" v-show="pageBtn2">
+	    				   	 	<i class="el-icon-delete el-icon-stop1"></i>
+	    				   	 	<i class="headBtn_stop_font">删除</i>
+	    				   	 </span>
+	    				   	 <!--
+                                	
+                                	描述：歌曲导入页面显示
+                                -->
+	    				   	<span class="headBtn_stop" v-show="pageBtn3">
+	    				   	 	<i class="el-icon-delete el-icon-stop1"></i>
+	    				   	 	<i class="headBtn_stop_font">歌曲导出</i>
+	    				   	 </span>
+	    				   	  <span class="headBtn_stop" v-show="pageBtn3">
+	    				   	 	<i class="el-icon-delete el-icon-stop1"></i>
+	    				   	 	<i class="headBtn_stop_font">全部上传</i>
+	    				   	 </span>
+	    				   	 <span class="headBtn_stop" v-show="pageBtn3">
+	    				   	 	<i class="el-icon-delete el-icon-stop1"></i>
+	    				   	 	<i class="headBtn_stop_font">全部清除</i>
+	    				   	 </span>
+	    				   	 <!--
+                                	
+                                	描述：正在上传页面显示
+                                -->
+                            <span class="headBtn_stop" v-show="pageBtn4">
+	    				   	 	<i class="el-icon-delete el-icon-stop1"></i>
+	    				   	 	<i class="headBtn_stop_font">全部暂停</i>
+	    				   	 </span>
+	    				   	  <span class="headBtn_stop" v-show="pageBtn4">
+	    				   	 	<i class="el-icon-caret-right el-icon-stop1"></i>
+	    				   	 	<i class="headBtn_stop_font">全部开始</i>
+	    				   	 </span>
+	    				   	 <span class="headBtn_stop" v-show="pageBtn4">
+	    				   	 	<i class="el-icon-delete el-icon-stop1"></i>
+	    				   	 	<i class="headBtn_stop_font">全部清除</i>
+	    				   	 </span>   
+	    				   </div>
+	    					<div class="head_kong" style="flex: 1;-webkit-app-region: drag;"></div>
+	    				</div>
 	    			</div>
 	    			<div style="width: 100%;height: 25px;-webkit-app-region: drag;"></div>
 	    		</div>
 	    		<div style="width: 140px;height: 100%;display: flex;justify-content: center;align-items: center;flex-direction: column;position: relative;">
 	    			<div style="width: 110%;height: 26px;position: absolute;top: 0;right: -20px;border-top-right-radius: 10px;-webkit-app-region: drag;"></div>
 	    			<div style="height: 22px;width: 100%;border-left: 2px solid white;display: flex;justify-content: space-around;align-items: center;padding: 0 10px;">
-	    				<i class="iconfont icon-subtract tubiao"></i>
-	    				<i class="iconfont icon-quanping tubiao"></i>
-	    				<i class="iconfont icon-close tubiao"></i>
+	    				<i class="iconfont icon-subtract tubiao" v-tishi:30="msg[0].content"></i>
+	    				<i class="iconfont icon-quanping tubiao" v-tishi:30="msg[1].content"></i>
+	    				<i class="iconfont icon-close tubiao" v-tishi:30="msg[2].content"></i>
 	    			</div>
 	    			<div style="width: 110%;height: 26px;position: absolute;bottom: 0;right: -20px;-webkit-app-region: drag;"></div>
 	    			<div style="width: 30px;height: 28px;position: absolute;top: 26px;right: -20px;-webkit-app-region: drag;"></div>
@@ -79,19 +146,19 @@
 	    	</el-row>	    	
 	    </el-aside>
 	    <el-main class="contentRight">
-	    	<el-row style="height: 50px;borderBottom: 1px solid #E4E4E4;display: flex;">
+	    	<!--<el-row style="height: 50px;borderBottom: 1px solid #E4E4E4;display: flex;">
 	    		<div  style="height: 100%;width:150px;display: flex;justify-content: space-around;align-items: center;" class="contentRight_header">
-	    			<i class="el-icon-arrow-left" @click="RouterBack" style="cursor: pointer;"></i>
-	    			<i class="el-icon-arrow-right" @click="RouterGo" style="cursor: pointer;"></i>
-	    			<i class="el-icon-refresh" style="cursor: pointer;"></i>
+	    			<i class="el-icon-arrow-left" @click="RouterBack" style="cursor: pointer;" v-tishi:30="msg[3].content"></i>
+	    			<i class="el-icon-arrow-right" @click="RouterGo" style="cursor: pointer;" v-tishi:30="msg[4].content"></i>
+	    			<i class="el-icon-refresh" style="cursor: pointer;" v-tishi:30="msg[5].content"></i>
 	    			
 	    		</div>
 	    		<div  style="height: 100%;width: 500px;">
 	    			<div style="width: 100%;height: 24px;margin-top: 13px;border-left: 1px solid #e4e4e4;padding-left:20px;display: flex;align-items: center;">
-	    				<HistoryRouter/>
+	    				<HistoryRouter @add-parent-total="addParentTotle"/>
 	    			</div>
 	    		</div>
-	    	</el-row>
+	    	</el-row>-->
 	    	<div class="contentRightDiv">
 	    		<router-view></router-view>
 	    	</div>
@@ -109,7 +176,20 @@
 			return{
 				
 				isArray:'background: #f1f1f1;',
-				flage:false
+				flage:false,
+				msg:[
+				 {content:'缩小'},
+				 {content:'放大'},
+				 {content:'关闭'},
+				 {content:"后退"},
+				 {content:"前进"},
+				 {content:"刷新"}
+				 
+				],
+				pageBtn1:false,
+				pageBtn2:false,
+				pageBtn3:false,
+				pageBtn4:false,
 			}
 		},
 		methods:{
@@ -127,18 +207,43 @@
 				this.$router.go(1)
 				
 			},
+			pageRefresh(){
+				this.$router.push('/Refresh')			
+			},
 			foo(){
 				this.flage = !this.flage
 			},
 			goo(){
 				this.flage = false
+			},
+			addParentTotle(str){
+				console.log(str,"ppppoo444444444o")
+				this.pageBtn1 = false
+				this.pageBtn2 = false
+				this.pageBtn3 = false
+				this.pageBtn4 = false
+				switch(str){
+					case 'LibraryManagement':
+					    this.pageBtn1 = true;
+					break;
+					case 'CustomManagement':
+					    this.pageBtn2 = true;
+					break;
+					case 'SongsUploaded':
+					    this.pageBtn3 = true;
+					break;
+					case 'Uploading':
+					    this.pageBtn4 = true;
+					break;					
+				}
+				
 			}
 			
 			
 		},
 	    watch:{
 	        $route (newVal,oldVal) {
-	        	console.log('ppp')
+	        	
 	         }
         }
 		
@@ -192,6 +297,97 @@ body{
 		display: flex;
 		flex-direction: column;
 	}
+	
+	#Main .headBtn{
+		height: 100%;
+		margin-left:10px ;
+		display: flex;				
+	}
+	#Main .headBtn span{
+		display: block;
+		height: 28px;		
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		cursor: pointer;
+		border: 1px solid #b6bcce;
+		margin-right: 20px;
+	}
+	
+	#Main .headBtn span:hover .el-icon-arrow-left1{
+		color: white;
+	}
+	#Main .headBtn span:hover .el-icon-refresh1{
+		color: white;
+	}
+	#Main .headBtn span:hover .el-icon-stop1{
+		color: white;
+	}
+	#Main .headBtn span:hover .headBtn_stop_font{
+		color: white;
+	}
+    #Main .headBtn span:hover{
+		border: 1px solid white;
+		
+	}
+	
+	#Main .headBtn span:active{
+		background: #8f86f2;
+	}
+	#Main .headBtn .headBtn_back{
+		border-top-left-radius: 5px;
+		border-bottom-left-radius: 5px;
+		padding:0 10px;
+		
+	}
+	#Main .headBtn .headBtn_back .el-icon-arrow-left1{
+		font-size: 20px;
+		color: #b6bcce;
+		
+	}
+	
+	#Main .headBtn .headBtn_refresh{
+		border-radius: 5px;
+		padding: 0 10px;
+	}
+	#Main .headBtn .headBtn_refresh .el-icon-refresh1{
+		font-size:20px;
+		color: #b6bcce;
+	}
+	
+	#Main .headBtn .headBtn_stop{
+		border-radius: 5px;
+		padding: 0 8px;
+		
+	}	
+	#Main .headBtn .headBtn_stop .el-icon-stop1{
+		font-size:20px;
+		color: #b6bcce;
+	}
+	#Main .headBtn .headBtn_stop .headBtn_stop_font{
+		font-style: normal;
+		color: #b6bcce;
+		margin-left: 5px;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	.hoverList{
 		text-align: center;
 		height: 30px;
@@ -199,6 +395,28 @@ body{
 		font-size: 14px;
 		line-height: 30px;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	.hoverList:hover{
 		background: #ececee;
 	}

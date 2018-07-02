@@ -4,7 +4,7 @@
 		<el-button type="primary" @click='foo'>主要按钮</el-button>-->
 		<div  class="soushuo">
 		<el-row>
-			<el-col :span="16" style="height: 50px;display: flex;align-items: center;font-size: 12px;">
+			<el-col :span="20" style="height: 50px;display: flex;align-items: center;font-size: 12px;">
 				<el-form :inline="true" :model="formInline" class="demo-form-inline" label-width="80px" size="mini">
 				  <el-form-item label="歌曲名称">
 				    <el-input v-model="formInline.songName" placeholder="请输入"></el-input>
@@ -12,21 +12,36 @@
 				  <el-form-item label="歌手名称">
 				    <el-input v-model="formInline.songerName" placeholder="请输入"></el-input>
 				  </el-form-item>
-				</el-form>
-				
+				  <el-form-item label="专辑名称" >
+				    <el-select v-model="formInline.albumName" placeholder="请选择">
+				    	<el-option label="区域一" value="shanghai"></el-option>
+                        <el-option label="区域二" value="beijing"></el-option>
+				    </el-select>
+				  </el-form-item>
+				  <el-form-item label="唱片公司">
+				    <!--<el-input v-model="formInline.recordCompany" placeholder="请输入"></el-input>-->
+				    <el-select v-model="formInline.recordCompany" placeholder="请选择">
+				    	<el-option label="q" value="11"></el-option>
+				    	<el-option label="q" value="1"></el-option>				    	
+				    </el-select>
+				  </el-form-item>
+				</el-form>				
+			</el-col>
+			<el-col :span="1" style="height: 50px;display: flex;align-items: center;margin-right: 20px;">
+				<el-button type="primary" size="mini" @click="onSubmit" v-tishi:30="msg[4].content">搜索</el-button>
 			</el-col>
 			<el-col :span="2" style="height: 50px;display: flex;align-items: center;">
-				<el-button type="primary" size="mini" @click="onSubmit">搜索</el-button>
+				<el-button  size="mini" @click="onSubmit" v-tishi:60="msg[5].content">批量搜索</el-button>
 			</el-col>
-			<el-col :span="2" style="height: 50px;display: flex;align-items: center;">
+			<!--<el-col :span="2" style="height: 50px;display: flex;align-items: center;">
 				<transition name="slide-fade">
-				<el-button  type="text" icon="el-icon-arrow-down" @click="zhanKai" v-if="!flage">展开</el-button>
+				<el-button  type="text" icon="el-icon-arrow-down" @click="zhanKai" v-if="!flage" v-tishi:60="msg[5].content">展开</el-button>
 				<el-button  type="text" icon="el-icon-arrow-up"  @click="zhanKai" v-else>收起</el-button>
 				</transition>
 			</el-col>
 		   <el-col :span="4" style="height: 50px;display: flex;align-items: center;">
 		   	  <p style="font-size: 12px;color: #a1a1a1;">一全部加载，共200个</p>
-		   </el-col>
+		   </el-col>-->
 		</el-row>
 		<transition name="slide-fade" 
 			 v-on:before-enter="beforeEnter"
@@ -44,11 +59,9 @@
 				    <!--<el-input v-model="formInline.recordCompany" placeholder="请输入"></el-input>-->
 				    <el-select v-model="formInline.recordCompany" placeholder="请选择">
 				    	<el-option label="q" value="11"></el-option>
-				    	<el-option label="q" value="1"></el-option>
-				    	
+				    	<el-option label="q" value="1"></el-option>				    	
 				    </el-select>
-				  </el-form-item>
-				  
+				  </el-form-item>				  
 				</el-form>
 			</el-col>
 			<el-col :span="2" style="height: 50px;display: flex;align-items: center;">
@@ -61,7 +74,7 @@
 		</transition>
 		</div>
 		<div style="flex: 1;width: 100%;position: relative;" id="box">			
-			<div :class="{aa:flageClass,bb:!flageClass}" id="scroll-1" @contextmenu.stop='rightMeun'>
+			<div :class="{aa:flageClass,bb:!flageClass}" :style="height" id="scroll-1" @contextmenu.stop='rightMeun'>
 		  <el-table
 		    ref="multipleTable"
 		    :data="tableData3"
@@ -71,84 +84,84 @@
 		   >
 		    <el-table-column
 		      type="selection"
-		      width="55">
+		      min-width="55">
 		    </el-table-column>		    
 		    <el-table-column
 		      prop="id"
 		      label="编号"
-		      width="50">
+		      min-width="50">
 		   
 		    </el-table-column>
 		    <el-table-column
 		      prop="singName"
 		      label="歌曲名称"
-		      width="70">
+		      min-width="70">
 		    </el-table-column>
 		    <el-table-column
 		      prop="singerName"
 		      label="歌手名称"
-		      width="80"
+		      min-width="80"
 		     >
 		    </el-table-column>
 		    
 		     <el-table-column
 		      prop="yuyan"
 		      label="语言"
-		      width="60"
+		      min-width="60"
 		     >
 		    </el-table-column>
 		    <el-table-column
 		      prop="movie"
 		      label="画面"
-		      width="80"
+		      min-width="80"
 		    	>		    	
 		    </el-table-column>
 		    <el-table-column
 		      prop="localtion"
 		      label="地区"
-		      width="60"
+		      min-width="60"
 		    	>		    	
 		    </el-table-column>
 		     <el-table-column
 		      prop="geshi"
 		      label="格式"
-		      width="60"
+		      min-width="60"
 		    	>		    	
 		    </el-table-column>
 		    <el-table-column
 		      prop="soundbanben"
 		      label="声音版本"
-		      width="80"
+		      min-width="80"
 		    	>		    	
 		    </el-table-column>
 		    <el-table-column
 		      prop="qufeng"
 		      label="曲风"
-		      width="80"
+		      min-width="80"
 		    	>		    	
 		    </el-table-column>
 		    <el-table-column
 		      prop="zhujiName"
 		      label="专辑名称"
-		      width="80"
+		      min-width="80"
 		    	>		    	
 		    </el-table-column>
 		      <el-table-column
 		      prop="yuanchang"
 		      label="原唱"
-		      width="60"
+		      min-width="60"
 		    	>		    	
 		    </el-table-column>
 		      <el-table-column
 		      prop="banchang"
 		      label="绊唱"
-		      width="50"
+		      min-width="50"
 		    	>		    	
 		    </el-table-column>
 		      <el-table-column
 		      prop="shangDate"
 		      label="上传日期"
-		      width="80"		      
+		      min-width="80"		      
 		    	>
 		    <!--<template slot-scope="scope">
 	        <el-popover trigger="hover" placement="top">
@@ -161,7 +174,7 @@
 		    </el-table-column>
 		      <el-table-column		      
 		      label="操作"
-		      width="162"
+		      min-width="162"
 		    	>	
 		    	<template slot-scope="scope">
 		    	<i class="iconfont icon-bofang" style="font-size: 20px;cursor: pointer;margin: 0 5px;" v-tishi:30="msg[0].content"></i>
@@ -173,10 +186,24 @@
 		    </el-table>	
 			</div>
 		</div>
-		<div style="height: 30px;width:100%;position: absolute;bottom: 0;right: 0;background: gainsboro;">111</div>
+		<div style="height: 50px;width:100%;position: absolute;bottom: 0;right: 0;background: gainsboro;">
+			  <div class="block">
+			    <span class="demonstration">完整功能</span>
+			    <el-pagination
+			      @size-change="handleSizeChange"
+			      @current-change="handleCurrentChange"
+			      :current-page="currentPage4"
+			      :page-sizes="[100, 200, 300, 400]"
+			      :page-size="100"
+			      layout="total, sizes, prev, pager, next, jumper"
+			      :total="400">
+			    </el-pagination>
+			  </div>
+			
+		</div>
        	<div class="rightBox" ref='pppp'>
        		<ul>
-       			<li>播放视频</li>
+       			<li @click="playVideo">播放视频</li>
        			<li>编辑</li>
        			<li>替换</li>
        			<li>删除</li>
@@ -199,12 +226,14 @@
 			    flageClass:false,
 			    showFlage:true,
 			    rowData:"",
+			    height:"",
 			    msg:[
 				 {content:'播放'},
 				 {content:'编辑'},
 				 {content:'替换'},
-				 {content:"删除"}
-				 
+				 {content:"删除"},
+				 {content:"搜索"},
+				 {content:"批量搜索"}				 
 				],
 			    tableData3: [{
 			    	id:'001',
@@ -392,7 +421,7 @@
 			    	geshi:"Mp4",
 			    	soundbanben:"消音",
 			    	qufeng:"影视金曲",
-			    	zhujiName:"我想和你唱",
+			    	zhujiName:"我想和你唱我想和你唱我想和你唱我想和你唱我想和你唱",
 			    	company:"滚石纸片公司",
 			    	yuanchang:"1",
 			    	banchang:"2",
@@ -404,7 +433,13 @@
 			
 		},
 		methods:{
-			foo(){
+			 handleSizeChange(val) {
+		        console.log(`每页 ${val} 条`);
+		      },
+		      handleCurrentChange(val) {
+		        console.log(`当前页: ${val}`);
+		      },
+			playVideo(){
 				this.$router.push('/LibraryManagement/VideoPlayback')
 			},
 			zhanKai(){				
@@ -449,8 +484,21 @@
 		},
 		mounted(){
 			var _this = this
+			this.height = "height:"+(document.body.clientHeight-180)+"px"
+			window.onresize = function(){
+				setTimeout(function(){
+				_this.height = "height:"+(document.body.clientHeight-180)+"px"	
+					
+				},200)
+			}
             window.onclick = function(){
             	var menu=document.querySelector(".rightBox");
+            	if(menu){
+            		menu.style.width = 0 + "px"
+            	}
+            }
+            window.oncontextmenu = function(){
+               var menu=document.querySelector(".rightBox");
             	if(menu){
             		menu.style.width = 0 + "px"
             	}
@@ -470,8 +518,8 @@
 	li {
 		list-style: none;
 	}
-	#LibraryManagement .el-input__inner{
-		width: 150px;
+	#LibraryManagement .soushuo .el-input__inner{
+		width: 130px;
 	}
 	#LibraryManagement .el-button{
 		font-size: 12px;
@@ -542,14 +590,14 @@
 	}
     .aa{
     	
-    	height: 410px;
+    	
     	overflow: auto;
     	margin-right:5px ;
     	font-size: 12px;
     }
     .bb{
     	
-    	height: 460px;
+    	
     	overflow: auto;
     	margin-right:5px ;
     	font-size: 12px;

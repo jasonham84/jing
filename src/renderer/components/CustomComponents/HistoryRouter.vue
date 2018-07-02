@@ -22,8 +22,12 @@
 			foo(str){
 				var arr = str.split('/')
 				  arr.shift()
-				
-				var arr1 = []				 				
+				console.log(arr)
+				var arr1 = []	
+				console.log(arr[0])
+				if(arr[0]!="Refresh"){
+					this.$emit('add-parent-total',arr[0])
+				}
 				
 				arr.map(function(item){
 					var obj = {}
@@ -53,7 +57,8 @@
 				})
 				
 				this.arr = arr1
-			}
+			},
+			
 		},
 		watch: {
 	        $route (newVal) {
@@ -67,7 +72,7 @@
 		        var lists = this.$route.path.split('/')
 		        var href = this.$route.path
 		        
-		       this.foo(href)
+		        this.foo(href)
         }
 		
 	}

@@ -41,6 +41,11 @@ export default new Router({
     	    	path:'/Uploading',
     	    	name:'Uploading',
     	    	component: require('@/components/Uploading/page1').default
+    	    },
+    	    {
+    	    	path:'/Refresh',
+    	    	name:'Refresh',
+    	    	component: require('@/components/Refresh').default
     	    }
     	]
     },

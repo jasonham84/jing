@@ -52,6 +52,11 @@ export default new Router({
     {
       path: '*',
       redirect: '/'
+    },
+    {
+    	 path: '/backGround',
+       name: 'backGround',
+		   component: require('@/components/backGround').default
     }
   ]
 })

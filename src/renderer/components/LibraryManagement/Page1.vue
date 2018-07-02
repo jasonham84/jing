@@ -80,7 +80,7 @@
 		    :data="tableData3"
 		    tooltip-effect="dark"
 		    @row-contextmenu="hoo"
-		    style="width: 100%;font-size: 12px;"
+		    style="width: 100%;font-size: 12px;color: #666666;"
 		   >
 		    <el-table-column
 		      type="selection"
@@ -186,24 +186,23 @@
 		    </el-table>	
 			</div>
 		</div>
-		<div style="height: 50px;width:100%;position: absolute;bottom: 0;right: 0;background: gainsboro;">
-			  <div class="block">
-			    <span class="demonstration">完整功能</span>
+		<div style="height: 50px;width:100%;position: absolute;bottom: 0;right: 0;background: white;padding: 0 20px;box-sizing: border-box;">
+			  <div class="block lastBlock">
+			    <span class="demonstration" style="color: #999999;">已加载200条数据</span>
 			    <el-pagination
 			      @size-change="handleSizeChange"
-			      @current-change="handleCurrentChange"
-			      :current-page="currentPage4"
+			      @current-change="handleCurrentChange"			      
 			      :page-sizes="[100, 200, 300, 400]"
 			      :page-size="100"
 			      layout="total, sizes, prev, pager, next, jumper"
-			      :total="400">
+			      :total="4000">
 			    </el-pagination>
 			  </div>
 			
 		</div>
        	<div class="rightBox" ref='pppp'>
        		<ul>
-       			<li @click="playVideo">播放视频</li>
+       			<li @click="newBox">播放视频</li>
        			<li>编辑</li>
        			<li>替换</li>
        			<li>删除</li>
@@ -433,6 +432,16 @@
 			
 		},
 		methods:{
+			newBox(){
+				this.$Win.openWin({
+		          width: 800,
+		          height: 600,
+		          minHeight:600,
+		          minWidth:800,
+		          data: {id: 1},
+		          router: '/backGround'
+		        })
+			},
 			 handleSizeChange(val) {
 		        console.log(`每页 ${val} 条`);
 		      },
@@ -473,7 +482,7 @@
 				e.preventDefault();				
 				var menu=document.querySelector(".rightBox");				
 				menu.style.left=e.clientX - 200+'px';
-				menu.style.top=e.clientY- document.querySelector("#scroll-1").offsetTop-130+'px';
+				menu.style.top=e.clientY- document.querySelector("#scroll-1").offsetTop-80+'px';
 				menu.style.width = 100 + 'px'
 			},
 			hoo(row,event){
@@ -486,9 +495,10 @@
 			var _this = this
 			this.height = "height:"+(document.body.clientHeight-180)+"px"
 			window.onresize = function(){
+				console.log(document.body.clientHeight)
 				setTimeout(function(){
 				_this.height = "height:"+(document.body.clientHeight-180)+"px"	
-					
+					console.log(_this.height)
 				},200)
 			}
             window.onclick = function(){
@@ -530,6 +540,13 @@
 	.el-notification{
 		width: 200px;
 		
+	}
+	#LibraryManagement .lastBlock{
+	    display: flex;
+	    justify-content: space-between;
+	    align-items: center;
+	    height: 50px;
+	    background: white;	
 	}
 </style>
 <style scoped="scoped">

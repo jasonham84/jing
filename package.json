@@ -55,6 +55,7 @@
   },
   "dependencies": {
     "axios": "^0.16.1",
+    "electron-vue-windows": "^1.0.21",
     "element-ui": "^2.4.1",
     "video.js": "^7.0.3",
     "videojs-contrib-hls": "^5.14.1",

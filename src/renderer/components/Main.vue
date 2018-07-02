@@ -1,7 +1,7 @@
 <template>
 	<div id="Main" style="-webkit-user-select:none;overflow: hidden;" @click="goo">
 		<el-container class="main">
-	    <el-header style="height: 80px;border-top-left-radius: 10px;border-top-right-radius: 10px;display: flex;background: #7f74ef;">
+	    <el-header style="height: 80px;display: flex;background: #7f74ef;">
 	    	
 	    		<div style="height: 100%;width: 180px;display: flex;justify-content: center;align-items: center;-webkit-app-region: drag;">
 	    			<div style="width: 160px;height: 30px;color: white;border-radius: 5px;background: #5849f0;text-align: center;line-height: 30px;margin-left: -20px;">LOGO</div>
@@ -100,10 +100,11 @@
 	    		</div>
 	    		<div style="width: 140px;height: 100%;display: flex;justify-content: center;align-items: center;flex-direction: column;position: relative;">
 	    			<div style="width: 110%;height: 26px;position: absolute;top: 0;right: -20px;border-top-right-radius: 10px;-webkit-app-region: drag;"></div>
-	    			<div style="height: 22px;width: 100%;border-left: 2px solid white;display: flex;justify-content: space-around;align-items: center;padding: 0 10px;">
-	    				<i class="iconfont icon-subtract tubiao" v-tishi:30="msg[0].content"></i>
-	    				<i class="iconfont icon-quanping tubiao" v-tishi:30="msg[1].content"></i>
-	    				<i class="iconfont icon-close tubiao" v-tishi:30="msg[2].content"></i>
+	    			<div style="height: 22px;width: 100%;border-left: 1px solid #a8a0fb;display: flex;justify-content: space-around;align-items: center;padding: 0 10px;">
+	    				<i class="iconfont icon-subtract tubiao" v-tishi:30="msg[0].content" @click="minSize"></i>
+	    				<i class="iconfont icon-quanping tubiao" v-tishi:30="msg[1].content" @click="changeSize" v-show="screenFlage"></i>
+	    				<i class="iconfont icon-bianji tubiao" v-tishi:30="msg[6].content" @click="changeSize" v-show="!screenFlage"></i>
+	    				<i class="iconfont icon-close tubiao" v-tishi:30="msg[2].content" @click="Close"></i>
 	    			</div>
 	    			<div style="width: 110%;height: 26px;position: absolute;bottom: 0;right: -20px;-webkit-app-region: drag;"></div>
 	    			<div style="width: 30px;height: 28px;position: absolute;top: 26px;right: -20px;-webkit-app-region: drag;"></div>
@@ -146,7 +147,7 @@
 	    	</el-row>	    	
 	    </el-aside>
 	    <el-main class="contentRight">
-	    	<!--<el-row style="height: 50px;borderBottom: 1px solid #E4E4E4;display: flex;">
+	    	<el-row style="height: 50px;borderBottom: 1px solid #E4E4E4;display: flex;display: none;">
 	    		<div  style="height: 100%;width:150px;display: flex;justify-content: space-around;align-items: center;" class="contentRight_header">
 	    			<i class="el-icon-arrow-left" @click="RouterBack" style="cursor: pointer;" v-tishi:30="msg[3].content"></i>
 	    			<i class="el-icon-arrow-right" @click="RouterGo" style="cursor: pointer;" v-tishi:30="msg[4].content"></i>
@@ -158,7 +159,7 @@
 	    				<HistoryRouter @add-parent-total="addParentTotle"/>
 	    			</div>
 	    		</div>
-	    	</el-row>-->
+	    	</el-row>
 	    	<div class="contentRightDiv">
 	    		<router-view></router-view>
 	    	</div>
@@ -169,6 +170,8 @@
 </template>
 
 <script>
+	const {ipcRenderer} = require('electron')
+	let currentWindow = require('electron').remote.getCurrentWindow()
 	import HistoryRouter from './CustomComponents/HistoryRouter';
 	export default{
 		components:{ HistoryRouter },
@@ -177,13 +180,15 @@
 				
 				isArray:'background: #f1f1f1;',
 				flage:false,
+				screenFlage:true,
 				msg:[
 				 {content:'缩小'},
 				 {content:'放大'},
 				 {content:'关闭'},
 				 {content:"后退"},
 				 {content:"前进"},
-				 {content:"刷新"}
+				 {content:"刷新"},
+				 {content:"还原"}
 				 
 				],
 				pageBtn1:false,
@@ -193,6 +198,26 @@
 			}
 		},
 		methods:{
+		    changeSize(){
+		    	
+		    	
+		      	var flage = currentWindow.isMaximized()
+		      	this.screenFlage = flage
+		    	
+		      	if(flage){
+		      		
+		      		ipcRenderer.send('window-restore')
+		      	}else{
+		      		
+		      		ipcRenderer.send('window-maxSize')
+		      	}
+		    },
+			Close(){
+				ipcRenderer.send('window-close')
+			},
+			minSize(){
+				ipcRenderer.send('window-minSize')
+			},
 			ItemSelect(str){
 				this.isArray=""
 				this.$router.push('/'+str)
@@ -245,7 +270,16 @@
 	        $route (newVal,oldVal) {
 	        	
 	         }
-        }
+        },
+	    mounted(){
+	    	var _this = this
+	      	window.onresize=function(){
+	      		console.log(currentWindow.isMaximized())
+	      		   
+	      			_this.screenFlage = !currentWindow.isMaximized()
+	      		
+	      	}
+	    }
 		
 	}
 </script>

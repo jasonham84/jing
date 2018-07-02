@@ -6,7 +6,10 @@ import App from './App'
 import router from './router'
 import store from './store'
 import './assets/font/iconfont.css'
-
+import Win from 'electron-vue-windows'
+  Win.init()
+  
+Vue.prototype.$Win = Win
 Vue.use(ElementUI);
 
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))

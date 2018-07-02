@@ -28,8 +28,8 @@ function createWindow () {
     autoHideMenuBar:true, 
     opcity:0,
     titleBarStyle:'hiddenInset',
-    resizable:false,
-    transparent: true,         
+    
+          
   })
 
   mainWindow.loadURL(winURL)
@@ -59,6 +59,14 @@ ipcMain.on('window-minSize',function(){
 
 ipcMain.on('window-close',function(){
 	mainWindow.close()	
+})
+
+ipcMain.on('window-maxSize',function(){
+	mainWindow.maximize()	
+})
+
+ipcMain.on('window-restore',function(){
+	mainWindow.restore()	
 })
 /**
  * Auto Updater

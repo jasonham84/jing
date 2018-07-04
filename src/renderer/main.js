@@ -79,6 +79,9 @@ Vue.directive('tishi',{
 
 
 new Vue({
+	data:{
+		Bus: new Vue()
+	},
   components: { App },
   router,
   store,

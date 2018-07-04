@@ -1,9 +1,9 @@
 <template>
    	<div id="CustomManagement" @keydown="whichButton(event)">
 		<div style="height: 40px;display: flex;align-items: center;">
-			<div style="flex: 1;height: 40px;line-height: 40px;-webkit-app-region: drag;box-sizing: border-box;padding-left: 20px;color: #777777;font-size: 18px;">周杰伦-稻香</div>
+			<div style="flex: 1;height: 40px;line-height: 40px;-webkit-app-region: drag;box-sizing: border-box;padding-left: 20px;color: #777777;font-size: 18px;">{{videoTitle}}</div>
 			<div style="width: 40px;text-align: center;font-size: 20px;color: #777777;cursor: pointer;">
-				<i class="el-icon-close"></i>
+				<i class="el-icon-close" @click="close"></i>
 			</div>
 		</div>		
 		<div class="CustomManagement_a" @mouseenter="mouseenter" @mouseleave="mouseleave" >	
@@ -60,10 +60,10 @@
 <script>
 export default {
   name: 'backGround',
-  beforeCreate: function () {
-    this.$Win.changePath(this)
-    console.log(this.$Win.getParameter(),"this.$Win.getParameter()")
-  },
+//beforeCreate: function () {
+//  this.$Win.changePath(this)
+//  
+//},
   	data(){
 			return{
 				flage:true,
@@ -94,14 +94,28 @@ export default {
 				videoS:'',
 				src:"",
 				data:[
-				  "http://221.228.226.15/13/h/j/x/o/hjxoorqntjapgioycqdqwivmtlkcwf/hd.yinyuetai.com/30B001630A6A9C1365CFA757556226F8.mp4?sc=ed447b74660550dd",
-				  "http://220.170.49.104/13/y/d/n/e/ydneivsxieianwkqsfpeaxbprsjgcg/hd.yinyuetai.com/16F20163ECC5F81C9367B527EF1BC0C3.mp4?sc=df6b447bd6298560",
-				  "http://113.105.248.47/2/g/o/a/g/goagwgdpujetwdrwivlemsucoprfvi/hd.yinyuetai.com/11EB016029869026BAD14572BE04FE5C.mp4?sc=77ddd3cf2d7d63e2"
-				  
-				]
+//				  "http://221.228.226.15/13/h/j/x/o/hjxoorqntjapgioycqdqwivmtlkcwf/hd.yinyuetai.com/30B001630A6A9C1365CFA757556226F8.mp4?sc=ed447b74660550dd",
+//				  "http://220.170.49.104/13/y/d/n/e/ydneivsxieianwkqsfpeaxbprsjgcg/hd.yinyuetai.com/16F20163ECC5F81C9367B527EF1BC0C3.mp4?sc=df6b447bd6298560",
+//				  "http://113.105.248.47/2/g/o/a/g/goagwgdpujetwdrwivlemsucoprfvi/hd.yinyuetai.com/11EB016029869026BAD14572BE04FE5C.mp4?sc=77ddd3cf2d7d63e2",
+//				  "http://183.60.197.29/14/v/s/o/e/vsoefoytafultnuvxfwlkrmenthhtq/hd.yinyuetai.com/6026016444322A7E967FAD9273213C77.mp4?sc=d0109807442b6e58",
+//				  "http://112.253.22.165/29/x/m/k/p/xmkpmfvwbzazivbbtmbqotqnubzoyk/hd.yinyuetai.com/9FA30163B9591D6D764E93C2E8BB59F7.mp4?sc=455a8b3071224186",
+//				  "http://221.228.226.17/8/i/q/m/i/iqmiplatftgbphqwprnatkwbfkmlsn/hc.yinyuetai.com/09AA013EB54C0C779AFE05BE8569D2C4.flv?sc=9197b2be34fb9caf&br=778&vid=665677&aid=24680&area=JP&vst=3",
+//				  "http://183.60.197.32/1/j/z/c/s/jzcsjzyjpoyklskuvogehqlixdwzcr/hc.yinyuetai.com/7FF90154AF443F70EE5C5601F7E0CC40.flv?sc=de61c19ae1d95118",
+//				  "http://221.228.226.18/11/y/w/o/s/ywoswlbdyvidclrvagebrxryjarbes/hd.yinyuetai.com/041301518B0F57187F54DDB9662920A1.flv?sc=58e2928eb8199eec",
+//				  "http://221.228.226.18/15/w/u/h/l/wuhlluoxtnyndowkjtdhngfatrqqyy/hd.yinyuetai.com/BEC901600BDD53646A51810F7455D05D.mp4?sc=28a7e33a801fdae8",
+//				  "http://221.228.226.23/14/t/r/a/t/trathvesenklkzwadbkuyzvbxowxbq/hd.yinyuetai.com/B63001614131B09BEBE7174F7363F96F.mp4?sc=8bd0d4a3854b24d0",
+//				  "http://183.60.197.32/7/a/n/c/c/anccjutvfiwumvvdmtofbcfobazfvr/hd.yinyuetai.com/6AE7015827D218E93729EFF12BF5347B.flv?sc=ea73200e91bab4d4"
+				],
+				videoTitle:""
 			}
 		},
 		methods:{
+			close(){//关闭窗口
+				this.$Win.closeWin()
+				this.data = ''
+				this.currentNum = ""
+				localStorage.removeItem('videoPlayList')
+			},
 			quanScreen(){
 				var ele = document.querySelector('.CustomManagement_a');
 				    ele.style.width = '100%';
@@ -199,7 +213,8 @@ export default {
 					this.currentNum = num-1
 				}
 				this.flage6 = true
-				this.src = this.data[this.currentNum]
+				this.src = this.data[this.currentNum].http
+				this.videoTitle = this.data[this.currentNum].name
 				this.flage4 = false
 				this.myVideo.load()
 				this.myVideo.play()
@@ -217,7 +232,8 @@ export default {
 					
 				}
 				this.flage6 = true
-				this.src = this.data[this.currentNum]
+				this.src = this.data[this.currentNum].http
+				this.videoTitle = this.data[this.currentNum].name
 				this.flage4 = false
 				this.myVideo.load()
 				this.myVideo.play()
@@ -299,7 +315,9 @@ export default {
 				}
 			},
 			detail(){
-				this.src  = this.data[0]
+				this.src  = this.data[this.currentNum].http
+				this.videoTitle = this.data[this.currentNum].name
+				console.log(this.src,this.videoTitle,"detail")
 			},
 			localStroage(){
 				
@@ -328,12 +346,17 @@ export default {
 			    this.value2 = num
 			    this.blockWidth = "width:" + ($event.target.clientWidth - $event.offsetX) + "px"
 			    this.change(num)			    
-			}			
+			}
+		
 		},
-		mounted(){
-			console.log(this.$Win.getParameter(),"this.$Win.getParameter()")
+	
+		mounted(){	
+
+			this.data = JSON.parse(localStorage.getItem('videoPlayList')).content
+			this.currentNum = JSON.parse(localStorage.getItem('videoPlayList')).currentID
+			console.log(this.data,this.currentNum)
 			var _this = this
-			var ll = document.querySelector('.videoS')
+			var ll = document.querySelector('.videoS')			
 			this.detail();			
 			this.windowHeight = window.screen.height
 			this.windowWidth  = window.screen.width

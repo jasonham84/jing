@@ -177,7 +177,7 @@
 		      min-width="162"
 		    	>	
 		    	<template slot-scope="scope">
-		    	<i class="iconfont icon-bofang" style="font-size: 20px;cursor: pointer;margin: 0 5px;" v-tishi:30="msg[0].content"></i>
+		    	<i class="iconfont icon-bofang" style="font-size: 20px;cursor: pointer;margin: 0 5px;" v-tishi:30="msg[0].content" @click="foo1"></i>
 		    	<i class="iconfont icon-bianji" style="font-size: 20px;cursor: pointer;margin: 0 5px;" v-tishi:30="msg[1].content"></i>
 		    	<i class="iconfont icon-dianliangqiang_daohang_tihuan_moren" style="font-size: 20px;cursor: pointer;margin: 0 5px;" v-tishi:30="msg[2].content"></i>
 		    	<i class="iconfont icon-shanchu" style="font-size: 20px;cursor: pointer;margin: 0 5px;" v-tishi:30="msg[3].content"></i>
@@ -236,8 +236,8 @@
 				],
 			    tableData3: [{
 			    	id:'001',
-			    	singName:"稻香",
-			    	singerName:'周杰伦',
+			    	singName:"伤情",
+			    	singerName:'吉克隽逸',
 			    	yuyan:'国语',
 			    	movie:"原版MV",
 			    	localtion:"大陆",
@@ -249,11 +249,12 @@
 			    	yuanchang:"1",
 			    	banchang:"2",
 			    	shangDate:"2016-09-21 08:50:08",
-			    	chaozhuo:"操作"
+			    	chaozhuo:"操作",
+			    	http:"http://221.228.226.15/13/h/j/x/o/hjxoorqntjapgioycqdqwivmtlkcwf/hd.yinyuetai.com/30B001630A6A9C1365CFA757556226F8.mp4?sc=ed447b74660550dd"
 			    },{
-			    	id:'001',
-			    	singName:"稻香",
-			    	singerName:'周杰伦',
+			    	id:'002',
+			    	singName:"爱难脱身",
+			    	singerName:'陈坤',
 			    	yuyan:'国语',
 			    	movie:"原版MV",
 			    	localtion:"大陆",
@@ -265,11 +266,13 @@
 			    	yuanchang:"1",
 			    	banchang:"2",
 			    	shangDate:"2016-09-21 08:50:08",
-			    	chaozhuo:"操作"
+			    	chaozhuo:"操作",
+				    http:"http://220.170.49.104/13/y/d/n/e/ydneivsxieianwkqsfpeaxbprsjgcg/hd.yinyuetai.com/16F20163ECC5F81C9367B527EF1BC0C3.mp4?sc=df6b447bd6298560",
+			    	
 			    },{
-			    	id:'001',
-			    	singName:"稻香",
-			    	singerName:'周杰伦',
+			    	id:'003',
+			    	singName:"女儿国",
+			    	singerName:'李荣浩  张倩影',
 			    	yuyan:'国语',
 			    	movie:"原版MV",
 			    	localtion:"大陆",
@@ -281,165 +284,177 @@
 			    	yuanchang:"1",
 			    	banchang:"2",
 			    	shangDate:"2016-09-21 08:50:08",
-			    	chaozhuo:"操作"
-			    },{
-			    	id:'001',
-			    	singName:"稻香",
-			    	singerName:'周杰伦',
-			    	yuyan:'国语',
-			    	movie:"原版MV",
-			    	localtion:"大陆",
-			    	geshi:"Mp4",
-			    	soundbanben:"消音",
-			    	qufeng:"影视金曲",
-			    	zhujiName:"我想和你唱",
-			    	company:"滚石纸片公司",
-			    	yuanchang:"1",
-			    	banchang:"2",
-			    	shangDate:"2016-09-21 08:50:08",
-			    	chaozhuo:"操作"
-			    },{
-			    	id:'001',
-			    	singName:"稻香",
-			    	singerName:'周杰伦',
-			    	yuyan:'国语',
-			    	movie:"原版MV",
-			    	localtion:"大陆",
-			    	geshi:"Mp4",
-			    	soundbanben:"消音",
-			    	qufeng:"影视金曲",
-			    	zhujiName:"我想和你唱",
-			    	company:"滚石纸片公司",
-			    	yuanchang:"1",
-			    	banchang:"2",
-			    	shangDate:"2016-09-21 08:50:08",
-			    	chaozhuo:"操作"
-			    },{
-			    	id:'001',
-			    	singName:"稻香",
-			    	singerName:'周杰伦',
-			    	yuyan:'国语',
-			    	movie:"原版MV",
-			    	localtion:"大陆",
-			    	geshi:"Mp4",
-			    	soundbanben:"消音",
-			    	qufeng:"影视金曲",
-			    	zhujiName:"我想和你唱",
-			    	company:"滚石纸片公司",
-			    	yuanchang:"1",
-			    	banchang:"2",
-			    	shangDate:"2016-09-21 08:50:08",
-			    	chaozhuo:"操作"
-			    },{
-			    	id:'001',
-			    	singName:"稻香",
-			    	singerName:'周杰伦',
-			    	yuyan:'国语',
-			    	movie:"原版MV",
-			    	localtion:"大陆",
-			    	geshi:"Mp4",
-			    	soundbanben:"消音",
-			    	qufeng:"影视金曲",
-			    	zhujiName:"我想和你唱",
-			    	company:"滚石纸片公司",
-			    	yuanchang:"1",
-			    	banchang:"2",
-			    	shangDate:"2016-09-21 08:50:08",
-			    	chaozhuo:"操作"
-			    },{
-			    	id:'001',
-			    	singName:"稻香",
-			    	singerName:'周杰伦',
-			    	yuyan:'国语',
-			    	movie:"原版MV",
-			    	localtion:"大陆",
-			    	geshi:"Mp4",
-			    	soundbanben:"消音",
-			    	qufeng:"影视金曲",
-			    	zhujiName:"我想和你唱",
-			    	company:"滚石纸片公司",
-			    	yuanchang:"1",
-			    	banchang:"2",
-			    	shangDate:"2016-09-21 08:50:08",
-			    	chaozhuo:"操作"
-			    },{
-			    	id:'001',
-			    	singName:"稻香",
-			    	singerName:'周杰伦',
-			    	yuyan:'国语',
-			    	movie:"原版MV",
-			    	localtion:"大陆",
-			    	geshi:"Mp4",
-			    	soundbanben:"消音",
-			    	qufeng:"影视金曲",
-			    	zhujiName:"我想和你唱",
-			    	company:"滚石纸片公司",
-			    	yuanchang:"1",
-			    	banchang:"2",
-			    	shangDate:"2016-09-21 08:50:08",
-			    	chaozhuo:"操作"
-			    },{
-			    	id:'001',
-			    	singName:"稻香",
-			    	singerName:'周杰伦',
-			    	yuyan:'国语',
-			    	movie:"原版MV",
-			    	localtion:"大陆",
-			    	geshi:"Mp4",
-			    	soundbanben:"消音",
-			    	qufeng:"影视金曲",
-			    	zhujiName:"我想和你唱",
-			    	company:"滚石纸片公司",
-			    	yuanchang:"1",
-			    	banchang:"2",
-			    	shangDate:"2016-09-21 08:50:08",
-			    	chaozhuo:"操作"
-			    },{
-			    	id:'001',
-			    	singName:"稻香",
-			    	singerName:'周杰伦',
-			    	yuyan:'国语',
-			    	movie:"原版MV",
-			    	localtion:"大陆",
-			    	geshi:"Mp4",
-			    	soundbanben:"消音",
-			    	qufeng:"影视金曲",
-			    	zhujiName:"我想和你唱",
-			    	company:"滚石纸片公司",
-			    	yuanchang:"1",
-			    	banchang:"2",
-			    	shangDate:"2016-09-21 08:50:08",
-			    	chaozhuo:"操作"
-			    },{
-			    	id:'001',
-			    	singName:"稻香",
-			    	singerName:'周杰伦',
-			    	yuyan:'国语',
-			    	movie:"原版MV",
-			    	localtion:"大陆",
-			    	geshi:"Mp4",
-			    	soundbanben:"消音",
-			    	qufeng:"影视金曲",
-			    	zhujiName:"我想和你唱我想和你唱我想和你唱我想和你唱我想和你唱",
-			    	company:"滚石纸片公司",
-			    	yuanchang:"1",
-			    	banchang:"2",
-			    	shangDate:"2016-09-21 08:50:08",
-			    	chaozhuo:"操作"
-			    }],
-			        multipleSelection: []
+			    	chaozhuo:"操作",
+				    http:"http://113.105.248.47/2/g/o/a/g/goagwgdpujetwdrwivlemsucoprfvi/hd.yinyuetai.com/11EB016029869026BAD14572BE04FE5C.mp4?sc=77ddd3cf2d7d63e2",
+			    	
+			    },
+//			    {
+//			    	id:'004',
+//			    	singName:"爱如有",
+//			    	singerName:'邓紫棋',
+//			    	yuyan:'国语',
+//			    	movie:"原版MV",
+//			    	localtion:"大陆",
+//			    	geshi:"Mp4",
+//			    	soundbanben:"消音",
+//			    	qufeng:"影视金曲",
+//			    	zhujiName:"我想和你唱",
+//			    	company:"滚石纸片公司",
+//			    	yuanchang:"1",
+//			    	banchang:"2",
+//			    	shangDate:"2016-09-21 08:50:08",
+//			    	chaozhuo:"操作",
+//				    http:"http://183.60.197.29/14/v/s/o/e/vsoefoytafultnuvxfwlkrmenthhtq/hd.yinyuetai.com/6026016444322A7E967FAD9273213C77.mp4?sc=d0109807442b6e58",
+//			    	
+//			    },{
+//			    	id:'005',
+//			    	singName:"就算",
+//			    	singerName:'张倩影',
+//			    	yuyan:'国语',
+//			    	movie:"原版MV",
+//			    	localtion:"大陆",
+//			    	geshi:"Mp4",
+//			    	soundbanben:"消音",
+//			    	qufeng:"影视金曲",
+//			    	zhujiName:"我想和你唱",
+//			    	company:"滚石纸片公司",
+//			    	yuanchang:"1",
+//			    	banchang:"2",
+//			    	shangDate:"2016-09-21 08:50:08",
+//			    	chaozhuo:"操作",
+//				    http:"http://112.253.22.165/29/x/m/k/p/xmkpmfvwbzazivbbtmbqotqnubzoyk/hd.yinyuetai.com/9FA30163B9591D6D764E93C2E8BB59F7.mp4?sc=455a8b3071224186",
+//			    	
+//			    	
+//			    },{
+//			    	id:'006',
+//			    	singName:"Last Loue",
+//			    	singerName:'Rihwa',
+//			    	yuyan:'国语',
+//			    	movie:"原版MV",
+//			    	localtion:"大陆",
+//			    	geshi:"Mp4",
+//			    	soundbanben:"消音",
+//			    	qufeng:"影视金曲",
+//			    	zhujiName:"我想和你唱",
+//			    	company:"滚石纸片公司",
+//			    	yuanchang:"1",
+//			    	banchang:"2",
+//			    	shangDate:"2016-09-21 08:50:08",
+//			    	chaozhuo:"操作",
+//				    http:"http://221.228.226.17/8/i/q/m/i/iqmiplatftgbphqwprnatkwbfkmlsn/hc.yinyuetai.com/09AA013EB54C0C779AFE05BE8569D2C4.flv?sc=9197b2be34fb9caf&br=778&vid=665677&aid=24680&area=JP&vst=3",
+//			    	
+//			    },{
+//			    	id:'007',
+//			    	singName:"名侦探柯南",
+//			    	singerName:'不详',
+//			    	yuyan:'国语',
+//			    	movie:"原版MV",
+//			    	localtion:"大陆",
+//			    	geshi:"Mp4",
+//			    	soundbanben:"消音",
+//			    	qufeng:"影视金曲",
+//			    	zhujiName:"我想和你唱",
+//			    	company:"滚石纸片公司",
+//			    	yuanchang:"1",
+//			    	banchang:"2",
+//			    	shangDate:"2016-09-21 08:50:08",
+//			    	chaozhuo:"操作",
+//				    http:"http://183.60.197.32/1/j/z/c/s/jzcsjzyjpoyklskuvogehqlixdwzcr/hc.yinyuetai.com/7FF90154AF443F70EE5C5601F7E0CC40.flv?sc=de61c19ae1d95118",
+//			    	
+//			    },{
+//			    	id:'008',
+//			    	singName:"Your Name",
+//			    	singerName:'无',
+//			    	yuyan:'国语',
+//			    	movie:"原版MV",
+//			    	localtion:"大陆",
+//			    	geshi:"Mp4",
+//			    	soundbanben:"消音",
+//			    	qufeng:"影视金曲",
+//			    	zhujiName:"我想和你唱",
+//			    	company:"滚石纸片公司",
+//			    	yuanchang:"1",
+//			    	banchang:"2",
+//			    	shangDate:"2016-09-21 08:50:08",
+//			    	chaozhuo:"操作",
+//				    http:"http://221.228.226.18/11/y/w/o/s/ywoswlbdyvidclrvagebrxryjarbes/hd.yinyuetai.com/041301518B0F57187F54DDB9662920A1.flv?sc=58e2928eb8199eec",
+//			    	
+//			    },{
+//			    	id:'009',
+//			    	singName:"复仇者联盟3",
+//			    	singerName:'无',
+//			    	yuyan:'国语',
+//			    	movie:"原版MV",
+//			    	localtion:"大陆",
+//			    	geshi:"Mp4",
+//			    	soundbanben:"消音",
+//			    	qufeng:"影视金曲",
+//			    	zhujiName:"我想和你唱",
+//			    	company:"滚石纸片公司",
+//			    	yuanchang:"1",
+//			    	banchang:"2",
+//			    	shangDate:"2016-09-21 08:50:08",
+//			    	chaozhuo:"操作",
+//				    http:"http://221.228.226.18/15/w/u/h/l/wuhlluoxtnyndowkjtdhngfatrqqyy/hd.yinyuetai.com/BEC901600BDD53646A51810F7455D05D.mp4?sc=28a7e33a801fdae8",
+//			    	
+//			    },{
+//			    	id:'010',
+//			    	singName:"无",
+//			    	singerName:'无',
+//			    	yuyan:'韩语',
+//			    	movie:"原版MV",
+//			    	localtion:"大陆",
+//			    	geshi:"Mp4",
+//			    	soundbanben:"消音",
+//			    	qufeng:"影视金曲",
+//			    	zhujiName:"我想和你唱",
+//			    	company:"滚石纸片公司",
+//			    	yuanchang:"1",
+//			    	banchang:"2",
+//			    	shangDate:"2016-09-21 08:50:08",
+//			    	chaozhuo:"操作",
+//				    http:"http://221.228.226.23/14/t/r/a/t/trathvesenklkzwadbkuyzvbxowxbq/hd.yinyuetai.com/B63001614131B09BEBE7174F7363F96F.mp4?sc=8bd0d4a3854b24d0",
+//			    	
+//			    },{
+//			    	id:'011',
+//			    	singName:"舞曲",
+//			    	singerName:'无',
+//			    	yuyan:'国语',
+//			    	movie:"原版MV",
+//			    	localtion:"大陆",
+//			    	geshi:"Mp4",
+//			    	soundbanben:"消音",
+//			    	qufeng:"影视金曲",
+//			    	zhujiName:"我想和你唱",
+//			    	company:"滚石纸片公司",
+//			    	yuanchang:"1",
+//			    	banchang:"2",
+//			    	shangDate:"2016-09-21 08:50:08",
+//			    	chaozhuo:"操作",
+//				    http:"http://183.60.197.32/7/a/n/c/c/anccjutvfiwumvvdmtofbcfobazfvr/hd.yinyuetai.com/6AE7015827D218E93729EFF12BF5347B.flv?sc=ea73200e91bab4d4"
+//			    	
+//			    }
+                ],
+			        multipleSelection: [],
+			        videoData:[]
 			      }
 			
 		},
 		methods:{
-			newBox(){
-				this.$Win.openWin({
+			foo1(){
+				this.$root.Bus.$emit('eventName', 123)
+				console.log(this.$root.Bus)
+			},
+			async newBox(){
+				console.log(this.rowData.id)
+			this.changeData(this.rowData.id)
+			
+			this.$Win.openWin({
 		          width: 800,
-		          height: 600,
-		          minHeight:600,
-		          minWidth:800,
-		          data: {id: 1},
-		          router: '/backGround'
+		          height: 600,		          	          
+		          router: '/backGround',
+		          name:"backGround",		         
+		          reload: true
 		        })
 			},
 			 handleSizeChange(val) {
@@ -488,11 +503,33 @@
 			hoo(row,event){
 				this.rowData = row
 				console.log(this.rowData)
+			},
+			changeData(id){
+				var arr = this.tableData3;
+				var arr1 = []
+				var obj1 = {}
+				var num ;
+				arr.map(function(item,index){
+					var obj = {}
+					if(item.id == id){
+						num = index
+					}
+					obj.id = item.id;				
+					obj.name = item.singName+"--"+item.singerName;
+					obj.http = item.http;
+					arr1.push(obj)
+				}) 
+				    obj1.currentID = num;
+				    obj1.content = arr1;
+				   
+				    console.log(obj1)
+				localStorage.setItem('videoPlayList',JSON.stringify(obj1))	
 			}
 
 		},
 		mounted(){
 			var _this = this
+			
 			this.height = "height:"+(document.body.clientHeight-180)+"px"
 			window.onresize = function(){
 				console.log(document.body.clientHeight)
@@ -513,6 +550,7 @@
             		menu.style.width = 0 + "px"
             	}
             }
+            
 		}
 	}
 </script>

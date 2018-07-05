@@ -1,7 +1,37 @@
 <template>
 	<div id="LibraryManagement">
-		<!--<h1>LibraryManagement</h1>
-		<el-button type="primary" @click='foo'>主要按钮</el-button>-->
+		<el-dialog
+		  title="批量搜索"
+		  :modal='false'
+		  top='26vh'
+		  custom-class="PLSOSU"
+		  :visible.sync="dialogVisible"
+		  width="30%"
+		  >
+		  <!--<span style="display: flex;background: #fbfbfb;height: 140px;border: 1px  dashed #fed347;border-radius: 5px;justify-content: center;align-items: center;">
+		  	  <span>
+		  	  	
+		  	  	
+		  <i class="el-icon-document" style="font-size: 50px;color: #96a0ba;"></i>
+		  <p style="margin: 0;padding: 0; color: #666666;margin-top: 20px;font-size: 12px;">点击或将图片拖到这里上传</p>
+		  </span>-->
+		  	<el-upload
+			  class="upload-demo"
+			  drag
+			  action="https://jsonplaceholder.typicode.com/posts/"
+			  multiple>
+			  <i class="el-icon-upload"></i>
+			  <div class="el-upload__text" style="font-size: 12px;">将文件拖到此处，或<em>点击上传</em></div>
+			 
+			</el-upload>
+		  	
+		  </span>
+		  <p style="margin: 0;padding: 0; text-align: left;margin-top: 20px;font-size: 12px;">请先上传模板文件已完成批量搜索 <a style="color:#7f74ef;cursor: pointer;text-decoration: underline;">下载模板</a></p>
+		  <span slot="footer" class="dialog-footer">
+		    <el-button @click="dialogVisible = false" size="mini">取 消</el-button>
+		    <el-button type="primary" @click="dialogVisible = false" size="mini">确 定</el-button>
+		  </span>
+		</el-dialog>
 		<div  class="soushuo">
 		<el-row>
 			<el-col :span="20" style="height: 50px;display: flex;align-items: center;font-size: 12px;">
@@ -31,7 +61,7 @@
 				<el-button type="primary" size="mini" @click="onSubmit" v-tishi:30="msg[4].content">搜索</el-button>
 			</el-col>
 			<el-col :span="2" style="height: 50px;display: flex;align-items: center;">
-				<el-button  size="mini" @click="onSubmit" v-tishi:60="msg[5].content">批量搜索</el-button>
+				<el-button  size="mini" @click="dialogVisible = true" v-tishi:60="msg[5].content">批量搜索</el-button>
 			</el-col>
 			<!--<el-col :span="2" style="height: 50px;display: flex;align-items: center;">
 				<transition name="slide-fade">
@@ -177,7 +207,7 @@
 		      min-width="162"
 		    	>	
 		    	<template slot-scope="scope">
-		    	<i class="iconfont icon-bofang" style="font-size: 20px;cursor: pointer;margin: 0 5px;" v-tishi:30="msg[0].content" @click="foo1"></i>
+		    	<i class="iconfont icon-bofang" style="font-size: 20px;cursor: pointer;margin: 0 5px;" v-tishi:30="msg[0].content" @click="play(scope.row.id)"></i>
 		    	<i class="iconfont icon-bianji" style="font-size: 20px;cursor: pointer;margin: 0 5px;" v-tishi:30="msg[1].content"></i>
 		    	<i class="iconfont icon-dianliangqiang_daohang_tihuan_moren" style="font-size: 20px;cursor: pointer;margin: 0 5px;" v-tishi:30="msg[2].content"></i>
 		    	<i class="iconfont icon-shanchu" style="font-size: 20px;cursor: pointer;margin: 0 5px;" v-tishi:30="msg[3].content"></i>
@@ -212,6 +242,7 @@
 	</div>
 </template>
 <script>
+	const {ipcRenderer} = require('electron')
 	export default{
 		data(){
 			return{
@@ -221,6 +252,7 @@
 			          albumName:"",
 			          recordCompany:""
 			       },
+			    dialogVisible: false,
 			    flage:false,
 			    flageClass:false,
 			    showFlage:true,
@@ -288,152 +320,152 @@
 				    http:"http://113.105.248.47/2/g/o/a/g/goagwgdpujetwdrwivlemsucoprfvi/hd.yinyuetai.com/11EB016029869026BAD14572BE04FE5C.mp4?sc=77ddd3cf2d7d63e2",
 			    	
 			    },
-//			    {
-//			    	id:'004',
-//			    	singName:"爱如有",
-//			    	singerName:'邓紫棋',
-//			    	yuyan:'国语',
-//			    	movie:"原版MV",
-//			    	localtion:"大陆",
-//			    	geshi:"Mp4",
-//			    	soundbanben:"消音",
-//			    	qufeng:"影视金曲",
-//			    	zhujiName:"我想和你唱",
-//			    	company:"滚石纸片公司",
-//			    	yuanchang:"1",
-//			    	banchang:"2",
-//			    	shangDate:"2016-09-21 08:50:08",
-//			    	chaozhuo:"操作",
-//				    http:"http://183.60.197.29/14/v/s/o/e/vsoefoytafultnuvxfwlkrmenthhtq/hd.yinyuetai.com/6026016444322A7E967FAD9273213C77.mp4?sc=d0109807442b6e58",
-//			    	
-//			    },{
-//			    	id:'005',
-//			    	singName:"就算",
-//			    	singerName:'张倩影',
-//			    	yuyan:'国语',
-//			    	movie:"原版MV",
-//			    	localtion:"大陆",
-//			    	geshi:"Mp4",
-//			    	soundbanben:"消音",
-//			    	qufeng:"影视金曲",
-//			    	zhujiName:"我想和你唱",
-//			    	company:"滚石纸片公司",
-//			    	yuanchang:"1",
-//			    	banchang:"2",
-//			    	shangDate:"2016-09-21 08:50:08",
-//			    	chaozhuo:"操作",
-//				    http:"http://112.253.22.165/29/x/m/k/p/xmkpmfvwbzazivbbtmbqotqnubzoyk/hd.yinyuetai.com/9FA30163B9591D6D764E93C2E8BB59F7.mp4?sc=455a8b3071224186",
-//			    	
-//			    	
-//			    },{
-//			    	id:'006',
-//			    	singName:"Last Loue",
-//			    	singerName:'Rihwa',
-//			    	yuyan:'国语',
-//			    	movie:"原版MV",
-//			    	localtion:"大陆",
-//			    	geshi:"Mp4",
-//			    	soundbanben:"消音",
-//			    	qufeng:"影视金曲",
-//			    	zhujiName:"我想和你唱",
-//			    	company:"滚石纸片公司",
-//			    	yuanchang:"1",
-//			    	banchang:"2",
-//			    	shangDate:"2016-09-21 08:50:08",
-//			    	chaozhuo:"操作",
-//				    http:"http://221.228.226.17/8/i/q/m/i/iqmiplatftgbphqwprnatkwbfkmlsn/hc.yinyuetai.com/09AA013EB54C0C779AFE05BE8569D2C4.flv?sc=9197b2be34fb9caf&br=778&vid=665677&aid=24680&area=JP&vst=3",
-//			    	
-//			    },{
-//			    	id:'007',
-//			    	singName:"名侦探柯南",
-//			    	singerName:'不详',
-//			    	yuyan:'国语',
-//			    	movie:"原版MV",
-//			    	localtion:"大陆",
-//			    	geshi:"Mp4",
-//			    	soundbanben:"消音",
-//			    	qufeng:"影视金曲",
-//			    	zhujiName:"我想和你唱",
-//			    	company:"滚石纸片公司",
-//			    	yuanchang:"1",
-//			    	banchang:"2",
-//			    	shangDate:"2016-09-21 08:50:08",
-//			    	chaozhuo:"操作",
-//				    http:"http://183.60.197.32/1/j/z/c/s/jzcsjzyjpoyklskuvogehqlixdwzcr/hc.yinyuetai.com/7FF90154AF443F70EE5C5601F7E0CC40.flv?sc=de61c19ae1d95118",
-//			    	
-//			    },{
-//			    	id:'008',
-//			    	singName:"Your Name",
-//			    	singerName:'无',
-//			    	yuyan:'国语',
-//			    	movie:"原版MV",
-//			    	localtion:"大陆",
-//			    	geshi:"Mp4",
-//			    	soundbanben:"消音",
-//			    	qufeng:"影视金曲",
-//			    	zhujiName:"我想和你唱",
-//			    	company:"滚石纸片公司",
-//			    	yuanchang:"1",
-//			    	banchang:"2",
-//			    	shangDate:"2016-09-21 08:50:08",
-//			    	chaozhuo:"操作",
-//				    http:"http://221.228.226.18/11/y/w/o/s/ywoswlbdyvidclrvagebrxryjarbes/hd.yinyuetai.com/041301518B0F57187F54DDB9662920A1.flv?sc=58e2928eb8199eec",
-//			    	
-//			    },{
-//			    	id:'009',
-//			    	singName:"复仇者联盟3",
-//			    	singerName:'无',
-//			    	yuyan:'国语',
-//			    	movie:"原版MV",
-//			    	localtion:"大陆",
-//			    	geshi:"Mp4",
-//			    	soundbanben:"消音",
-//			    	qufeng:"影视金曲",
-//			    	zhujiName:"我想和你唱",
-//			    	company:"滚石纸片公司",
-//			    	yuanchang:"1",
-//			    	banchang:"2",
-//			    	shangDate:"2016-09-21 08:50:08",
-//			    	chaozhuo:"操作",
-//				    http:"http://221.228.226.18/15/w/u/h/l/wuhlluoxtnyndowkjtdhngfatrqqyy/hd.yinyuetai.com/BEC901600BDD53646A51810F7455D05D.mp4?sc=28a7e33a801fdae8",
-//			    	
-//			    },{
-//			    	id:'010',
-//			    	singName:"无",
-//			    	singerName:'无',
-//			    	yuyan:'韩语',
-//			    	movie:"原版MV",
-//			    	localtion:"大陆",
-//			    	geshi:"Mp4",
-//			    	soundbanben:"消音",
-//			    	qufeng:"影视金曲",
-//			    	zhujiName:"我想和你唱",
-//			    	company:"滚石纸片公司",
-//			    	yuanchang:"1",
-//			    	banchang:"2",
-//			    	shangDate:"2016-09-21 08:50:08",
-//			    	chaozhuo:"操作",
-//				    http:"http://221.228.226.23/14/t/r/a/t/trathvesenklkzwadbkuyzvbxowxbq/hd.yinyuetai.com/B63001614131B09BEBE7174F7363F96F.mp4?sc=8bd0d4a3854b24d0",
-//			    	
-//			    },{
-//			    	id:'011',
-//			    	singName:"舞曲",
-//			    	singerName:'无',
-//			    	yuyan:'国语',
-//			    	movie:"原版MV",
-//			    	localtion:"大陆",
-//			    	geshi:"Mp4",
-//			    	soundbanben:"消音",
-//			    	qufeng:"影视金曲",
-//			    	zhujiName:"我想和你唱",
-//			    	company:"滚石纸片公司",
-//			    	yuanchang:"1",
-//			    	banchang:"2",
-//			    	shangDate:"2016-09-21 08:50:08",
-//			    	chaozhuo:"操作",
-//				    http:"http://183.60.197.32/7/a/n/c/c/anccjutvfiwumvvdmtofbcfobazfvr/hd.yinyuetai.com/6AE7015827D218E93729EFF12BF5347B.flv?sc=ea73200e91bab4d4"
-//			    	
-//			    }
+			    {
+			    	id:'004',
+			    	singName:"爱如有",
+			    	singerName:'邓紫棋',
+			    	yuyan:'国语',
+			    	movie:"原版MV",
+			    	localtion:"大陆",
+			    	geshi:"Mp4",
+			    	soundbanben:"消音",
+			    	qufeng:"影视金曲",
+			    	zhujiName:"我想和你唱",
+			    	company:"滚石纸片公司",
+			    	yuanchang:"1",
+			    	banchang:"2",
+			    	shangDate:"2016-09-21 08:50:08",
+			    	chaozhuo:"操作",
+				    http:"http://183.60.197.29/14/v/s/o/e/vsoefoytafultnuvxfwlkrmenthhtq/hd.yinyuetai.com/6026016444322A7E967FAD9273213C77.mp4?sc=d0109807442b6e58",
+			    	
+			    },{
+			    	id:'005',
+			    	singName:"就算",
+			    	singerName:'张倩影',
+			    	yuyan:'国语',
+			    	movie:"原版MV",
+			    	localtion:"大陆",
+			    	geshi:"Mp4",
+			    	soundbanben:"消音",
+			    	qufeng:"影视金曲",
+			    	zhujiName:"我想和你唱",
+			    	company:"滚石纸片公司",
+			    	yuanchang:"1",
+			    	banchang:"2",
+			    	shangDate:"2016-09-21 08:50:08",
+			    	chaozhuo:"操作",
+				    http:"http://112.253.22.165/29/x/m/k/p/xmkpmfvwbzazivbbtmbqotqnubzoyk/hd.yinyuetai.com/9FA30163B9591D6D764E93C2E8BB59F7.mp4?sc=455a8b3071224186",
+			    	
+			    	
+			    },{
+			    	id:'006',
+			    	singName:"Last Loue",
+			    	singerName:'Rihwa',
+			    	yuyan:'国语',
+			    	movie:"原版MV",
+			    	localtion:"大陆",
+			    	geshi:"Mp4",
+			    	soundbanben:"消音",
+			    	qufeng:"影视金曲",
+			    	zhujiName:"我想和你唱",
+			    	company:"滚石纸片公司",
+			    	yuanchang:"1",
+			    	banchang:"2",
+			    	shangDate:"2016-09-21 08:50:08",
+			    	chaozhuo:"操作",
+				    http:"http://221.228.226.17/8/i/q/m/i/iqmiplatftgbphqwprnatkwbfkmlsn/hc.yinyuetai.com/09AA013EB54C0C779AFE05BE8569D2C4.flv?sc=9197b2be34fb9caf&br=778&vid=665677&aid=24680&area=JP&vst=3",
+			    	
+			    },{
+			    	id:'007',
+			    	singName:"名侦探柯南",
+			    	singerName:'不详',
+			    	yuyan:'国语',
+			    	movie:"原版MV",
+			    	localtion:"大陆",
+			    	geshi:"Mp4",
+			    	soundbanben:"消音",
+			    	qufeng:"影视金曲",
+			    	zhujiName:"我想和你唱",
+			    	company:"滚石纸片公司",
+			    	yuanchang:"1",
+			    	banchang:"2",
+			    	shangDate:"2016-09-21 08:50:08",
+			    	chaozhuo:"操作",
+				    http:"http://183.60.197.32/1/j/z/c/s/jzcsjzyjpoyklskuvogehqlixdwzcr/hc.yinyuetai.com/7FF90154AF443F70EE5C5601F7E0CC40.flv?sc=de61c19ae1d95118",
+			    	
+			    },{
+			    	id:'008',
+			    	singName:"Your Name",
+			    	singerName:'无',
+			    	yuyan:'国语',
+			    	movie:"原版MV",
+			    	localtion:"大陆",
+			    	geshi:"Mp4",
+			    	soundbanben:"消音",
+			    	qufeng:"影视金曲",
+			    	zhujiName:"我想和你唱",
+			    	company:"滚石纸片公司",
+			    	yuanchang:"1",
+			    	banchang:"2",
+			    	shangDate:"2016-09-21 08:50:08",
+			    	chaozhuo:"操作",
+				    http:"http://221.228.226.18/11/y/w/o/s/ywoswlbdyvidclrvagebrxryjarbes/hd.yinyuetai.com/041301518B0F57187F54DDB9662920A1.flv?sc=58e2928eb8199eec",
+			    	
+			    },{
+			    	id:'009',
+			    	singName:"复仇者联盟3",
+			    	singerName:'无',
+			    	yuyan:'国语',
+			    	movie:"原版MV",
+			    	localtion:"大陆",
+			    	geshi:"Mp4",
+			    	soundbanben:"消音",
+			    	qufeng:"影视金曲",
+			    	zhujiName:"我想和你唱",
+			    	company:"滚石纸片公司",
+			    	yuanchang:"1",
+			    	banchang:"2",
+			    	shangDate:"2016-09-21 08:50:08",
+			    	chaozhuo:"操作",
+				    http:"http://221.228.226.18/15/w/u/h/l/wuhlluoxtnyndowkjtdhngfatrqqyy/hd.yinyuetai.com/BEC901600BDD53646A51810F7455D05D.mp4?sc=28a7e33a801fdae8",
+			    	
+			    },{
+			    	id:'010',
+			    	singName:"无",
+			    	singerName:'无',
+			    	yuyan:'韩语',
+			    	movie:"原版MV",
+			    	localtion:"大陆",
+			    	geshi:"Mp4",
+			    	soundbanben:"消音",
+			    	qufeng:"影视金曲",
+			    	zhujiName:"我想和你唱",
+			    	company:"滚石纸片公司",
+			    	yuanchang:"1",
+			    	banchang:"2",
+			    	shangDate:"2016-09-21 08:50:08",
+			    	chaozhuo:"操作",
+				    http:"http://221.228.226.23/14/t/r/a/t/trathvesenklkzwadbkuyzvbxowxbq/hd.yinyuetai.com/B63001614131B09BEBE7174F7363F96F.mp4?sc=8bd0d4a3854b24d0",
+			    	
+			    },{
+			    	id:'011',
+			    	singName:"舞曲",
+			    	singerName:'无',
+			    	yuyan:'国语',
+			    	movie:"原版MV",
+			    	localtion:"大陆",
+			    	geshi:"Mp4",
+			    	soundbanben:"消音",
+			    	qufeng:"影视金曲",
+			    	zhujiName:"我想和你唱",
+			    	company:"滚石纸片公司",
+			    	yuanchang:"1",
+			    	banchang:"2",
+			    	shangDate:"2016-09-21 08:50:08",
+			    	chaozhuo:"操作",
+				    http:"http://183.60.197.32/7/a/n/c/c/anccjutvfiwumvvdmtofbcfobazfvr/hd.yinyuetai.com/6AE7015827D218E93729EFF12BF5347B.flv?sc=ea73200e91bab4d4"
+			    	
+			    }
                 ],
 			        multipleSelection: [],
 			        videoData:[]
@@ -441,26 +473,32 @@
 			
 		},
 		methods:{
-			foo1(){
-				this.$root.Bus.$emit('eventName', 123)
-				console.log(this.$root.Bus)
-			},
-			async newBox(){
-				console.log(this.rowData.id)
-			this.changeData(this.rowData.id)
+			play(id){				
 			
-			this.$Win.openWin({
-		          width: 800,
-		          height: 600,		          	          
-		          router: '/backGround',
-		          name:"backGround",		         
-		          reload: true
-		        })
+			
+				this.changeData(id)
+				ipcRenderer.send('childWindow')
+			
 			},
-			 handleSizeChange(val) {
+		
+			newBox(){
+				console.log(this.rowData.id,"ppp")
+				
+			  
+			
+			if(localStorage.getItem('videoPlayList')){
+				this.changeData(this.rowData.id)
+				ipcRenderer.send('changeSonge')
+			}else{
+				this.changeData(this.rowData.id)
+				ipcRenderer.send('childWindow')
+			}
+			
+			},			
+			handleSizeChange(val) {
 		        console.log(`每页 ${val} 条`);
 		      },
-		      handleCurrentChange(val) {
+		    handleCurrentChange(val) {
 		        console.log(`当前页: ${val}`);
 		      },
 			playVideo(){
@@ -468,6 +506,9 @@
 			},
 			zhanKai(){				
 			  this.flage = !this.flage
+			},			
+			onSubmitPL(){//批量搜索
+				
 			},
 			onSubmit(){
 		        console.log('submit!');
@@ -521,7 +562,7 @@
 				}) 
 				    obj1.currentID = num;
 				    obj1.content = arr1;
-				   
+				    obj1.id = arr[0].id
 				    console.log(obj1)
 				localStorage.setItem('videoPlayList',JSON.stringify(obj1))	
 			}
@@ -577,7 +618,33 @@
 	}
 	.el-notification{
 		width: 200px;
-		
+		border-radius: 5px;    
+        box-shadow: -2px 1px 20px 2px rgba(0, 0, 0, 0.3);
+	}
+	#LibraryManagement .PLSOSU{
+		border: none;
+	}
+	#LibraryManagement .PLSOSU .el-dialog__header{
+	 
+      padding: 6px 10px;
+      text-align: left;
+      
+	}
+	#LibraryManagement .PLSOSU .el-dialog__header .el-dialog__title{
+		    font-size: 12px;
+		    color: #666666;
+	}
+	#LibraryManagement .PLSOSU .el-dialog__body{
+		   padding: 30px 20px 10px 20px;
+	}
+	#LibraryManagement .PLSOSU .el-dialog__header .el-dialog__headerbtn{
+		    top: 10px;
+            right: 10px;
+	}
+	#LibraryManagement .PLSOSU .el-dialog__body .el-upload-dragger{
+		border: 1px dashed #fed347;
+		background-color: #fbfbfb;
+		font-size: 12px;
 	}
 	#LibraryManagement .lastBlock{
 	    display: flex;

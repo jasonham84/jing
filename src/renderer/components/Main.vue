@@ -213,7 +213,15 @@
 		      	}
 		    },
 			Close(){
+				var _this = this
 				ipcRenderer.send('window-close')
+				ipcRenderer.on('closeChild',function(){
+					_this.$message({
+			          message: '请关闭视频窗口',
+			          type: 'warning'
+			        });
+					
+				})
 			},
 			minSize(){
 				ipcRenderer.send('window-minSize')

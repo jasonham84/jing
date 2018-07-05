@@ -1,35 +1,58 @@
 <template>
 	<div id="LibraryManagement">
 		<el-dialog
+		  @close="beforeClose"
 		  title="批量搜索"
 		  :modal='false'
-		  top='26vh'
+		  top='26vh'		  
+		  :close-on-click-modal="false"
 		  custom-class="PLSOSU"
 		  :visible.sync="dialogVisible"
-		  width="30%"
-		  >
-		  <!--<span style="display: flex;background: #fbfbfb;height: 140px;border: 1px  dashed #fed347;border-radius: 5px;justify-content: center;align-items: center;">
-		  	  <span>
+		  width="401px"
+		  >		  
+		  <span  style="display: flex;background: #fbfbfb;box-sizing:border-box;height: 176px;border: 1px  dashed #fed347;border-radius: 5px;justify-content: center;align-items: center;">
+		  	  <span v-if="!showUpload" style="display: block;width: 70%;">
 		  	  	
 		  	  	
 		  <i class="el-icon-document" style="font-size: 50px;color: #96a0ba;"></i>
-		  <p style="margin: 0;padding: 0; color: #666666;margin-top: 20px;font-size: 12px;">点击或将图片拖到这里上传</p>
-		  </span>-->
+		  <div style="margin-top: 20px;">
+		  	  <span style="display: flex;justify-content: space-between;padding: 0 20px 0 10px;">
+		  	  	<span class="fileName">
+		  	  		<i class="el-icon-tickets"></i>
+		  	  	    <i>{{fileName}}</i>
+		  	  	</span>
+		  	  	
+		  	  	<i class="el-icon-close" style="cursor: pointer;" @click="uploadClose"></i>
+		  	  </span>
+		  	  <span>
+		  	  	<el-progress  :stroke-width="2"  :percentage="percentage" :status="percentageStatus"></el-progress>
+		  	  </span>
+		  </div>
+		  </span>
+		 
 		  	<el-upload
+		  	  ref="upload"
+		  	  v-show="showUpload"
 			  class="upload-demo"
 			  drag
+			  :on-progress="handleProgress"
+			  :on-success="handleSuccess"
+			  :on-error="handleError"
+			  :before-upload="handleUpload"
 			  action="https://jsonplaceholder.typicode.com/posts/"
 			  multiple>
-			  <i class="el-icon-upload"></i>
-			  <div class="el-upload__text" style="font-size: 12px;">将文件拖到此处，或<em>点击上传</em></div>
 			 
+			  <i class="el-icon-upload"></i>
+			  <div class="el-upload__text" style="font-size: 12px;" v-show="TJerror">将文件拖到此处，或<em>点击上传</em></div>
+			  <div class="el-upload__text" style="font-size: 12px;color: red;" v-show="!TJerror">{{fileName}}上传失败，请重新上传</div>
 			</el-upload>
-		  	
+		
 		  </span>
 		  <p style="margin: 0;padding: 0; text-align: left;margin-top: 20px;font-size: 12px;">请先上传模板文件已完成批量搜索 <a style="color:#7f74ef;cursor: pointer;text-decoration: underline;">下载模板</a></p>
 		  <span slot="footer" class="dialog-footer">
 		    <el-button @click="dialogVisible = false" size="mini">取 消</el-button>
-		    <el-button type="primary" @click="dialogVisible = false" size="mini">确 定</el-button>
+		    <el-button type="primary" @click="submitContent"  size="mini" v-show="!uploadBtn" :loading="submitContentLoading">提交</el-button>
+		    <el-button    type="info" size="mini" :disabled="true" v-show="uploadBtn">提交</el-button>
 		  </span>
 		</el-dialog>
 		<div  class="soushuo">
@@ -107,6 +130,7 @@
 			<div :class="{aa:flageClass,bb:!flageClass}" :style="height" id="scroll-1" @contextmenu.stop='rightMeun'>
 		  <el-table
 		    ref="multipleTable"
+		    
 		    :data="tableData3"
 		    tooltip-effect="dark"
 		    @row-contextmenu="hoo"
@@ -208,7 +232,7 @@
 		    	>	
 		    	<template slot-scope="scope">
 		    	<i class="iconfont icon-bofang" style="font-size: 20px;cursor: pointer;margin: 0 5px;" v-tishi:30="msg[0].content" @click="play(scope.row.id)"></i>
-		    	<i class="iconfont icon-bianji" style="font-size: 20px;cursor: pointer;margin: 0 5px;" v-tishi:30="msg[1].content"></i>
+		    	<i class="iconfont icon-bianji" style="font-size: 20px;cursor: pointer;margin: 0 5px;" v-tishi:30="msg[1].content" @click="JumpPage(scope.row.id)"></i>
 		    	<i class="iconfont icon-dianliangqiang_daohang_tihuan_moren" style="font-size: 20px;cursor: pointer;margin: 0 5px;" v-tishi:30="msg[2].content"></i>
 		    	<i class="iconfont icon-shanchu" style="font-size: 20px;cursor: pointer;margin: 0 5px;" v-tishi:30="msg[3].content"></i>
 		    	</template>
@@ -216,7 +240,10 @@
 		    </el-table>	
 			</div>
 		</div>
-		<div style="height: 50px;width:100%;position: absolute;bottom: 0;right: 0;background: white;padding: 0 20px;box-sizing: border-box;">
+		<div style="height: 67vh;background: white;width: 100%;position: absolute;left: 0;top: 100px;display: flex;justify-content: center;align-items: center;z-index: 30;" v-show="loading">
+			<Loading/>
+		</div>
+		<div style="height: 50px;width:100%;position: absolute;bottom: 0;right: 0;background: white;padding: 0 20px;box-sizing: border-box;border-top: 1px solid gainsboro;">
 			  <div class="block lastBlock">
 			    <span class="demonstration" style="color: #999999;">已加载200条数据</span>
 			    <el-pagination
@@ -227,8 +254,7 @@
 			      layout="total, sizes, prev, pager, next, jumper"
 			      :total="4000">
 			    </el-pagination>
-			  </div>
-			
+			  </div>			
 		</div>
        	<div class="rightBox" ref='pppp'>
        		<ul>
@@ -243,7 +269,9 @@
 </template>
 <script>
 	const {ipcRenderer} = require('electron')
+	import Loading from '../CustomComponents/Loading';
 	export default{
+		components:{ Loading },
 		data(){
 			return{
 				formInline: {
@@ -252,10 +280,19 @@
 			          albumName:"",
 			          recordCompany:""
 			       },
-			    dialogVisible: false,
-			    flage:false,
-			    flageClass:false,
-			    showFlage:true,
+			    dialogVisible: false,	//批量上传模特框		    
+			    flage:false,  //
+			    flageClass:false, //控制滚动条
+			    showFlage:true,  //
+			    showUpload:true, //切换批量上传模特框的
+			    uploaderror:false, //上传文件出错是调用
+			    percentage:0,  //上传文件的进度条
+			    uploadBtn:true, //改变提价按键状态
+			    loading:false, //table加载状态
+			    TJerror:true, //搜索失败显示
+			    fileName:"",  //当前上传文件的名字
+			    templateFile:"",//最终的模板文件	
+			    submitContentLoading:false, //提交按钮的loading图标
 			    rowData:"",
 			    height:"",
 			    msg:[
@@ -472,27 +509,123 @@
 			      }
 			
 		},
+		computed:{
+			percentageStatus:function(){
+				if(!this.uploaderror){
+					   if(this.percentage==100){
+						  return 'success'
+					}else{
+						return ""
+					}
+				}else{
+					
+				    return "exception"
+					
+				}
+				
+			}
+		},
 		methods:{
-			play(id){				
+			
+			//上传调用函数
+			beforeClose(){
+				this.showUpload=true
+			    this.uploaderror=false
+			    this.percentage=0
+			    this.uploadBtn=true
+			    this.loading=false
+			    this.TJerror=true
+			    this.fileName=""
+			    this.templateFile=""
+			    this.loading=false
+			},
+			submitContent(){
+				this.submitContentLoading = true
+				var _this = this
+				var num = 0
+				
+				
+				setTimeout(function(){
+					if(num==1){
+						_this.submitContentLoading = false
+					    _this.dialogVisible = false	
+					    _this.tableData3 = []
+					    _this.loading = true
+					}else{
+						_this.$notify.error({
+				          title: '错误',
+				          message: '提交失败，请重试',
+				          offset: 100
+				        });
+				        _this.TJerror = false
+				        _this.showUpload = true
+				        _this.uploadBtn = true
+				        _this.submitContentLoading = false
+				        
+					}
+					
+				},2000)
+				
+			},
+			handleError(){
+				this.uploaderror = true
+			},
+			handleProgress(event, file, fileList){
+				var percentage = event.percent
+				this.percentage =  parseInt(percentage)
+				
+			},
+			handleSuccess(response, file, fileList){
+//				console.log(response, file, fileList)
+               console.log(fileList)
+               this.templateFile = fileList[0]
+               this.uploadBtn = false
+			},
+			handleUpload(file){
+				this.fileName = file.name
+				this.showUpload = false
+				this.percentage = 0
+			},
+			uploadClose(){
+				this.$refs.upload.abort()
+				console.log(this.$refs.upload.fileList)
+				var fileList = this.$refs.upload.fileList
+				this.$refs.upload.clearFiles()	
+				this.templateFile = ""
+				this.showUpload = true
+				this.uploaderror = false
+				this.uploadBtn = true
+				this.TJerror = true
+			},
 			
 			
+			
+			
+			
+			
+			
+			
+			
+			
+			//编辑跳转页面
+			JumpPage(){
+				this.$router.push("/editPage")
+			},
+			
+			
+			
+			play(id){										
 				this.changeData(id)
 				ipcRenderer.send('childWindow')
 			
-			},
-		
+			},		
 			newBox(){
 				console.log(this.rowData.id,"ppp")
 				
-			  
-			
-			if(localStorage.getItem('videoPlayList')){
-				this.changeData(this.rowData.id)
-				ipcRenderer.send('changeSonge')
-			}else{
-				this.changeData(this.rowData.id)
+			     this.changeData(this.rowData.id)
 				ipcRenderer.send('childWindow')
-			}
+			
+		
 			
 			},			
 			handleSizeChange(val) {
@@ -616,6 +749,9 @@
 	#LibraryManagement .cell{
 		text-align: center;
 	}
+	#LibraryManagement .el-upload-list{
+		display: none;
+	}
 	.el-notification{
 		width: 200px;
 		border-radius: 5px;    
@@ -642,8 +778,9 @@
             right: 10px;
 	}
 	#LibraryManagement .PLSOSU .el-dialog__body .el-upload-dragger{
-		border: 1px dashed #fed347;
-		background-color: #fbfbfb;
+		border: none;
+		background-color: rgba(255, 255, 255, 0);
+		
 		font-size: 12px;
 	}
 	#LibraryManagement .lastBlock{
@@ -698,6 +835,12 @@
 	#LibraryManagement .soushuo{
 		
 		border-bottom: 1px solid #ebebeb;
+	}
+	.fileName{
+		cursor: pointer;
+	}
+	.fileName:hover{
+		color: #409eff;
 	}
 	.slide-fade-enter-active {
 	  transition: all .5s ease;

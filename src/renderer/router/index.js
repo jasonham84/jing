@@ -26,7 +26,12 @@ export default new Router({
 		    		 path:'/LibraryManagement/VideoPlayback',
 		    	   name:'VideoPlayback',
 		    	   component: require('@/components/LibraryManagement/page2').default
-			    },
+			    },			    
+    	    {
+    	    	path:"/editPage",
+    	    	name:'editPage',
+    	    	component: require("@/components/LibraryManagement/page3").default
+    	    },
     	    {
     	    	path:'/CustomManagement',
     	    	name:'CustomManagement',

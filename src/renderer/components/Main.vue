@@ -35,7 +35,7 @@
 	    				   	 <span class="headBtn_refresh" @click="pageRefresh">
 	    				   	 	<i class="el-icon-refresh el-icon-refresh1"></i>
 	    				   	 </span>
-	    				   	 <b style="display: block;margin: 3px 10px ;background:#a8a0fb;height: 24px;width: 1px;margin-right: 30px;"></b>
+	    				   	 <b style="display: block;margin: 3px 10px ;background:#a8a0fb;height: 24px;width: 1px;margin-right: 30px;" v-show="shugangFlage"></b>
 	    				   	 <!--
                                 	
                                 	描述：曲库页面显示
@@ -195,6 +195,7 @@
 				pageBtn2:false,
 				pageBtn3:false,
 				pageBtn4:false,
+				shugangFlage:true
 			}
 		},
 		methods:{
@@ -255,6 +256,7 @@
 				this.pageBtn2 = false
 				this.pageBtn3 = false
 				this.pageBtn4 = false
+				this.shugangFlage = true
 				switch(str){
 					case 'LibraryManagement':
 					    this.pageBtn1 = true;
@@ -267,7 +269,10 @@
 					break;
 					case 'Uploading':
 					    this.pageBtn4 = true;
-					break;					
+					break;
+					case "editPage":
+					   this.shugangFlage = false;
+					break;
 				}
 				
 			}

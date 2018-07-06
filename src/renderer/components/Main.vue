@@ -312,15 +312,9 @@ body{
 	min-width: 80px;
 }
 
-#Main .headHover:hover{
-		background: yellow;
-	}
-.a{
-	background: yellow;
-}
-.b{
-	display: block;
-}
+
+
+
 /*#Main .el-menu-item:nth-child(1){
 	background: #F1F1F1;
 }	*/
@@ -333,6 +327,8 @@ body{
 		overflow: hidden;
 		margin: 0;
 		padding: 0;
+		font-family: "微软雅黑";
+		
 	}
 	#Main .tubiao{
 		color: white;
@@ -359,6 +355,7 @@ body{
 		cursor: pointer;
 		border: 1px solid #b6bcce;
 		margin-right: 20px;
+		
 	}
 	
 	#Main .headBtn span:hover .el-icon-arrow-left1{
@@ -501,8 +498,11 @@ body{
   .content{
   	flex: 1;
   	background: white;
-  	border-bottom-left-radius: 10px;
-	border-bottom-right-radius: 10px;	
+  	border: 1px solid #adabab;
+  	box-sizing: border-box;
+  	border-top: none;  	
+  	/*border-bottom-left-radius: 100px;
+	border-bottom-right-radius: 100px;	*/
   }
   .contentRight{
   	display: flex;

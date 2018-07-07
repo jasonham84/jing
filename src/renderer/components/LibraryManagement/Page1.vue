@@ -7,13 +7,13 @@
 		  	  	
 		  <i class="el-icon-document" style="font-size: 50px;color: #96a0ba;"></i>
 		  <div style="margin-top: 20px;">
-		  	  <span style="display: flex;justify-content: space-between;padding: 0 20px 0 10px;">
+		  	  <span style="display: flex;justify-content: space-between;margin: 0px 16px 0px 15px;align-items: center;" class="uploadFileName">
 		  	  	<span class="fileName">
-		  	  		<i class="el-icon-tickets"></i>
-		  	  	    <i>{{fileName}}</i>
+		  	  		<i class="el-icon-tickets" ></i>
+		  	  	    <i style="font-style: normal;">{{fileName}}</i>
 		  	  	</span>
 
-			<i class="el-icon-close" style="cursor: pointer;" @click="uploadClose"></i>
+			<i class="el-icon-close uploadFileClose" style="cursor: pointer;" @click="uploadClose"></i>
 			</span>
 			<span>
 		  	  	<el-progress  :stroke-width="2"  :percentage="percentage" :status="percentageStatus"></el-progress>
@@ -40,21 +40,21 @@
 	</el-dialog>
 
 	<!--替换弹框-->
-	<el-dialog title="替换文件" :visible.sync="replaceVisible" width="401px" :modal='false' :close-on-click-modal="false" top='26vh' custom-class="PLSOSU">
+	<el-dialog title="替换文件" @close="replaceClose" :visible.sync="replaceVisible" width="401px" :modal='false' :close-on-click-modal="false" top='26vh' custom-class="PLSOSU">
 		<span style="display: flex;box-sizing:border-box;height: 176px;border-radius: 5px;justify-content: center;align-items: center;">
-		<span v-if="showUpload1" style="display: block;width: 50%;">
+		<span v-if="showUpload1" style="display: block;width: 70%;">
 		  	  	
 		  	  	
 		 
 		 <img src="../../assets/file.png" />
 		 <div style="margin-top: 20px;">
-		  	  <span style="display: flex;justify-content: space-between;padding: 0 20px 0 10px;" class="uploadFileName">
+		  	  <span style="display: flex;justify-content: space-between;margin: 0px 16px 0px 15px;align-items: center;" class="uploadFileName">
 			  	  	<span class="fileName">
-			  	  		<i class="el-icon-tickets"></i>
-			  	  	    <i>{{replacefileName}}</i>
+			  	  		<i class="el-icon-tickets" ></i>
+			  	  	    <i style="font-style: normal;display: inline-block;width: 150px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{{replacefileName}}</i>
 			  	  	</span>
 
-			       <i class="el-icon-close" style="cursor: pointer;" @click="replaceClose"></i>
+			       <i class="el-icon-close uploadFileClose" style="cursor: pointer;" @click="replaceClose"></i>
 			</span>
 			<span>
 		  	  	<el-progress  :stroke-width="2"  :percentage="replacePercentage" :status="replacePercentageStatus"></el-progress>
@@ -75,18 +75,19 @@
 			
 			>
 			<el-button size="mini" plain><i class="el-icon-upload el-icon--right"></i>上传文件</el-button>
-			<div slot="tip" class="el-upload__tip">请先上传文件已完成替换</div>
+			<div slot="tip" class="el-upload__tip" v-show="!replaceUploadError">请先上传文件已完成替换</div>
+			<div slot="tip" class="el-upload__tip" v-show="replaceUploadError" style="color: red;">"文件名"上传失败，请从新上传</div>
 		</el-upload>
 
 		</span>
 
 		<span slot="footer" class="dialog-footer">
 		    <el-button @click="replaceVisible = false" size="mini">取 消</el-button>
-		    <el-button type="primary" size="mini" v-show="!replaceBtn">替换</el-button>		    
+		    <el-button type="primary" size="mini" v-show="!replaceBtn" @click="replaceFileBtn" :loading="replaceFileBtnStatus">替换</el-button>		    
 		    <el-button type="info" size="mini" :disabled="true" v-show="replaceBtn">替换</el-button>		    
 		  </span>
 	</el-dialog>
-
+    
 	<div class="soushuo">
 		<el-row>
 			<el-col :span="20" style="height: 50px;display: flex;align-items: center;font-size: 12px;">
@@ -202,7 +203,7 @@
 						<i class="iconfont icon-bofang" style="font-size: 20px;cursor: pointer;margin: 0 5px;" v-tishi:30="msg[0].content" @click="play(scope.row.id)"></i>
 						<i class="iconfont icon-bianji" style="font-size: 20px;cursor: pointer;margin: 0 5px;" v-tishi:30="msg[1].content" @click="JumpPage(scope.row.id)"></i>
 						<i class="iconfont icon-dianliangqiang_daohang_tihuan_moren" style="font-size: 20px;cursor: pointer;margin: 0 5px;" v-tishi:30="msg[2].content" @click="replaceFile(scope.row.id)"></i>
-						<i class="iconfont icon-shanchu" style="font-size: 20px;cursor: pointer;margin: 0 5px;" v-tishi:30="msg[3].content"></i>
+						<i class="iconfont icon-shanchu" style="font-size: 20px;cursor: pointer;margin: 0 5px;" v-tishi:30="msg[3].content" @click="deleteFile(scope.row.id)"></i>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -266,6 +267,8 @@
 				replaceTemplateFile:"",
 				replaceBtn:true,
 				replaceUploadError:false,
+				replaceStatus:false,
+				replaceFileBtnStatus:false,
 				rowData: "",
 				height: "",
 				msg: [{
@@ -509,7 +512,7 @@
 			},
 		    replacePercentageStatus:function() {
 				if(!this.replaceUploadError) {
-					if(this.replacePercentage == 100) {
+					if(this.replacePercentage == 100&&this.replaceStatus) {
 						return 'success'
 					} else {
 						return ""
@@ -548,10 +551,11 @@
 						_this.tableData3 = []
 						_this.loading = true
 					} else {
-						_this.$notify.error({
-							title: '错误',
+						_this.$notify({							
 							message: '提交失败，请重试',
-							offset: 100
+							type: 'warning',
+				            offset: 120,
+ 				            duration:2000,
 						});
 						_this.TJerror = false
 						_this.showUpload = true
@@ -609,6 +613,12 @@
 			replaceBeforeUpload(file){
 				this.replacefileName = file.name
 				this.showUpload1 = true
+				this.replaceUploadError = false
+            	this.replaceTemplateFile = ""
+            	this.replaceBtn = true
+            	this.replacePercentage = 0
+            	this.replaceStatus = false
+				
 			},
             replaceProgress(event, file, fileList){
             	var percentage = event.percent
@@ -617,9 +627,11 @@
             replaceSuccess(response, file, fileList){
             	this.replaceTemplateFile = fileList[0]
             	this.replaceBtn = false
+            	this.replaceStatus = true
             },
             replaceError(err, file, fileList){
-            	console.log(err)
+            	this.replaceUploadError = true
+            	this.showUpload1 = false
             },
             replaceClose(){
             	this.$refs.replaceUpload.abort()
@@ -629,13 +641,59 @@
             	this.replaceTemplateFile = ""
             	this.replaceBtn = true
             	this.replacePercentage = 0
+            	this.replaceStatus = false
+            },
+            replaceFileBtn(){
+            	this.replaceFileBtnStatus = true
+            	var _this = this
+            	var num = parseInt(10*Math.random())%2
+            	setTimeout(function(){
+            		_this.replaceFileBtnStatus = false
+            		if(num == 1){
+              		 _this.$notify({				          
+				          message: '替换成功',
+				          type: 'success',
+				          offset: 120,
+				          duration:2000,				          
+				        });
+				    _this.replaceVisible = false
+            		}else{
+            		_this.$notify({				          
+				          message: '替换失败，请重试',
+				          type: 'warning',
+				          offset: 120,
+ 				          duration:2000,
+				        });	            			
+            		}
+  
+            	},1000)
             },
             
             
+         //  删除文件         
             
-            
-            
-            
+            deleteFile(id){
+        	 this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+		          confirmButtonText: '确定',
+		          cancelButtonText: '取消',
+		          type: 'warning'
+		        }).then(() => {
+		          this.$notify({				          
+				          message: '删除成功',
+				          type: 'success',
+				          offset: 120,
+   				          duration:0,
+				        });	   
+		        }).catch(() => {
+		          this.$notify({				          
+				          message: '删除失败',
+				          type: 'warning',
+				          offset: 120,
+   				          duration:2000,
+				        });	            
+		        });
+
+            },
             
             
             
@@ -759,6 +817,14 @@
 	}
 </script>
 <style>
+	.el-notification{
+		display: flex;
+		align-items: center;
+	}
+	.el-notification .el-notification__content{
+		margin: 0;
+		font-size: 14px;
+	}
 	#LibraryManagement {}
 	
 	ul,
@@ -790,7 +856,7 @@
 	.el-notification {
 		width: 200px;
 		border-radius: 5px;
-		box-shadow: -2px 1px 20px 2px rgba(0, 0, 0, 0.3);
+		box-shadow: -1px 2px 18px 7px rgba(0,0,0,.3);
 	}
 	
 	#LibraryManagement .PLSOSU {
@@ -800,6 +866,7 @@
 	#LibraryManagement .PLSOSU .el-dialog__header {
 		padding: 6px 10px;
 		text-align: left;
+		border-bottom: 1px solid #efeded;
 	}
 	
 	#LibraryManagement .PLSOSU .el-dialog__header .el-dialog__title {
@@ -821,8 +888,14 @@
 		background-color: rgba(255, 255, 255, 0);
 		font-size: 12px;
 	}
+	#LibraryManagement .PLSOSU .el-dialog__footer{
+		border-top: 1px solid #efeded;
+	}
 	#LibraryManagement .PLSOSU .uploadFileName:hover{
-		background: yellow;
+		background: #e6e6e0;
+	}
+	#LibraryManagement .PLSOSU .uploadFileClose:hover{
+		color: #409eff;
 	}
 	#LibraryManagement .lastBlock {
 		display: flex;
@@ -884,6 +957,8 @@
 	
 	.fileName {
 		cursor: pointer;
+		display: flex;
+		align-items: center;
 	}
 	
 	.fileName:hover {

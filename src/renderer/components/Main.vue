@@ -40,11 +40,11 @@
                                 	
                                 	描述：曲库页面显示
                                 -->
-	    				   	  <span class="headBtn_stop" v-show="pageBtn1">
+	    				   	  <span :class="{headBtn_stop1:selectFlage, headBtn_stop:!selectFlage}" v-show="pageBtn1" @click="exportFile">
 	    				   	 	<i class="el-icon-delete el-icon-stop1"></i>
 	    				   	 	<i class="headBtn_stop_font">导出</i>
 	    				   	 </span>
-	    				   	  <span class="headBtn_stop" v-show="pageBtn1">
+	    				   	  <span :class="{headBtn_stop1:selectFlage, headBtn_stop:!selectFlage}" v-show="pageBtn1" @click="delected">
 	    				   	 	<i class="el-icon-delete el-icon-stop1"></i>
 	    				   	 	<i class="headBtn_stop_font">删除</i>
 	    				   	 </span>
@@ -173,6 +173,7 @@
 	const {ipcRenderer} = require('electron')
 	let currentWindow = require('electron').remote.getCurrentWindow()
 	import HistoryRouter from './CustomComponents/HistoryRouter';
+	import Bus from './bus.js'
 	export default{
 		components:{ HistoryRouter },
 		data(){
@@ -181,6 +182,7 @@
 				isArray:'background: #f1f1f1;',
 				flage:false,
 				screenFlage:true,
+				selectFlage:false,
 				msg:[
 				 {content:'缩小'},
 				 {content:'放大'},
@@ -275,6 +277,12 @@
 					break;
 				}
 				
+			},
+			delected(){
+				Bus.$emit('delected')
+			},
+			exportFile(){
+				Bus.$emit("exportFile")
 			}
 			
 			
@@ -292,6 +300,13 @@
 	      			_this.screenFlage = !currentWindow.isMaximized()
 	      		
 	      	}
+	        Bus.$on('val',function(data){
+	        	  if(data == '1'){
+	        	  	  _this.selectFlage = true
+	        	  }else{
+	        	  	 _this.selectFlage = false
+	        	  }
+	        })
 	    }
 		
 	}
@@ -358,24 +373,28 @@ body{
 		
 	}
 	
-	#Main .headBtn span:hover .el-icon-arrow-left1{
+	#Main .headBtn .headBtn_back,#Main .headBtn .headBtn_refresh{
+		border: 1px solid white;		
+	}		
+	#Main .headBtn .headBtn_back .el-icon-arrow-left1{
 		color: white;
 	}
 	#Main .headBtn span:hover .el-icon-refresh1{
 		color: white;
 	}
-	#Main .headBtn span:hover .el-icon-stop1{
-		color: white;
-	}
-	#Main .headBtn span:hover .headBtn_stop_font{
-		color: white;
-	}
-    #Main .headBtn span:hover{
-		border: 1px solid white;
-		
-	}
 	
-	#Main .headBtn span:active{
+	/*#Main .headBtn span:hover .el-icon-stop1{
+		color: white;
+	}*/
+	/*#Main .headBtn span:hover .headBtn_stop_font{
+		color: white;
+	}*/
+    
+	
+  
+	
+	
+	#Main .headBtn .headBtn_stop1:active{
 		background: #8f86f2;
 	}
 	#Main .headBtn .headBtn_back{
@@ -386,7 +405,7 @@ body{
 	}
 	#Main .headBtn .headBtn_back .el-icon-arrow-left1{
 		font-size: 20px;
-		color: #b6bcce;
+		color: white;
 		
 	}
 	
@@ -396,12 +415,13 @@ body{
 	}
 	#Main .headBtn .headBtn_refresh .el-icon-refresh1{
 		font-size:20px;
-		color: #b6bcce;
+		color: white;
 	}
 	
 	#Main .headBtn .headBtn_stop{
 		border-radius: 5px;
 		padding: 0 8px;
+		cursor: default;
 		
 	}	
 	#Main .headBtn .headBtn_stop .el-icon-stop1{
@@ -417,7 +437,22 @@ body{
 	
 	
 	
-	
+
+	#Main .headBtn .headBtn_stop1{
+		border-radius: 5px;
+		padding: 0 8px;
+		cursor: pointer;
+		border: 1px solid white;
+	}	
+	#Main .headBtn .headBtn_stop1 .el-icon-stop1{
+		font-size:20px;
+		color: white;
+	}
+	#Main .headBtn .headBtn_stop1 .headBtn_stop_font{
+		font-style: normal;
+		color: white;
+		margin-left: 5px;
+	}
 	
 	
 	

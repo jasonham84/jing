@@ -88,28 +88,86 @@
 		  </span>
 	</el-dialog>
     
+   <!--单个删除弹框-->
+    <el-dialog
+	  title="提示"
+	  :visible.sync="delecteVisible"
+	  custom-class="DELECT"
+	  width="30%"
+	  top='30vh'
+	  >
+	  <span><i class="el-icon-warning" style="color: #e6a23c;margin-right: 10px;font-size: 16px;"></i>此操作将永久删除该文件, 是否继续?</span>
+	  <span slot="footer" class="dialog-footer">
+	    <el-button @click="delecteVisible = false" size="mini">取 消</el-button>
+	    <el-button type="primary" @click="delecteBtn" size="mini" :loading="delecteLoading">确 定</el-button>
+	  </span>
+	</el-dialog>
+	<!--批量删除弹框-->
+	 <el-dialog
+	  title="提示"
+	  :visible.sync="delectesVisible"
+	  custom-class="DELECT"
+	  width="30%"
+	  top='30vh'
+	  >
+	  <span><i class="el-icon-warning" style="color: #e6a23c;margin-right: 10px;font-size: 16px;"></i>此操作将永久删除选中文件, 是否继续?</span>
+	  <span slot="footer" class="dialog-footer">
+	    <el-button @click="delectesVisible = false" size="mini">取 消</el-button>
+	    <el-button type="primary" @click="delectesBtn" size="mini" :loading="delectesLoading">确 定</el-button>
+	  </span>
+	</el-dialog>
+	
+	
 	<div class="soushuo">
 		<el-row>
 			<el-col :span="20" style="height: 50px;display: flex;align-items: center;font-size: 12px;">
 				<el-form :inline="true" :model="formInline" class="demo-form-inline" label-width="80px" size="mini">
 					<el-form-item label="歌曲名称">
-						<el-input v-model="formInline.songName" placeholder="请输入"></el-input>
+						<!--<el-input v-model="formInline.songName" placeholder="请输入"></el-input>-->
+						 <el-autocomplete
+				      class="inline-input"
+				      v-model="formInline.songName"
+				      :fetch-suggestions="querySearch"
+				      placeholder="请输入内容"
+				      @select="handleSelect"
+				    ></el-autocomplete>
 					</el-form-item>
 					<el-form-item label="歌手名称">
-						<el-input v-model="formInline.songerName" placeholder="请输入"></el-input>
+						<!--<el-input v-model="formInline.songerName" placeholder="请输入"></el-input>-->
+						 <el-autocomplete
+				      class="inline-input"
+				      v-model="formInline.songerName"
+				      :fetch-suggestions="querySearch"
+				      placeholder="请输入内容"
+				      @select="handleSelect"
+				    ></el-autocomplete>
 					</el-form-item>
 					<el-form-item label="专辑名称">
-						<el-select v-model="formInline.albumName" placeholder="请选择">
+						<!--<el-select v-model="formInline.albumName" placeholder="请选择">
 							<el-option label="区域一" value="shanghai"></el-option>
 							<el-option label="区域二" value="beijing"></el-option>
-						</el-select>
+						</el-select>-->
+							 <el-autocomplete
+				      class="inline-input"
+				      v-model="formInline.albumName"
+				      :fetch-suggestions="querySearch"
+				      placeholder="请输入内容"
+				      @select="handleSelect"
+				    ></el-autocomplete>
 					</el-form-item>
 					<el-form-item label="唱片公司">
 						<!--<el-input v-model="formInline.recordCompany" placeholder="请输入"></el-input>-->
-						<el-select v-model="formInline.recordCompany" placeholder="请选择">
+						<!--<el-select v-model="formInline.recordCompany" placeholder="请选择">
 							<el-option label="q" value="11"></el-option>
 							<el-option label="q" value="1"></el-option>
-						</el-select>
+						</el-select>-->
+							 <el-autocomplete
+				      class="inline-input"
+				      v-model="formInline.recordCompany"
+				      :fetch-suggestions="querySearch"
+				      placeholder="请输入内容"
+				      @select="handleSelect"
+				    ></el-autocomplete>
 					</el-form-item>
 				</el-form>
 			</el-col>
@@ -159,8 +217,8 @@
 	</div>
 	<div style="flex: 1;width: 100%;position: relative;" id="box">
 		<div :class="{aa:flageClass,bb:!flageClass}" :style="height" id="scroll-1" @contextmenu.stop='rightMeun'>
-			<el-table ref="multipleTable" :data="tableData3" tooltip-effect="dark" @row-contextmenu="hoo" style="width: 100%;font-size: 12px;color: #666666;">
-				<el-table-column type="selection" min-width="55">
+			<el-table ref="multipleTable" :data="tableData3" tooltip-effect="dark"  @selection-change="handleSelectionChange" @row-contextmenu="hoo" style="width: 100%;font-size: 12px;color: #666666;">
+				<el-table-column type="selection" min-width="55" >
 				</el-table-column>
 				<el-table-column prop="id" label="编号" min-width="50">
 
@@ -235,6 +293,8 @@
 		ipcRenderer
 	} = require('electron')
 	import Loading from '../CustomComponents/Loading';
+	import Bus from '../bus.js'
+	import axios from 'axios'
 	export default {
 		components: {
 			Loading
@@ -269,6 +329,13 @@
 				replaceUploadError:false,
 				replaceStatus:false,
 				replaceFileBtnStatus:false,
+				delecteVisible:false,
+				deldecteFileID:"",
+				delecteLoading:false,
+				delectesLoading:false,
+				multipleSelection :[],
+				delectesVisible:false,
+				restaurants:[],
 				rowData: "",
 				height: "",
 				msg: [{
@@ -290,206 +357,7 @@
 						content: "批量搜索"
 					}
 				],
-				tableData3: [{
-						id: '001',
-						singName: "伤情",
-						singerName: '吉克隽逸',
-						yuyan: '国语',
-						movie: "原版MV",
-						localtion: "大陆",
-						geshi: "Mp4",
-						soundbanben: "消音",
-						qufeng: "影视金曲",
-						zhujiName: "我想和你唱",
-						company: "滚石纸片公司",
-						yuanchang: "1",
-						banchang: "2",
-						shangDate: "2016-09-21 08:50:08",
-						chaozhuo: "操作",
-						http: "http://221.228.226.15/13/h/j/x/o/hjxoorqntjapgioycqdqwivmtlkcwf/hd.yinyuetai.com/30B001630A6A9C1365CFA757556226F8.mp4?sc=ed447b74660550dd"
-					}, {
-						id: '002',
-						singName: "爱难脱身",
-						singerName: '陈坤',
-						yuyan: '国语',
-						movie: "原版MV",
-						localtion: "大陆",
-						geshi: "Mp4",
-						soundbanben: "消音",
-						qufeng: "影视金曲",
-						zhujiName: "我想和你唱",
-						company: "滚石纸片公司",
-						yuanchang: "1",
-						banchang: "2",
-						shangDate: "2016-09-21 08:50:08",
-						chaozhuo: "操作",
-						http: "http://220.170.49.104/13/y/d/n/e/ydneivsxieianwkqsfpeaxbprsjgcg/hd.yinyuetai.com/16F20163ECC5F81C9367B527EF1BC0C3.mp4?sc=df6b447bd6298560",
-
-					}, {
-						id: '003',
-						singName: "女儿国",
-						singerName: '李荣浩  张倩影',
-						yuyan: '国语',
-						movie: "原版MV",
-						localtion: "大陆",
-						geshi: "Mp4",
-						soundbanben: "消音",
-						qufeng: "影视金曲",
-						zhujiName: "我想和你唱",
-						company: "滚石纸片公司",
-						yuanchang: "1",
-						banchang: "2",
-						shangDate: "2016-09-21 08:50:08",
-						chaozhuo: "操作",
-						http: "http://113.105.248.47/2/g/o/a/g/goagwgdpujetwdrwivlemsucoprfvi/hd.yinyuetai.com/11EB016029869026BAD14572BE04FE5C.mp4?sc=77ddd3cf2d7d63e2",
-
-					},
-					{
-						id: '004',
-						singName: "爱如有",
-						singerName: '邓紫棋',
-						yuyan: '国语',
-						movie: "原版MV",
-						localtion: "大陆",
-						geshi: "Mp4",
-						soundbanben: "消音",
-						qufeng: "影视金曲",
-						zhujiName: "我想和你唱",
-						company: "滚石纸片公司",
-						yuanchang: "1",
-						banchang: "2",
-						shangDate: "2016-09-21 08:50:08",
-						chaozhuo: "操作",
-						http: "http://183.60.197.29/14/v/s/o/e/vsoefoytafultnuvxfwlkrmenthhtq/hd.yinyuetai.com/6026016444322A7E967FAD9273213C77.mp4?sc=d0109807442b6e58",
-
-					}, {
-						id: '005',
-						singName: "就算",
-						singerName: '张倩影',
-						yuyan: '国语',
-						movie: "原版MV",
-						localtion: "大陆",
-						geshi: "Mp4",
-						soundbanben: "消音",
-						qufeng: "影视金曲",
-						zhujiName: "我想和你唱",
-						company: "滚石纸片公司",
-						yuanchang: "1",
-						banchang: "2",
-						shangDate: "2016-09-21 08:50:08",
-						chaozhuo: "操作",
-						http: "http://112.253.22.165/29/x/m/k/p/xmkpmfvwbzazivbbtmbqotqnubzoyk/hd.yinyuetai.com/9FA30163B9591D6D764E93C2E8BB59F7.mp4?sc=455a8b3071224186",
-
-					}, {
-						id: '006',
-						singName: "Last Loue",
-						singerName: 'Rihwa',
-						yuyan: '国语',
-						movie: "原版MV",
-						localtion: "大陆",
-						geshi: "Mp4",
-						soundbanben: "消音",
-						qufeng: "影视金曲",
-						zhujiName: "我想和你唱",
-						company: "滚石纸片公司",
-						yuanchang: "1",
-						banchang: "2",
-						shangDate: "2016-09-21 08:50:08",
-						chaozhuo: "操作",
-						http: "http://221.228.226.17/8/i/q/m/i/iqmiplatftgbphqwprnatkwbfkmlsn/hc.yinyuetai.com/09AA013EB54C0C779AFE05BE8569D2C4.flv?sc=9197b2be34fb9caf&br=778&vid=665677&aid=24680&area=JP&vst=3",
-
-					}, {
-						id: '007',
-						singName: "名侦探柯南",
-						singerName: '不详',
-						yuyan: '国语',
-						movie: "原版MV",
-						localtion: "大陆",
-						geshi: "Mp4",
-						soundbanben: "消音",
-						qufeng: "影视金曲",
-						zhujiName: "我想和你唱",
-						company: "滚石纸片公司",
-						yuanchang: "1",
-						banchang: "2",
-						shangDate: "2016-09-21 08:50:08",
-						chaozhuo: "操作",
-						http: "http://183.60.197.32/1/j/z/c/s/jzcsjzyjpoyklskuvogehqlixdwzcr/hc.yinyuetai.com/7FF90154AF443F70EE5C5601F7E0CC40.flv?sc=de61c19ae1d95118",
-
-					}, {
-						id: '008',
-						singName: "Your Name",
-						singerName: '无',
-						yuyan: '国语',
-						movie: "原版MV",
-						localtion: "大陆",
-						geshi: "Mp4",
-						soundbanben: "消音",
-						qufeng: "影视金曲",
-						zhujiName: "我想和你唱",
-						company: "滚石纸片公司",
-						yuanchang: "1",
-						banchang: "2",
-						shangDate: "2016-09-21 08:50:08",
-						chaozhuo: "操作",
-						http: "http://221.228.226.18/11/y/w/o/s/ywoswlbdyvidclrvagebrxryjarbes/hd.yinyuetai.com/041301518B0F57187F54DDB9662920A1.flv?sc=58e2928eb8199eec",
-
-					}, {
-						id: '009',
-						singName: "复仇者联盟3",
-						singerName: '无',
-						yuyan: '国语',
-						movie: "原版MV",
-						localtion: "大陆",
-						geshi: "Mp4",
-						soundbanben: "消音",
-						qufeng: "影视金曲",
-						zhujiName: "我想和你唱",
-						company: "滚石纸片公司",
-						yuanchang: "1",
-						banchang: "2",
-						shangDate: "2016-09-21 08:50:08",
-						chaozhuo: "操作",
-						http: "http://221.228.226.18/15/w/u/h/l/wuhlluoxtnyndowkjtdhngfatrqqyy/hd.yinyuetai.com/BEC901600BDD53646A51810F7455D05D.mp4?sc=28a7e33a801fdae8",
-
-					}, {
-						id: '010',
-						singName: "无",
-						singerName: '无',
-						yuyan: '韩语',
-						movie: "原版MV",
-						localtion: "大陆",
-						geshi: "Mp4",
-						soundbanben: "消音",
-						qufeng: "影视金曲",
-						zhujiName: "我想和你唱",
-						company: "滚石纸片公司",
-						yuanchang: "1",
-						banchang: "2",
-						shangDate: "2016-09-21 08:50:08",
-						chaozhuo: "操作",
-						http: "http://221.228.226.23/14/t/r/a/t/trathvesenklkzwadbkuyzvbxowxbq/hd.yinyuetai.com/B63001614131B09BEBE7174F7363F96F.mp4?sc=8bd0d4a3854b24d0",
-
-					}, {
-						id: '011',
-						singName: "舞曲",
-						singerName: '无',
-						yuyan: '国语',
-						movie: "原版MV",
-						localtion: "大陆",
-						geshi: "Mp4",
-						soundbanben: "消音",
-						qufeng: "影视金曲",
-						zhujiName: "我想和你唱",
-						company: "滚石纸片公司",
-						yuanchang: "1",
-						banchang: "2",
-						shangDate: "2016-09-21 08:50:08",
-						chaozhuo: "操作",
-						http: "http://183.60.197.32/7/a/n/c/c/anccjutvfiwumvvdmtofbcfobazfvr/hd.yinyuetai.com/6AE7015827D218E93729EFF12BF5347B.flv?sc=ea73200e91bab4d4"
-
-					}
-				],
+				tableData3: [],
 				multipleSelection: [],
 				videoData: []
 			}
@@ -670,35 +538,77 @@
             },
             
             
-         //  删除文件         
+         //  单个删除文件         
             
             deleteFile(id){
-        	 this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-		          confirmButtonText: '确定',
-		          cancelButtonText: '取消',
-		          type: 'warning'
-		        }).then(() => {
-		          this.$notify({				          
-				          message: '删除成功',
-				          type: 'success',
-				          offset: 120,
-   				          duration:0,
-				        });	   
-		        }).catch(() => {
-		          this.$notify({				          
-				          message: '删除失败',
-				          type: 'warning',
-				          offset: 120,
-   				          duration:2000,
-				        });	            
-		        });
+           this.deldecteFileID = id
+           this.delecteVisible = true
 
             },
             
-            
-            
-            
-            
+            delecteBtn(){
+            var arr = this.tableData3
+            var ID = this.deldecteFileID
+            var _this = this
+            this.delecteLoading = true                                
+            setTimeout(function(){           	
+                arr.map(function(item,index){
+                	if(item.id == ID){
+                		arr.splice(index,1)
+                	}
+                }) 
+            	_this.delecteLoading = false
+            	_this.delecteVisible = false
+            	_this.$notify({				          
+				          message: '删除成功！',
+				          type: 'success',
+				          offset: 120,
+ 				          duration:2000,
+				        });	
+               },1000)
+            },
+            //批量删除文件
+            delectesBtn(){
+				var _this = this
+				var arr = this.tableData3
+				var arr1 = this.multipleSelection
+				this.delectesLoading = true
+				setTimeout(function(){
+					for(var i = 0 ; i<arr1.length; i++){
+					var id = arr1[i].id
+					arr.map(function(item,index){
+						if(item.id == id){
+							arr.splice(index,1)
+							return
+						}
+					})
+				}
+					_this.delectesLoading = false
+					_this.delectesVisible = false
+            	    _this.$notify({				          
+				          message: '删除成功！',
+				          type: 'success',
+				          offset: 120,
+ 				          duration:2000,
+				        });	
+				},1000)
+							
+			},
+            //表单的模糊查询
+            querySearch(queryString, callback) {
+		        var restaurants = this.restaurants;
+		        var results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants;
+		        // 调用 callback 返回建议列表的数据
+		        callback(results);
+		      },
+           createFilter(queryString) {
+             return (restaurant) => {
+             return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+		        };
+		      },
+            handleSelect(item){
+            	 console.log(item);
+            },
             
             
             
@@ -716,11 +626,34 @@
 				ipcRenderer.send('childWindow')
 
 			},
+			handleSelectionChange(val) {
+				this.multipleSelection = val;
+                console.log(val)
+                if(this.multipleSelection.length>0){
+                	Bus.$emit('val', "1")
+                }else{
+                	Bus.$emit('val', "0")
+                }
+           },
 			handleSizeChange(val) {
+				var _this = this
 				console.log(`每页 ${val} 条`);
+				this.tableData3 = []
+				this.loading = true
+				setTimeout(function(){
+				
+				_this.detail()
+				},2000)
 			},
 			handleCurrentChange(val) {
 				console.log(`当前页: ${val}`);
+				var _this = this				
+				this.tableData3 = []
+				this.loading = true
+				setTimeout(function(){
+				
+				_this.detail()
+				},2000)
 			},
 			playVideo() {
 				this.$router.push('/LibraryManagement/VideoPlayback')
@@ -786,6 +719,29 @@
 				obj1.id = arr[0].id
 				console.log(obj1)
 				localStorage.setItem('videoPlayList', JSON.stringify(obj1))
+			},
+			detail(){		
+				var _this = this
+				this.loading = true
+				axios.get('http://localhost:8888/data').then(function(response){
+					_this.loading = false
+					_this.tableData3 = response.data
+					console.log(response.data);//请求正确时执行的代码
+					
+				}).catch(function (response){
+					console.log(response);//发生错误时执行的代码
+				})
+			},
+			loadAll(){
+				var _this = this
+				axios.get('http://localhost:8888/data1').then(function(response){
+					
+					_this.restaurants = response.data
+					console.log(response.data);//请求正确时执行的代码
+					
+				}).catch(function (response){
+					console.log(response);//发生错误时执行的代码
+				})
 			}
 
 		},
@@ -793,6 +749,8 @@
 			var _this = this
 
 			this.height = "height:" + (document.body.clientHeight - 180) + "px"
+			this.detail()
+			this.loadAll()
 			window.onresize = function() {
 				console.log(document.body.clientHeight)
 				setTimeout(function() {
@@ -812,7 +770,15 @@
 					menu.style.width = 0 + "px"
 				}
 			}
-
+			
+			Bus.$on("delected",function(){
+				_this.delectesVisible = true				
+			})
+			
+			Bus.$on("exportFile",function(){				
+				console.log(_this.multipleSelection)
+			})
+       
 		}
 	}
 </script>
@@ -896,6 +862,17 @@
 	}
 	#LibraryManagement .PLSOSU .uploadFileClose:hover{
 		color: #409eff;
+	}
+	#LibraryManagement .DELECT .el-dialog__header .el-dialog__title{
+		font-size: 16px;
+	}
+	#LibraryManagement .DELECT .el-dialog__header{
+		display: flex;
+		align-items: center;		
+	}
+	#LibraryManagement .DELECT .el-dialog__body{
+		text-align: left;
+		
 	}
 	#LibraryManagement .lastBlock {
 		display: flex;

@@ -50,7 +50,7 @@
 				<i class="iconfont icon-zhongbo videobofang" style="display: flex;flex-direction: column;margin-right: 20px;color: white;"></i>
 				<i class="iconfont icon-xiazai videobofang"  style="display: flex;flex-direction: column;margin-left: 20px;color: white;"></i>
 			</span>
-			<video id="video" class="video1" preload="load"  @click.stop.self="foo3">				
+			<video id="video" class="video1" :class="{video2:!flage}" preload="load"  @click.stop.self="foo3">				
 		        <source :src="src" />		   		    
 	        </video>
 		</div>	
@@ -381,7 +381,7 @@ export default {
 	                         	     clearTimeout(_this.Movetime);
 	                         	     _this.Movetime = setTimeout(function(){
 	                         	        _this.flage = false
-	                         	    },1000)	
+	                         	    },2500)	
                          	    }
                      	       
                          	                          	    
@@ -484,6 +484,9 @@ export default {
 	.video1{
 		width: 100%;
 		height: 100%;
+	}
+	.video2{
+		cursor: none;
 	}
 	video{
 		margin: 0;

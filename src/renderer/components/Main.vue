@@ -52,13 +52,17 @@
                                 	
                                 	描述：定制页面显示
                                 -->
-	    				   	<span class="headBtn_stop" v-show="pageBtn2">
-	    				   	 	<i class="el-icon-delete el-icon-stop1"></i>
-	    				   	 	<i class="headBtn_stop_font">导出</i>
+									<span :class="{headBtn_stop1:selectFlage1, headBtn_stop:!selectFlage1}" v-show="pageBtn2" @click="UploadFileOK">
+										<i class="el-icon-upload el-icon-stop1"></i>
+										<i class="headBtn_stop_font">确认上传</i>
+									</span>						
+	    				   	<span :class="{headBtn_stop1:selectFlage1, headBtn_stop:!selectFlage1}" v-show="pageBtn2" @click="makeFile">
+	    				   	 	<i class="el-icon-printer el-icon-stop1"></i>
+	    				   	 	<i class="headBtn_stop_font">制作</i>
 	    				   	 </span>
-	    				   	  <span class="headBtn_stop" v-show="pageBtn2">
-	    				   	 	<i class="el-icon-delete el-icon-stop1"></i>
-	    				   	 	<i class="headBtn_stop_font">删除</i>
+	    				   	  <span :class="{headBtn_stop1:selectFlage1, headBtn_stop:!selectFlage1}" v-show="pageBtn2" @click="exportFile1">
+	    				   	 	<i class="el-icon-tickets el-icon-stop1"></i>
+	    				   	 	<i class="headBtn_stop_font">导出</i>
 	    				   	 </span>
 	    				   	 <!--
                                 	
@@ -183,6 +187,7 @@
 				flage:false,
 				screenFlage:true,
 				selectFlage:false,
+				selectFlage1:false,
 				msg:[
 				 {content:'缩小'},
 				 {content:'放大'},
@@ -283,7 +288,29 @@
 			},
 			exportFile(){
 				Bus.$emit("exportFile")
-			}
+			},
+			
+			
+			
+			
+			UploadFileOK(){
+				if(this.selectFlage1){
+					Bus.$emit('UploadFileOK')
+				}
+				
+			},
+			makeFile(){
+				if(this.selectFlage1){
+				  Bus.$emit('makeFile')
+				}
+			},
+			exportFile1(){
+				if(this.selectFlage1){
+				  Bus.$emit("exportFile1")
+				}
+			},
+			
+			
 			
 			
 		},
@@ -307,6 +334,13 @@
 	        	  	 _this.selectFlage = false
 	        	  }
 	        })
+				Bus.$on('val1',function(data){
+						if(data == '1'){
+								_this.selectFlage1 = true
+						}else{
+							_this.selectFlage1 = false
+						}
+				})
 	    }
 		
 	}

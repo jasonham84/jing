@@ -420,7 +420,7 @@ export default {
 		    this.detail();
 		    ipcRenderer.on("song",function(event,num){
 		    	
-		    _this.data = JSON.parse(localStorage.getItem('videoPlayList')).content
+		  _this.data = JSON.parse(localStorage.getItem('videoPlayList')).content
 			_this.currentNum = JSON.parse(localStorage.getItem('videoPlayList')).currentID
 			_this.detail();
 			_this.myVideo.load()

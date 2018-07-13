@@ -68,9 +68,10 @@
                                 	
                                 	描述：歌曲导入页面显示
                                 -->
-	    				   	<span class="headBtn_stop" v-show="pageBtn3">
+	    				   	<span class="headBtn_stop1 fileinput-button" v-show="pageBtn3">
 	    				   	 	<i class="el-icon-delete el-icon-stop1"></i>
 	    				   	 	<i class="headBtn_stop_font">歌曲导出</i>
+										<input type="file" />
 	    				   	 </span>
 	    				   	  <span class="headBtn_stop" v-show="pageBtn3">
 	    				   	 	<i class="el-icon-delete el-icon-stop1"></i>
@@ -370,7 +371,21 @@ body{
 </style>
 
 <style scoped="scoped">
-	
+	  .fileinput-button {
+            position: relative;
+            display: inline-block;
+            overflow: hidden;
+        }
+
+        .fileinput-button input{
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            opacity: 0;
+						height: 30px;
+						cursor: pointer;
+            -ms-filter: 'alpha(opacity=0)';
+        }
 	#Main{
 		height: 100vh;
 		overflow: hidden;

@@ -1,0 +1,1145 @@
+[
+	{
+		"id": 1,
+		"name": "KTV管理",
+		"codename": "ktv_database",
+		"parent_id": null,
+		"is_selected": false,
+		"childs": [
+			{
+				"id": 2,
+				"name": "KTV新增",
+				"codename": "ktv_add",
+				"parent_id": 1,
+				"is_selected": false,
+				"childs": [
+					{
+						"id": 3,
+						"name": "新增KTV信息",
+						"codename": "ktv_create",
+						"parent_id": 2,
+						"is_selected": true,
+						"childs": []
+					}
+				]
+			}, {
+				"id": 4,
+				"name": "KTV信息修改",
+				"codename": "ktv_info_update",
+				"parent_id": 1,
+				"is_selected": false,
+				"childs": [
+					{
+						"id": 5,
+						"name": "KTV列表查询",
+						"codename": "ktv_list_search_for_update",
+						"parent_id": 4,
+						"is_selected": false,
+						"childs": []
+					}, {
+						"id": 6,
+						"name": "基本信息修改",
+						"codename": "ktv_base_info_update",
+						"parent_id": 4,
+						"is_selected": false,
+						"childs": []
+					}, {
+						"id": 7,
+						"name": "补充信息修改",
+						"codename": "ktv_extend_info_update",
+						"parent_id": 4,
+						"is_selected": false,
+						"childs": []
+					}, {
+						"id": 8,
+						"name": "实施信息修改",
+						"codename": "ktv_done_info_update",
+						"parent_id": 4,
+						"is_selected": false,
+						"childs": []
+					}, {
+						"id": 9,
+						"name": "播放信息修改",
+						"codename": "ktv_play_info_update",
+						"parent_id": 4,
+						"is_selected": false,
+						"childs": []
+					}, {
+						"id": 10,
+						"name": "活动信息修改",
+						"codename": "ktv_activity_info_update",
+						"parent_id": 4,
+						"is_selected": false,
+						"childs": []
+					}, {
+						"id": 11,
+						"name": "二维码修改",
+						"codename": "ktv_code_info_update",
+						"parent_id": 4,
+						"is_selected": false,
+						"childs": []
+					}, {
+						"id": 12,
+						"name": "签约信息修改",
+						"codename": "ktv_sign_info_update",
+						"parent_id": 4,
+						"is_selected": false,
+						"childs": []
+					}, {
+						"id": 13,
+						"name": "商家账号信息修改",
+						"codename": "ktv_account_info_update",
+						"parent_id": 4,
+						"is_selected": false,
+						"childs": []
+					}, {
+						"id": 160,
+						"name": "补充信息修改审批",
+						"codename": "ktv_extend_info_approval",
+						"parent_id": 4,
+						"is_selected": true,
+						"childs": []
+					}
+				]
+			}, {
+				"id": 14,
+				"name": "KTV信息查询",
+				"codename": "ktv_info_search",
+				"parent_id": 1,
+				"is_selected": false,
+				"childs": [
+					{
+						"id": 15,
+						"name": "KTV列表查询",
+						"codename": "ktv_list_search",
+						"parent_id": 14,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 16,
+						"name": "基本信息查询",
+						"codename": "ktv_base_info_search",
+						"parent_id": 14,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 17,
+						"name": "数据下载",
+						"codename": "ktv_data_download",
+						"parent_id": 14,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 18,
+						"name": "补充信息查询",
+						"codename": "ktv_extend_info_search",
+						"parent_id": 14,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 19,
+						"name": "实施信息查询",
+						"codename": "ktv_done_info_search",
+						"parent_id": 14,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 20,
+						"name": "播放信息查询",
+						"codename": "ktv_play_info_search",
+						"parent_id": 14,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 21,
+						"name": "活动信息查询",
+						"codename": "ktv_activity_info_search",
+						"parent_id": 14,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 22,
+						"name": "二维码查询",
+						"codename": "ktv_code_info_search",
+						"parent_id": 14,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 23,
+						"name": "签约信息查询",
+						"codename": "ktv_sign_info_search",
+						"parent_id": 14,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 24,
+						"name": "商家账号信息查询",
+						"codename": "ktv_account_info_search",
+						"parent_id": 14,
+						"is_selected": true,
+						"childs": []
+					}
+				]
+			}, {
+				"id": 25,
+				"name": "VOD信息管理",
+				"codename": "vod_info_manage",
+				"parent_id": 1,
+				"is_selected": false,
+				"childs": [
+					{
+						"id": 26,
+						"name": "新增VOD信息",
+						"codename": "vod_info_create",
+						"parent_id": 25,
+						"is_selected": false,
+						"childs": []
+					}, {
+						"id": 27,
+						"name": "修改VOD信息",
+						"codename": "vod_info_update",
+						"parent_id": 25,
+						"is_selected": false,
+						"childs": []
+					}, {
+						"id": 28,
+						"name": "查看VOD信息",
+						"codename": "vod_info_view",
+						"parent_id": 25,
+						"is_selected": false,
+						"childs": []
+					}, {
+						"id": 29,
+						"name": "上传VOD信息",
+						"codename": "vod_material_info_upload",
+						"parent_id": 25,
+						"is_selected": true,
+						"childs": []
+					}
+				]
+			}
+		]
+	}, {
+		"id": 32,
+		"name": "市场管理",
+		"codename": "market_manage",
+		"parent_id": null,
+		"is_selected": false,
+		"childs": [
+			{
+				"id": 33,
+				"name": "商业合作信息查询",
+				"codename": "business_cooperation_information_search_menu",
+				"parent_id": 32,
+				"is_selected": false,
+				"childs": [
+					{
+						"id": 34,
+						"name": "信息查询",
+						"codename": "business_cooperation_information_search",
+						"parent_id": 33,
+						"is_selected": true,
+						"childs": []
+					}
+				]
+			}, {
+				"id": 35,
+				"name": "合同创建",
+				"codename": "contract_create_menu",
+				"parent_id": 32,
+				"is_selected": false,
+				"childs": [
+					{
+						"id": 36,
+						"name": "合同创建",
+						"codename": "contract_create",
+						"parent_id": 35,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 37,
+						"name": "合同创建记录查询",
+						"codename": "contract_create_record_search",
+						"parent_id": 35,
+						"is_selected": true,
+						"childs": []
+					}
+				]
+			}, {
+				"id": 38,
+				"name": "合同领用",
+				"codename": "contract_use_menu",
+				"parent_id": 32,
+				"is_selected": false,
+				"childs": [
+					{
+						"id": 39,
+						"name": "合同领用申请",
+						"codename": "contract_use_apply",
+						"parent_id": 38,
+						"is_selected": false,
+						"childs": []
+					}, {
+						"id": 40,
+						"name": "合同领用查询",
+						"codename": "contract_use_search",
+						"parent_id": 38,
+						"is_selected": false,
+						"childs": []
+					}, {
+						"id": 41,
+						"name": "合同领用审批",
+						"codename": "contract_use_approve",
+						"parent_id": 38,
+						"is_selected": false,
+						"childs": []
+					}, {
+						"id": 42,
+						"name": "快递发货",
+						"codename": "contract_delivery",
+						"parent_id": 38,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 43,
+						"name": "收获确认",
+						"codename": "contract_delivery_confirm",
+						"parent_id": 38,
+						"is_selected": true,
+						"childs": []
+					}
+				]
+			}, {
+				"id": 44,
+				"name": "合同报废",
+				"codename": "contract_scrap_menu",
+				"parent_id": 32,
+				"is_selected": false,
+				"childs": [
+					{
+						"id": 45,
+						"name": "合同报废申请",
+						"codename": "contract_scrap_apply",
+						"parent_id": 44,
+						"is_selected": false,
+						"childs": []
+					}, {
+						"id": 46,
+						"name": "合同报废查询",
+						"codename": "contract_scrap_search",
+						"parent_id": 44,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 47,
+						"name": "合同报废审批",
+						"codename": "contract_scrap_approve",
+						"parent_id": 44,
+						"is_selected": false,
+						"childs": []
+					}, {
+						"id": 48,
+						"name": "快递发货",
+						"codename": "contract_scrap_delivery",
+						"parent_id": 44,
+						"is_selected": false,
+						"childs": []
+					}, {
+						"id": 49,
+						"name": "收获确认",
+						"codename": "contract_scrap_delivery_confirm",
+						"parent_id": 44,
+						"is_selected": true,
+						"childs": []
+					}
+				]
+			}, {
+				"id": 50,
+				"name": "合同批量报废",
+				"codename": "batch_contract_scrap_menu",
+				"parent_id": 32,
+				"is_selected": false,
+				"childs": [
+					{
+						"id": 51,
+						"name": "批量报废申请",
+						"codename": "batch_contract_scrap_apply",
+						"parent_id": 50,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 52,
+						"name": "批量报废查询",
+						"codename": "batch_contract_scrap_search",
+						"parent_id": 50,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 53,
+						"name": "批量报废审批",
+						"codename": "batch_contract_scrap_approve",
+						"parent_id": 50,
+						"is_selected": true,
+						"childs": []
+					}
+				]
+			}, {
+				"id": 54,
+				"name": "合同库存报表",
+				"codename": "contract_stock_report",
+				"parent_id": 32,
+				"is_selected": false,
+				"childs": [
+					{
+						"id": 55,
+						"name": "信息查询",
+						"codename": "contract_stock_report_search",
+						"parent_id": 54,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 56,
+						"name": "数据下载",
+						"codename": "contract_stock_report_download",
+						"parent_id": 54,
+						"is_selected": true,
+						"childs": []
+					}
+				]
+			}
+		]
+	}, {
+		"id": 57,
+		"name": "运营管理",
+		"codename": "activite_operation",
+		"parent_id": null,
+		"is_selected": false,
+		"childs": [
+			{
+				"id": 58,
+				"name": "版权金设置",
+				"codename": "copyright_gold_setting",
+				"parent_id": 57,
+				"is_selected": false,
+				"childs": [
+					{
+						"id": 59,
+						"name": "信息查询",
+						"codename": "copyright_gold_search",
+						"parent_id": 58,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 60,
+						"name": "单店规则设置",
+						"codename": "one_store_rule_setting",
+						"parent_id": 58,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 61,
+						"name": "批量规则设置",
+						"codename": "many_store_rule_setting",
+						"parent_id": 58,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 62,
+						"name": "特殊规则删除",
+						"codename": "special_gold_setting",
+						"parent_id": 58,
+						"is_selected": true,
+						"childs": []
+					}
+				]
+			}, {
+				"id": 63,
+				"name": "卡劵管理",
+				"codename": "card_coupons_manage",
+				"parent_id": 57,
+				"is_selected": false,
+				"childs": [
+					{
+						"id": 64,
+						"name": "卡劵查询",
+						"codename": "card_coupons_search",
+						"parent_id": 63,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 65,
+						"name": "卡劵详情查看",
+						"codename": "card_coupons_detail_info",
+						"parent_id": 63,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 66,
+						"name": "卡劵删除",
+						"codename": "card_coupons_delete",
+						"parent_id": 63,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 67,
+						"name": "卡劵新建",
+						"codename": "card_coupons_create",
+						"parent_id": 63,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 142,
+						"name": "卡劵编辑",
+						"codename": "card_coupons_rewrite",
+						"parent_id": 63,
+						"is_selected": false,
+						"childs": []
+					}
+				]
+			}, {
+				"id": 68,
+				"name": "卡劵单店管理",
+				"codename": "card_coupons_one_store_manage",
+				"parent_id": 57,
+				"is_selected": false,
+				"childs": [
+					{
+						"id": 69,
+						"name": "卡劵单店查询",
+						"codename": "card_coupons_one_store_search",
+						"parent_id": 68,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 70,
+						"name": "卡劵单店暂停",
+						"codename": "card_coupons_one_store_pause",
+						"parent_id": 68,
+						"is_selected": true,
+						"childs": []
+					}
+				]
+			}, {
+				"id": 71,
+				"name": "微信模板设置",
+				"codename": "activite_template_setting",
+				"parent_id": 57,
+				"is_selected": false,
+				"childs": [
+					{
+						"id": 72,
+						"name": "模板查询",
+						"codename": "activite_template_search",
+						"parent_id": 71,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 73,
+						"name": "模板新增",
+						"codename": "activite_template_create",
+						"parent_id": 71,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 74,
+						"name": "模板修改",
+						"codename": "activite_template_update",
+						"parent_id": 71,
+						"is_selected": true,
+						"childs": []
+					}
+				]
+			}, {
+				"id": 79,
+				"name": "活动计划申请",
+				"codename": "activite_plan_apply_menu",
+				"parent_id": 57,
+				"is_selected": false,
+				"childs": [
+					{
+						"id": 80,
+						"name": "活动计划申请",
+						"codename": "activite_plan_apply",
+						"parent_id": 79,
+						"is_selected": true,
+						"childs": []
+					}
+				]
+			}, {
+				"id": 81,
+				"name": "活动计划管理",
+				"codename": "activite_plan_manage",
+				"parent_id": 57,
+				"is_selected": false,
+				"childs": [
+					{
+						"id": 82,
+						"name": "计划查询",
+						"codename": "activite_plan_search",
+						"parent_id": 81,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 83,
+						"name": "计划详情查看",
+						"codename": "activite_plan_detail_info",
+						"parent_id": 81,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 84,
+						"name": "活动发布",
+						"codename": "activite_public",
+						"parent_id": 81,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 85,
+						"name": "活动报名",
+						"codename": "activite_signup2",
+						"parent_id": 81,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 86,
+						"name": "活动停止",
+						"codename": "activite_stop",
+						"parent_id": 81,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 87,
+						"name": "活动查询",
+						"codename": "activite_search",
+						"parent_id": 81,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 88,
+						"name": "报名提交",
+						"codename": "activite_signup",
+						"parent_id": 81,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 89,
+						"name": "活动审批",
+						"codename": "activite_approve",
+						"parent_id": 81,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 143,
+						"name": "活动运营审批",
+						"codename": "activite_operator_approve",
+						"parent_id": 81,
+						"is_selected": false,
+						"childs": []
+					}, {
+						"id": 144,
+						"name": "活动编辑",
+						"codename": "activite_rewrite",
+						"parent_id": 81,
+						"is_selected": false,
+						"childs": []
+					}
+				]
+			}, {
+				"id": 90,
+				"name": "卡劵补发",
+				"codename": "card_coupons_reissue_menu",
+				"parent_id": 57,
+				"is_selected": false,
+				"childs": [
+					{
+						"id": 91,
+						"name": "订单查询",
+						"codename": "card_coupons_order_search",
+						"parent_id": 90,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 92,
+						"name": "卡劵补发",
+						"codename": "card_coupons_reissue",
+						"parent_id": 90,
+						"is_selected": true,
+						"childs": []
+					}
+				]
+			}, {
+				"id": 93,
+				"name": "卡劵PSI查询",
+				"codename": "card_coupons_PSI_search_menu",
+				"parent_id": 57,
+				"is_selected": false,
+				"childs": [
+					{
+						"id": 94,
+						"name": "信息查询",
+						"codename": "card_coupons_PSI_search",
+						"parent_id": 93,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 95,
+						"name": "数据下载",
+						"codename": "card_coupons_PSI_data_download",
+						"parent_id": 93,
+						"is_selected": true,
+						"childs": []
+					}
+				]
+			}, {
+				"id": 96,
+				"name": "订单卡劵流水查询",
+				"codename": "order_card_coupons_record_search_menu",
+				"parent_id": 57,
+				"is_selected": false,
+				"childs": [
+					{
+						"id": 97,
+						"name": "信息查询",
+						"codename": "order_card_coupons_record_search",
+						"parent_id": 96,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 98,
+						"name": "数据下载",
+						"codename": "order_card_coupons_record_data_download",
+						"parent_id": 96,
+						"is_selected": true,
+						"childs": []
+					}
+				]
+			}, {
+				"id": 99,
+				"name": "活动管理",
+				"codename": "activities_manage_menu",
+				"parent_id": 57,
+				"is_selected": false,
+				"childs": [
+					{
+						"id": 100,
+						"name": "活动模板管理",
+						"codename": "activities_template_manage",
+						"parent_id": 99,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 101,
+						"name": "活动创建",
+						"codename": "activities_create",
+						"parent_id": 99,
+						"is_selected": true,
+						"childs": []
+					}
+				]
+			}, {
+				"id": 102,
+				"name": "卡券模板管理",
+				"codename": "card_template_manage_menu",
+				"parent_id": 57,
+				"is_selected": false,
+				"childs": [
+					{
+						"id": 103,
+						"name": "卡券模板管理",
+						"codename": "card_template_manage",
+						"parent_id": 102,
+						"is_selected": true,
+						"childs": []
+					}
+				]
+			}, {
+				"id": 146,
+				"name": "运营统计",
+				"codename": "data_statistics",
+				"parent_id": 57,
+				"is_selected": false,
+				"childs": [
+					{
+						"id": 147,
+						"name": "运营数据统计",
+						"codename": "operation_statistics",
+						"parent_id": 146,
+						"is_selected": false,
+						"childs": []
+					}, {
+						"id": 148,
+						"name": "活动数据统计",
+						"codename": "activities_statistics",
+						"parent_id": 146,
+						"is_selected": false,
+						"childs": []
+					}
+				]
+			}
+		]
+	}, {
+		"id": 104,
+		"name": "曲库自查",
+		"codename": "song_stock_check_menu",
+		"parent_id": null,
+		"is_selected": false,
+		"childs": [
+			{
+				"id": 105,
+				"name": "自查设置",
+				"codename": "song_stock_check_setting",
+				"parent_id": 104,
+				"is_selected": false,
+				"childs": [
+					{
+						"id": 106,
+						"name": "规则增加",
+						"codename": "song_stock_rule_create",
+						"parent_id": 105,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 107,
+						"name": "规则删除",
+						"codename": "song_stock_rule_delete",
+						"parent_id": 105,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 108,
+						"name": "筛查申请",
+						"codename": "song_stock_rule_apply",
+						"parent_id": 105,
+						"is_selected": true,
+						"childs": []
+					}
+				]
+			}, {
+				"id": 111,
+				"name": "扫描记录查询",
+				"codename": "song_stock_cr_search_menu",
+				"parent_id": 104,
+				"is_selected": false,
+				"childs": [
+					{
+						"id": 112,
+						"name": "信息查询",
+						"codename": "song_stock_cr_search",
+						"parent_id": 111,
+						"is_selected": true,
+						"childs": []
+					}
+				]
+			}
+		]
+	}, {
+		"id": 113,
+		"name": "财务数据",
+		"codename": "finance_data",
+		"parent_id": null,
+		"is_selected": false,
+		"childs": [
+			{
+				"id": 114,
+				"name": "科目设置",
+				"codename": "subject_setting",
+				"parent_id": 113,
+				"is_selected": false,
+				"childs": [
+					{
+						"id": 115,
+						"name": "科目查询",
+						"codename": "subject_search",
+						"parent_id": 114,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 116,
+						"name": "科目新增",
+						"codename": "subject_create",
+						"parent_id": 114,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 117,
+						"name": "科目删除",
+						"codename": "subject_delete",
+						"parent_id": 114,
+						"is_selected": true,
+						"childs": []
+					}
+				]
+			}, {
+				"id": 118,
+				"name": "科目比例设置",
+				"codename": "subject_scale_setting_menu",
+				"parent_id": 113,
+				"is_selected": false,
+				"childs": [
+					{
+						"id": 119,
+						"name": "比例查询",
+						"codename": "subject_scale_search",
+						"parent_id": 118,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 120,
+						"name": "比例设置",
+						"codename": "subject_scale_setting",
+						"parent_id": 118,
+						"is_selected": true,
+						"childs": []
+					}
+				]
+			}, {
+				"id": 121,
+				"name": "科目比例查询",
+				"codename": "subject_scale_search_menu",
+				"parent_id": 113,
+				"is_selected": false,
+				"childs": [
+					{
+						"id": 122,
+						"name": "比例查询",
+						"codename": "subject_scale_search2",
+						"parent_id": 121,
+						"is_selected": true,
+						"childs": []
+					}
+				]
+			}, {
+				"id": 123,
+				"name": "收入分配计算器",
+				"codename": "income_distribution_calculator",
+				"parent_id": 113,
+				"is_selected": false,
+				"childs": [
+					{
+						"id": 124,
+						"name": "数据计算",
+						"codename": "income_data_calculation",
+						"parent_id": 123,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 125,
+						"name": "数据下载",
+						"codename": "income_distribution_data_download",
+						"parent_id": 123,
+						"is_selected": true,
+						"childs": []
+					}
+				]
+			}, {
+				"id": 126,
+				"name": "收入结算报表",
+				"codename": "income_report",
+				"parent_id": 113,
+				"is_selected": false,
+				"childs": [
+					{
+						"id": 127,
+						"name": "信息查询",
+						"codename": "income_data_search",
+						"parent_id": 126,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 128,
+						"name": "数据下载",
+						"codename": "income_data_download",
+						"parent_id": 126,
+						"is_selected": true,
+						"childs": []
+					}
+				]
+			}
+		]
+	}, {
+		"id": 129,
+		"name": "设置",
+		"codename": "system_setting",
+		"parent_id": null,
+		"is_selected": false,
+		"childs": [
+			{
+				"id": 130,
+				"name": "组织权限管理",
+				"codename": "station_manage",
+				"parent_id": 129,
+				"is_selected": false,
+				"childs": [
+					{
+						"id": 131,
+						"name": "岗位新增",
+						"codename": "station_create",
+						"parent_id": 130,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 132,
+						"name": "岗位编辑",
+						"codename": "station_edit",
+						"parent_id": 130,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 133,
+						"name": "权限设置",
+						"codename": "cperm_setting",
+						"parent_id": 130,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 134,
+						"name": "权限查询",
+						"codename": "cperm_search",
+						"parent_id": 130,
+						"is_selected": true,
+						"childs": []
+					}
+				]
+			}, {
+				"id": 135,
+				"name": "用户管理",
+				"codename": "user_manage",
+				"parent_id": 129,
+				"is_selected": false,
+				"childs": [
+					{
+						"id": 136,
+						"name": "用户新增",
+						"codename": "user_create",
+						"parent_id": 135,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 137,
+						"name": "用户编辑",
+						"codename": "user_edit",
+						"parent_id": 135,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 138,
+						"name": "权限修改",
+						"codename": "cperm_update",
+						"parent_id": 135,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 139,
+						"name": "信息查询",
+						"codename": "user_info_search",
+						"parent_id": 135,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 149,
+						"name": "密码修改",
+						"codename": "admin_update_password",
+						"parent_id": 135,
+						"is_selected": false,
+						"childs": []
+					}
+				]
+			}
+		]
+	}, {
+		"id": 145,
+		"name": "首页统计",
+		"codename": "home_page_statistics",
+		"parent_id": null,
+		"is_selected": true,
+		"childs": []
+	}, {
+		"id": 151,
+		"name": "工程管理",
+		"codename": "project_manager",
+		"parent_id": null,
+		"is_selected": false,
+		"childs": [
+			{
+				"id": 152,
+				"name": "版权和监管",
+				"codename": "project_and_manager",
+				"parent_id": 151,
+				"is_selected": false,
+				"childs": [
+					{
+						"id": 153,
+						"name": "全国监管",
+						"codename": "nationwide_manager",
+						"parent_id": 152,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 154,
+						"name": "单店监管",
+						"codename": "single_manager",
+						"parent_id": 152,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 155,
+						"name": "包厢监管",
+						"codename": "room_manager",
+						"parent_id": 152,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 156,
+						"name": "实时监管",
+						"codename": "real_time_manager",
+						"parent_id": 152,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 157,
+						"name": "门店预警管理",
+						"codename": "store_warn_manager",
+						"parent_id": 152,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 158,
+						"name": "警报条件配置",
+						"codename": "warn_condition_config",
+						"parent_id": 152,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 159,
+						"name": "单日门店监管",
+						"codename": "single_day_store_manager",
+						"parent_id": 152,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 161,
+						"name": "反馈处理结果",
+						"codename": "processed_results_back",
+						"parent_id": 152,
+						"is_selected": true,
+						"childs": []
+					}, {
+						"id": 162,
+						"name": "查询异常记录",
+						"codename": "search_unusual_record",
+						"parent_id": 152,
+						"is_selected": true,
+						"childs": []
+					}
+				]
+			}
+		]
+	}, {
+		"id": 150,
+		"name": "修改密码",
+		"codename": "update_manager_password",
+		"parent_id": null,
+		"is_selected": true,
+		"childs": []
+	}
+]

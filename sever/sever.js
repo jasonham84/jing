@@ -35,6 +35,18 @@ obj = {
 				var str = data   
 							res.end(str);
 		})
+	},
+	"video":function(req,res){
+		var post = '';   
+		 req.on('data', function(chunk){  
+		 console.log(chunk)
+        post += chunk;
+    });
+		req.on('end', function(){    
+        
+        res.end("1");
+    });
+		
 	}
 }
 

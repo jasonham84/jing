@@ -488,7 +488,7 @@
             	this.replaceStatus = false
 				
 			},
-            replaceProgress(event, file, fileList){
+      replaceProgress(event, file, fileList){
             	var percentage = event.percent
 				this.replacePercentage = parseInt(percentage)
             },
@@ -568,7 +568,7 @@
                },1000)
             },
             //批量删除文件
-            delectesBtn(){
+       delectesBtn(){
 				var _this = this
 				var arr = this.tableData3
 				var arr1 = this.multipleSelection

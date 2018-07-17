@@ -71,13 +71,13 @@
 	    				   	<span class="headBtn_stop1 fileinput-button" v-show="pageBtn3">
 	    				   	 	<i class="el-icon-delete el-icon-stop1"></i>
 	    				   	 	<i class="headBtn_stop_font">歌曲导出</i>
-										<input type="file" />
+										<input type="file" ref="file" @change="DRfoo"/>
 	    				   	 </span>
-	    				   	  <span class="headBtn_stop" v-show="pageBtn3">
+	    				   	  <span :class="{headBtn_stop1:selectFlage2, headBtn_stop:!selectFlage2}" v-show="pageBtn3">
 	    				   	 	<i class="el-icon-delete el-icon-stop1"></i>
 	    				   	 	<i class="headBtn_stop_font">全部上传</i>
 	    				   	 </span>
-	    				   	 <span class="headBtn_stop" v-show="pageBtn3">
+	    				   	 <span :class="{headBtn_stop1:selectFlage2, headBtn_stop:!selectFlage2}" v-show="pageBtn3" @click="delected2">
 	    				   	 	<i class="el-icon-delete el-icon-stop1"></i>
 	    				   	 	<i class="headBtn_stop_font">全部清除</i>
 	    				   	 </span>
@@ -132,20 +132,26 @@
 				     >
 				      <el-menu-item index="LibraryManagement" :style="isArray">				        
 				          <i class="el-icon-location"></i>
-				          <span>曲库管理</span>				        
+				          <span>曲库管理　　</span>
+									
 				      </el-menu-item>
 				      <el-menu-item index="CustomManagement">
 				        <i class="el-icon-menu"></i>
-				        <span slot="title">定制管理</span>
+				        <span slot="title">定制管理　　</span>
 				      </el-menu-item>
 				      <h5 style="margin: 0;padding: 0;height: 60px;line-height: 60px;font-size:14px;font-weight: normal;color: #ababab;text-indent:-110px;">上传管理</h5>
 				      <el-menu-item index="SongsUploaded">
+								
 				        <i class="el-icon-document"></i>
-				        <span slot="title">歌曲上传</span>
+								<span >歌曲导入  <el-badge class="mark" :value="DRnumber"  :max="99" /></span>
+				       <!-- <i class="el-icon-document"></i>
+									<el-badge :value="200" :max="1000" class="item">
+									<el-button type="text" size="mini">文字按钮</el-button>
+								</el-badge>-->
 				      </el-menu-item>
 				      <el-menu-item index="Uploading">
 				        <i class="el-icon-setting"></i>
-				        <span slot="title">正在上传</span>
+				        <span slot="title">正在上传 <el-badge class="mark" :value="UPnumber"  :max="99"/></span>
 				      </el-menu-item>
 				    </el-menu>
 				</el-col>	    		
@@ -176,6 +182,8 @@
 
 <script>
 	const {ipcRenderer} = require('electron')
+	const fs = require("fs")
+	const path = require("path")
 	let currentWindow = require('electron').remote.getCurrentWindow()
 	import HistoryRouter from './CustomComponents/HistoryRouter';
 	import Bus from './bus.js'
@@ -183,12 +191,14 @@
 		components:{ HistoryRouter },
 		data(){
 			return{
-				
 				isArray:'background: #f1f1f1;',
 				flage:false,
 				screenFlage:true,
 				selectFlage:false,
 				selectFlage1:false,
+				selectFlage2:false,
+				DRnumber:0,
+				UPnumber:0,
 				msg:[
 				 {content:'缩小'},
 				 {content:'放大'},
@@ -196,8 +206,7 @@
 				 {content:"后退"},
 				 {content:"前进"},
 				 {content:"刷新"},
-				 {content:"还原"}
-				 
+				 {content:"还原"}				 
 				],
 				pageBtn1:false,
 				pageBtn2:false,
@@ -310,7 +319,41 @@
 				  Bus.$emit("exportFile1")
 				}
 			},
+			DRfoo(){
+				var currentFile = this.$refs.file.files[0]	
+				console.log("Main_DRfoo")
+				Bus.$emit("DRfoo",currentFile)
+				this.$refs.file.value = ""
+			}, 
+			delected2(){
+				if(this.selectFlage2){
+					Bus.$emit('delected2')
+				}
+			},
 			
+			
+			getFile(){	
+				var file=`${__dirname}/../assets/data.json`;				
+				var _this = this;
+				this.DRnumber = 0;
+				this.UPnumber = 0;
+				fs.readFile(file,function(error,data){
+					 if(error){
+						 console.log(error)
+					 }else{		
+					    var arr = JSON.parse(data)
+							arr.map(function(item){
+								 if(item.content.songeState != "正在上传"){
+									 _this.DRnumber++;
+
+								 }else{
+									 _this.UPnumber++
+								 }
+							})												
+					 }
+				})
+			
+			}
 			
 			
 			
@@ -322,6 +365,7 @@
         },
 	    mounted(){
 	    	var _this = this
+				this.getFile()
 	      	window.onresize=function(){
 	      		console.log(currentWindow.isMaximized())
 	      		   
@@ -342,6 +386,16 @@
 							_this.selectFlage1 = false
 						}
 				})
+				Bus.$on('val2',function(data){
+						if(data == '1'){
+								_this.selectFlage2 = true
+						}else{
+							_this.selectFlage2 = false
+						}
+				})
+			Bus.$on("getNumber",function(){
+				_this.getFile()
+			 })
 	    }
 		
 	}
@@ -403,6 +457,7 @@ body{
 		height: 100vh;
 		display: flex;
 		flex-direction: column;
+		
 	}
 	
 	#Main .headBtn{

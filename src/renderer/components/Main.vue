@@ -342,21 +342,31 @@
 						 console.log(error)
 					 }else{		
 					    var arr = JSON.parse(data)
+							var arr1 = _this.$store.state.Counter.data
 							arr.map(function(item){
 								 if(item.content.songeState != "正在上传"){
 									 _this.DRnumber++;
-
+                  
 								 }else{
 									 _this.UPnumber++
+                   var flage = true;
+									 arr1.map(function(item1){
+										  if(item1.id == item.id){
+												flage = false;
+												return;
+											}
+									 })
+									 if(flage){
+										_this.$store.commit("hoo",item)
+									 }
+									 // arr1.push(item)								 
 								 }
-							})												
+							})							 
+								// _this.$store.commit("foo",arr1)	
 					 }
-				})
-			
+				})			
 			}
-			
-			
-			
+
 		},
 	    watch:{
 	        $route (newVal,oldVal) {
@@ -366,13 +376,14 @@
 	    mounted(){
 	    	var _this = this
 				this.getFile()
+				
 	      	window.onresize=function(){
 	      		console.log(currentWindow.isMaximized())
 	      		   
 	      			_this.screenFlage = !currentWindow.isMaximized()
 	      		
 	      	}
-	        Bus.$on('val',function(data){
+	      Bus.$on('val',function(data){
 	        	  if(data == '1'){
 	        	  	  _this.selectFlage = true
 	        	  }else{

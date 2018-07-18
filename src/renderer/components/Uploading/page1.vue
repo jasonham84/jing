@@ -33,10 +33,10 @@
 				  >
 				</el-table-column>
 				<el-table-column
-				prop="daxiao"
 				label="大小"
 				min-width="40"
 				>
+				<template slot-scope="scope">{{ scope.row.size | FileSize }}</template>
 				</el-table-column>
 				<el-table-column
 				prop="upState"
@@ -69,6 +69,9 @@
 					<div v-if="scope.row.upState=='7'">						
 						<i style="color: red;">歌曲信息重复</i><a>请选择操作</a>
 					</div>
+					<div v-if="scope.row.upState=='8'">						
+						<i>上传完成</i>
+					</div>
 				</template>
 				</el-table-column>
 				<el-table-column
@@ -78,9 +81,9 @@
 				<template slot-scope="scope">
 					<div style="display: flex;justify-content: center;">	
 						<div style="width: 24px;height: 24px;display: flex;justify-content: center;align-items: center;margin: 0px 10px;">
-							 <i class="el-icon-caret-right" style="font-size: 24px; cursor: pointer;" v-if="scope.row.upState=='0'" @click="uploadBtn(scope.row.id)"></i>
-						   <i class="iconfont icon-xiazaizanting" style="font-size: 20px; cursor: pointer;" v-if="scope.row.upState=='1'" @click="stopBtn(scope.row.id)"></i>
-						   <i class="el-icon-caret-right" style="font-size: 20px; cursor: pointer;" v-if="scope.row.upState=='2'"></i>
+							 <i class="el-icon-caret-right" style="font-size: 20px; cursor: pointer;" v-if="scope.row.upState=='0'" @click="uploadBtn(scope.row.id)"></i>
+						   <i class="el-icon-download" style="font-size: 20px; cursor: pointer;" v-if="scope.row.upState=='1'" @click="uploadBtn(scope.row.id)"></i>
+						   <i class="el-icon-caret-right" style="font-size: 20px; cursor: pointer;" v-if="scope.row.upState=='2'" @click="uploadBtn(scope.row.id)"></i>
 						   <i class="el-icon-caret-right" style="font-size: 20px; cursor: pointer;" v-if="scope.row.upState=='3'"></i>
 						   <i class="el-icon-sort" style="font-size: 20px; cursor: pointer;" v-if="scope.row.upState=='4'"></i>
 						   <i class="el-icon-refresh" style="font-size: 20px; cursor: pointer;" v-if="scope.row.upState=='5'"></i>
@@ -114,10 +117,15 @@
 		data(){
 			return{
 				
-				tableData:[],
 				multipleSelection:[],
 				height:'',
 				
+			}
+		},
+		filters: {
+			FileSize: function(value) {
+				
+				return Math.floor(value/1024/1024) >1024? Math.floor(value/1024/1024)/1024+"G" : Math.floor(value/1024/1024)+"M";
 			}
 		},
 		computed: {
@@ -130,76 +138,129 @@
 			},
 			totleNumber(){
 				return this.tableData.length;
+			},
+			tableData(){
+				return this.$store.state.Counter.data
 			}
 		},
 		methods:{
 			getData(){
-				var _this = this;
-				fs.readFile(filename,function(error,data){
-					console.log(data.length)
-					if(error){
-						console.log(error)
-					}else{
-						var data = JSON.parse(data);
-						
-						data.map(function(item){
-							
-							if(item.content.songeState == "正在上传"){
-								fs.stat(item.path,function(error,data){
-									if(error){
-										console.log(error)
-										item.upState = "3",
-										item.isStop = '0'
-									}else{										
-										item.daxiao = Math.floor(data.size/1024/1024) >1024? Math.floor(data.size/1024/1024)/1024+"G" : Math.floor(data.size/1024/1024)+"M";
-										item.upState = "0"	
+					var _this = this;
+					var arr = this.$store.state.Counter.data;
+	// 				
+				arr.map(function(item){
+							fs.stat(item.path,function(error,data){
+								if(error){
+									console.log(error)
+									// item.upState = "3"
+									var obj = {									
+										"id":item.id,
+										"key":"upState",
+										"value":"3"
 									}
-									_this.tableData.push(item)
-									// console.log(data)
-// 									console.log(_this.tableData)
-								})								
-							}
-						})
-						
-					}
-				})			
+									_this.$store.commit("goo",obj)
+									
+								}else{										
+									// item.daxiao = Math.floor(data.size/1024/1024) >1024? Math.floor(data.size/1024/1024)/1024+"G" : Math.floor(data.size/1024/1024)+"M";
+									
+									if(!item.upState){
+										var obj = {										
+											"id":item.id,
+											"key":"upState",
+											"value":"0"
+										}
+										_this.$store.commit("goo",obj)
+									}																		
+								}						
+							})
+							
+				
+				})
+		  console.log(arr,"oolkkjhh")
 			},
 			handleSelectionChange(val) {
 				this.multipleSelection = val;
 			},
 			uploadBtn(id){
-				var arr = this.tableData;
-				    arr.map(function(item){
-							 if(item.id == id){
-								 item.upState = '1'
-							 }
-						})
-			},
-		  stopBtn(id){
+				console.log(id)
 				var arr = this.tableData;
 				var _this = this;
-						arr.map(function(item){
-							if(item.id == id){
-								_this.$refs[id].stop()
-								  item.upState = '2'
-								
-							}
+				    arr.map(function(item){
+							 if(item.id == id){
+								 if(item.upState == "0"){
+									 
+								    // item.upState = '1'
+										if(_this.$store.state.Counter.main<3){
+											
+												var obj = {
+													
+													 "id":id,
+													 "key":"upState",
+													 "value":"1"
+												}
+												_this.$store.commit("goo",obj)
+												
+										}else{
+											var obj = {												
+												"id":id,
+												"key":"upState",
+												"value":"4"
+											}
+											_this.$store.commit("goo",obj)
+										}
+										
+								 }else if(item.upState == "1"){
+									 
+									  // item.upState = '2'
+										var obj = {
+											
+											"id":id,
+											"key":"upState",
+											"value":"2"
+										}
+										_this.$store.commit("goo",obj)
+										_this.$refs[id].stop()
+										
+								 }else if(item.upState == "2"){
+									 
+									 if(_this.$store.state.Counter.main<3){
+												 var obj = {									 	
+													"id":id,
+													"key":"upState",
+													"value":"1"
+												 }
+												 _this.$store.commit("goo",obj)
+												 _this.$refs[id].start()									 
+										 }else{
+									    var obj = {												
+									    	"id":id,
+									    	"key":"upState",
+									    	"value":"4"
+									    }
+									    _this.$store.commit("goo",obj)
+									 }
+								 }
+							 }
 						})
-				console.log()
+
 			}
+		 
 		},
+		
 		mounted(){
 			var _this = this;
-			this.getData()
+			// this.getData()
 			this.height =  "height:" + (document.body.clientHeight - 130) + "px"					
 			window.onresize = function() {
-				console.log(document.body.clientHeight)
+				// console.log(document.body.clientHeight)
 				setTimeout(function() {
 					_this.height =  "height:" + (document.body.clientHeight - 130) + "px"
 					
-					console.log(_this.height)
+					// console.log(_this.height)
 				}, 2)
 			}
+			
+			console.log(this.$store.state.Counter.data,"Counter")
 		}
 	}
 </script>

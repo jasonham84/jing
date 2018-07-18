@@ -367,7 +367,7 @@
 					if(error){
 						console.log(error)
 					}else{						 
-						console.log(JSON.parse(data),"pppp")
+						// console.log(JSON.parse(data),"pppp")
 						var arr = JSON.parse(data)
 						var arr1 = []
 						arr.map(function(item){
@@ -395,7 +395,7 @@
 								var pathFile = path +"/"+file 
 								var arr1 = file.split(".")[0].split("-")
 								fs.stat(pathFile,function(err, stats){
-									  
+								if(err) throw err;
 								if(arr1.length!=10){
 									var obj = {
 											"currentNum":0,
@@ -404,7 +404,8 @@
 											"path":pathFile,
 											"type":file.split(".")[1],
 											"isRepeated":false,
-											
+											"size":stats.size,
+											"upState":"0",
 											"content":{
 												"songName":"----",
 												"songerName":"----",
@@ -426,6 +427,8 @@
 											"path":pathFile,
 											"type":file.split(".")[1],
 											"isRepeated":false,
+											"size":stats.size,
+											"upState":"0",
 											"content":{
 												 "songName":arr1[1],
 												 "songerName":arr1[2],
@@ -462,6 +465,7 @@
 									"type":folder[0].name.split(".")[1],
 									"isRepeated":false,
 									"size":folder[0].size,
+									"upState":"0",
 									"content":{
 										"songName":"----",
 										"songerName":"----",
@@ -484,6 +488,7 @@
 									"type":folder[0].name.split(".")[1],
 									"isRepeated":false,
 									"size":folder[0].size,
+									"upState":"0",
 									"content":{
 										"songName":arr1[1],
 										"songerName":arr1[2],
@@ -556,6 +561,7 @@
 			 			"type":currentFile.name.split(".")[1],
 			 			"isRepeated":false,
 						"size":currentFile.size,
+						"upState":"0",
 			 			"content":{
 			 				"songName":"----",
 			 				"songerName":"----",
@@ -578,6 +584,7 @@
 			 			"type":currentFile.name.split(".")[1],
 			 			"isRepeated":false,
 						"size":currentFile.size,
+						"upState":"0",
 			 			"content":{
 			 				"songName":arr1[1],
 			 				"songerName":arr1[2],

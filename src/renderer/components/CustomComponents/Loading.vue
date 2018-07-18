@@ -30,6 +30,10 @@
 		},
 		methods:{
 			
+		},
+		mounted(){
+			var data =  this.$store.state.Counter.data;
+			console.log(data,"pppoodata")
 		}
 	}
 </script>

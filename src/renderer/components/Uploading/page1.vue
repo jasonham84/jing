@@ -5,6 +5,7 @@
 			<div style="margin: 10px 0;font-size: 16px;">暂无上传的歌曲</div>						
 		</div>
 		<div class="box2" v-show="!boxFlage">
+			
 			<div class="box2a" :style="height" id="scroll-1">
 			<el-table
 				ref="multipleTable"
@@ -52,7 +53,8 @@
 						<Upload :file="scope.row" :ref="scope.row.id"></Upload>						
 					</div>
 					<div v-if="scope.row.upState=='2'">
-						<Upload :file="scope.row" :ref="scope.row.id"></Upload>
+						<!--<Upload :file="scope.row" :ref="scope.row.id"></Upload>-->
+						<el-progress :percentage="Math.floor((scope.row.currentNum/scope.row.size)*100)"></el-progress>
 					</div>
 					<div v-if="scope.row.upState=='3'">						
 						<i style="color: red;">未找到指定文件，请确认路径</i>
@@ -90,7 +92,7 @@
                <i class="el-icon-caret-right" style="font-size: 20px; cursor: pointer;" v-if="scope.row.upState=='6'"></i>
 						</div>
 						<div style="width: 24px;height: 24px;display: flex;justify-content: center;align-items: center;margin: 0px 10px;">					
-						   <i class="el-icon-delete" style="font-size: 20px; cursor: pointer; margin: 0px 10px;"></i> 
+						   <i class="el-icon-delete" style="font-size: 20px; cursor: pointer; margin: 0px 10px;" @click="uploadDelect(scope.row.id)"></i> 
 						</div>
 					</div>
 				</template>
@@ -101,7 +103,33 @@
 				<span class="demonstration" style="color: #999999;">已加载{{totleNumber}}条数据</span>
 			</div>
 		</div>	
+		<el-dialog
+		title="提示"
+		:visible.sync="delecteVisible"
+		custom-class="DELECT"
+		width="30%"
+		top='30vh'
+		>
+		<span><i class="el-icon-warning" style="color: #e6a23c;margin-right: 10px;font-size: 16px;"></i>此操作将永久删除该文件, 是否继续?</span>
+		<span slot="footer" class="dialog-footer">
+			<el-button @click="delecteVisible = false" size="mini">取 消</el-button>
+			<el-button type="primary" @click="delecteBtn" size="mini" :loading="delecteLoading">确 定</el-button>
+		</span>
+		</el-dialog>
 		
+		<el-dialog
+		title="提示"
+		:visible.sync="delectesVisible"
+		custom-class="DELECT"
+		width="30%"
+		top='30vh'
+		>
+		<span><i class="el-icon-warning" style="color: #e6a23c;margin-right: 10px;font-size: 16px;"></i>此操作将永久删除选中文件, 是否继续?</span>
+		<span slot="footer" class="dialog-footer">
+			<el-button @click="delectesVisible = false" size="mini">取 消</el-button>
+			<el-button type="primary" @click="delectAllBtn" size="mini" :loading="delectesLoading">确 定</el-button>
+		</span>
+		</el-dialog>
 	</div>
 </template>
 
@@ -119,6 +147,13 @@
 				
 				multipleSelection:[],
 				height:'',
+				currentID:"",
+				delecteVisible:false,
+				delecteLoading:false,
+				delectesVisible:false,
+				delectesLoading:false,
+				flageAll:true
+				
 				
 			}
 		},
@@ -143,6 +178,12 @@
 				return this.$store.state.Counter.data
 			}
 		},
+// 		watch: {
+// 			tableData(newValue, oldValue) {
+// 				  console.log(newValue,oldValue)
+// 				
+// 			}
+// 		},
 		methods:{
 			getData(){
 					var _this = this;
@@ -180,6 +221,13 @@
 			},
 			handleSelectionChange(val) {
 				this.multipleSelection = val;
+				if(this.multipleSelection.length>0){
+					this.flageAll = false
+					Bus.$emit('val3', "1")
+				}else{
+					this.flageAll = true
+					Bus.$emit('val3', "0")
+				}
 			},
 			uploadBtn(id){
 				console.log(id)
@@ -187,10 +235,11 @@
 				var _this = this;
 				    arr.map(function(item){
 							 if(item.id == id){
+								 console.log(_this.$store.getters.number)
 								 if(item.upState == "0"){
 									 
 								    // item.upState = '1'
-										if(_this.$store.state.Counter.main<3){
+										if(_this.$store.getters.number<3){
 											
 												var obj = {
 													
@@ -218,19 +267,19 @@
 											"key":"upState",
 											"value":"2"
 										}
-										_this.$store.commit("goo",obj)
 										_this.$refs[id].stop()
+										_this.$store.commit("goo",obj)
 										
 								 }else if(item.upState == "2"){
-									 
-									 if(_this.$store.state.Counter.main<3){
+									     
+									 if(_this.$store.getters.number<3){
 												 var obj = {									 	
 													"id":id,
 													"key":"upState",
 													"value":"1"
 												 }
 												 _this.$store.commit("goo",obj)
-												 _this.$refs[id].start()									 
+												 // _this.$refs[id].start()									 
 										 }else{
 									    var obj = {												
 									    	"id":id,
@@ -243,6 +292,175 @@
 							 }
 						})
 
+			},
+			uploadDelect(id){
+				this.currentID = id;
+				this.delecteVisible = true
+			},
+			StopUpload(){
+				var _this = this;
+				var arr = [];
+				if(this.flageAll){
+					arr = this.tableData
+					
+				}else{
+					arr = this.multipleSelection
+				}
+				arr.map(function(item){
+					   if(item.upState == "1"){
+							    var obj = {
+										 "id":item.id,
+										 "key":"upState",
+										 "value":"2"
+										 
+									}
+								_this.$refs[item.id].stop1()
+								_this.$store.commit("goo",obj)
+						 }else if(item.upState == "4"){
+							   var obj = {
+									  "id":item.id,
+										"key":"upState",
+										"value":"0"
+								 }
+								_this.$store.commit("goo",obj)
+						 }
+				})
+			},
+			StartUpload(){
+				var _this = this;
+				var arrAll = [];
+				if(this.flageAll){
+					arrAll = this.tableData
+				}else{
+					arrAll = this.multipleSelection
+				}
+				arrAll.map(function(item){
+					  if(item.upState == "0"&& _this.$store.getters.number<3){
+							    var obj = {
+										"id":item.id,
+										"key":"upState",
+										"value":"1"
+									}
+								_this.$store.commit("goo",obj)
+								// _this.$refs[item.id].start()
+								
+						}else if(item.upState == "0"&& _this.$store.getters.number>=3){
+								var obj = {
+									"id":item.id,
+									"key":"upState",
+									"value":"4"
+								}
+							_this.$store.commit("goo",obj)
+						}else if(item.upState == "2"&& _this.$store.getters.number<3){
+								var obj = {
+									"id":item.id,
+									"key":"upState",
+									"value":"1"
+								}
+							_this.$store.commit("goo",obj)
+							 // _this.$refs[item.id].start()
+						}else if(item.upState == "2"&& _this.$store.getters.number>=3){
+								var obj = {
+									"id":item.id,
+									"key":"upState",
+									"value":"4"
+								}
+							_this.$store.commit("goo",obj)
+						}
+				})
+			},
+			DelectUpload(){
+				if(this.tableData.length>0){				
+				   this.delectesVisible = true;
+				}
+			},
+			delectAllBtn(){
+				var _this = this;
+				this.delectesLoading = true;
+				var arrAll = [];
+				if(this.flageAll){
+					arrAll = [...this.tableData]
+				}else{
+					arrAll = this.multipleSelection
+				}
+				console.log(arrAll)
+				setTimeout(function(){
+						fs.readFile(filename,function(error,data){
+							 if(error){
+								 console.log(error)
+							 }else{
+								 var arr = JSON.parse(data);
+								 arrAll.map(function(item,index){
+									 var flage = false;
+									 
+										if(item.upState == "1"){
+											_this.$refs[item.id].stop()
+										 }
+									  _this.$store.commit("delect",item.id)
+									  arr.map(function(item1,index1){											
+											
+									  	if(item.id == item1.id){
+
+                          arr.splice(index1,1)
+												 }
+
+										})
+
+								 })
+								console.log(arr)
+								 var str = JSON.stringify(arr)
+								 fs.writeFile(filename,str,function(error){
+									 if(error){
+										 console.log(error)
+									 }else{
+										 _this.delectesLoading = false;
+										 _this.delectesVisible = false;
+										 console.log(_this.delectesVisible)
+										 Bus.$emit("getNumber")
+									 }
+								 })															
+							 }
+						})			    
+				},1000)				
+			},
+			delecteBtn(){
+			var _this = this;
+			this.delecteLoading = true;
+			var id = this.currentID;
+			
+			setTimeout(function(){
+				_this.delecteVisible = false;
+				_this.delecteLoading = false;
+		    _this.$store.state.Counter.data.map(function(item){
+					if(item.id == id && item.upState == "1"){
+						_this.$refs[id].stop()
+						return;
+					}
+				})
+				_this.$store.commit("delect",_this.currentID)
+				fs.readFile(filename,function(error,data){
+						if(error){
+							console.log(error)
+						}else{
+							var arr = JSON.parse(data);
+							arr.map(function(item,index){
+									if(item.id == id){
+										arr.splice(index,1)
+										// console.log(item)
+									}
+							})
+							// console.log(arr)
+							var str = JSON.stringify(arr)
+							fs.writeFile(filename,str,function(error){
+								if(error){
+									console.log(error)
+								}else{
+									Bus.$emit("getNumber") 
+								}
+							})
+						}
+				})
+				},1000)
 			}
 		 
 		},
@@ -259,9 +477,24 @@
 					// console.log(_this.height)
 				}, 2)
 			}
+			Bus.$on('StopUpload',function(){
+				_this.StopUpload()
+			})
+			Bus.$on("StartUpload",function(){
+				_this.StartUpload()
+			})
+			Bus.$on("DelectUpload",function(){
+				_this.DelectUpload()
+			})
 			
 			console.log(this.$store.state.Counter.data,"Counter")
-		}
+		},
+		beforeDestroy(){
+// 				Bus.$off('delected2')
+// 				Bus.$off('DRfoo')
+				Bus.$emit('val3', "0")
+				// window.onresize=null	
+	  }
 	}
 </script>
 
@@ -282,6 +515,9 @@
 	#Uploading .box2{
 		width: 100%;
 		
+	}
+	.el-table td{
+		height: 54px;
 	}
 	#Uploading .box2a{
 		overflow: auto;

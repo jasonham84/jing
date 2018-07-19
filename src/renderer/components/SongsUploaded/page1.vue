@@ -103,14 +103,16 @@
 				<el-table-column
 				prop="content.songeState"
 				label="状态"
-				min-width="60">
+				min-width="70">
 				</el-table-column>
 				<el-table-column
 				prop="address"
 				label="操作"
 				min-width="130">
 				<template slot-scope="scope">
-        <i class="el-icon-upload" style="font-size: 20px; cursor: pointer; margin: 0px 5px;" @click="uploadFile(scope.row.id)"></i>
+        <i class="el-icon-upload" style="font-size: 20px; cursor: pointer; margin: 0px 5px;" @click="uploadFile(scope.row.id)" v-if="scope.row.content.songeState != '不可上传'"></i>
+				<i class="el-icon-upload" style="font-size: 20px; cursor: pointer; margin: 0px 5px;cursor: not-allowed;color: #d4d4d4;" v-else></i>
+
 			  <i class="el-icon-edit-outline" style="font-size: 20px; cursor: pointer; margin: 0px 5px;" @click="JumpPage(scope.row.id)"></i>
 				<i class="el-icon-delete" style="font-size: 20px; cursor: pointer; margin: 0px 5px;" @click="deleteFile(scope.row.id)"></i>  
         </template>

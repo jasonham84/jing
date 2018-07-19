@@ -20,31 +20,37 @@ export default new Router({
     	    {
     	    	path:'/LibraryManagement',
     	    	name:'LibraryManagement',
+						meta: {keepAlive: false},
     	    	component: require('@/components/LibraryManagement/page1').default,
     	    },
     	    {
 		    		 path:'/LibraryManagement/VideoPlayback',
 		    	   name:'VideoPlayback',
+						 meta: {keepAlive: false},
 		    	   component: require('@/components/LibraryManagement/page2').default
 			    },			    
     	    {
     	    	path:"/editPage",
     	    	name:'editPage',
+						meta: {keepAlive: false},
     	    	component: require("@/components/LibraryManagement/page3").default
     	    },
     	    {
     	    	path:'/CustomManagement',
     	    	name:'CustomManagement',
+						meta: {keepAlive: false},
     	    	component: require('@/components/CustomManagement/page1').default
     	    },
     	    {
     	    	path:'/SongsUploaded',
     	    	name:'SongsUploaded',
+						meta: {keepAlive: false},
     	    	component: require('@/components/SongsUploaded/page1').default
     	    },
     	    {
     	    	path:'/Uploading',
     	    	name:'Uploading',
+						meta: {keepAlive: true},
     	    	component: require('@/components/Uploading/page1').default
     	    },
     	    {

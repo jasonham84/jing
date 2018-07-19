@@ -70,7 +70,7 @@
                                 -->
 	    				   	<span class="headBtn_stop1 fileinput-button" v-show="pageBtn3">
 	    				   	 	<i class="el-icon-delete el-icon-stop1"></i>
-	    				   	 	<i class="headBtn_stop_font">歌曲导出</i>
+	    				   	 	<i class="headBtn_stop_font">歌曲导入</i>
 										<input type="file" ref="file" @change="DRfoo"/>
 	    				   	 </span>
 	    				   	  <span :class="{headBtn_stop1:selectFlage2, headBtn_stop:!selectFlage2}" v-show="pageBtn3">
@@ -85,17 +85,21 @@
                                 	
                                 	描述：正在上传页面显示
                                 -->
-                            <span class="headBtn_stop" v-show="pageBtn4">
+                    <span class="headBtn_stop1" v-show="pageBtn4" @click="StopUpload">
 	    				   	 	<i class="el-icon-delete el-icon-stop1"></i>
-	    				   	 	<i class="headBtn_stop_font">全部暂停</i>
+	    				   	 	<i class="headBtn_stop_font" v-show="!selectFlage3">全部暂停</i>
+										<i class="headBtn_stop_font" v-show="selectFlage3">暂停</i>
 	    				   	 </span>
-	    				   	  <span class="headBtn_stop" v-show="pageBtn4">
+	    				   	  <span class="headBtn_stop1" v-show="pageBtn4" @click="StartUpload">
 	    				   	 	<i class="el-icon-caret-right el-icon-stop1"></i>
-	    				   	 	<i class="headBtn_stop_font">全部开始</i>
+	    				   	 	<i class="headBtn_stop_font" v-show="!selectFlage3">全部开始</i>
+										<i class="headBtn_stop_font" v-show="selectFlage3">开始</i>
+
 	    				   	 </span>
-	    				   	 <span class="headBtn_stop" v-show="pageBtn4">
+	    				   	 <span class="headBtn_stop1" v-show="pageBtn4" @click="DelectUpload">
 	    				   	 	<i class="el-icon-delete el-icon-stop1"></i>
-	    				   	 	<i class="headBtn_stop_font">全部清除</i>
+	    				   	 	<i class="headBtn_stop_font" v-show="!selectFlage3">全部清除</i>
+										<i class="headBtn_stop_font" v-show="selectFlage3">清除</i>
 	    				   	 </span>   
 	    				   </div>
 	    					<div class="head_kong" style="flex: 1;-webkit-app-region: drag;"></div>
@@ -172,7 +176,10 @@
 	    		</div>
 	    	</el-row>
 	    	<div class="contentRightDiv">
-	    		<router-view></router-view>
+					<keep-alive>
+	               <router-view  v-if="$route.meta.keepAlive"></router-view>
+	        </keep-alive>
+                 <router-view v-if="!$route.meta.keepAlive"></router-view>
 	    	</div>
 	    </el-main>
 	    </el-container>
@@ -197,8 +204,7 @@
 				selectFlage:false,
 				selectFlage1:false,
 				selectFlage2:false,
-				DRnumber:0,
-				UPnumber:0,
+				selectFlage3:false,
 				msg:[
 				 {content:'缩小'},
 				 {content:'放大'},
@@ -213,6 +219,14 @@
 				pageBtn3:false,
 				pageBtn4:false,
 				shugangFlage:true
+			}
+		},
+		computed: {
+		  UPnumber() {
+				return this.$store.state.Counter.UPnumber; 
+			},
+			DRnumber() {
+				return this.$store.state.Counter.DRnumber; 
 			}
 		},
 		methods:{
@@ -332,11 +346,26 @@
 			},
 			
 			
+			StopUpload(){
+				
+					Bus.$emit("StopUpload")
+				
+			},
+			StartUpload(){
+				
+					Bus.$emit("StartUpload")
+				
+			},
+			DelectUpload(){
+				
+					Bus.$emit("DelectUpload")
+				
+			},
 			getFile(){	
 				var file=`${__dirname}/../assets/data.json`;				
 				var _this = this;
-				this.DRnumber = 0;
-				this.UPnumber = 0;
+				var DRnumber = 0;
+				var UPnumber = 0;
 				fs.readFile(file,function(error,data){
 					 if(error){
 						 console.log(error)
@@ -345,10 +374,10 @@
 							var arr1 = _this.$store.state.Counter.data
 							arr.map(function(item){
 								 if(item.content.songeState != "正在上传"){
-									 _this.DRnumber++;
+									 DRnumber++;
                   
 								 }else{
-									 _this.UPnumber++
+									 UPnumber++
                    var flage = true;
 									 arr1.map(function(item1){
 										  if(item1.id == item.id){
@@ -359,10 +388,13 @@
 									 if(flage){
 										_this.$store.commit("hoo",item)
 									 }
+									 
 									 // arr1.push(item)								 
 								 }
 							})							 
-								// _this.$store.commit("foo",arr1)	
+								_this.$store.commit("DRnumber1", DRnumber)	
+								_this.$store.commit("UPnumber1", UPnumber)	
+
 					 }
 				})			
 			}
@@ -402,6 +434,13 @@
 								_this.selectFlage2 = true
 						}else{
 							_this.selectFlage2 = false
+						}
+				})
+				Bus.$on('val3',function(data){
+						if(data == '1'){
+								_this.selectFlage3 = true
+						}else{
+							_this.selectFlage3 = false
 						}
 				})
 			Bus.$on("getNumber",function(){

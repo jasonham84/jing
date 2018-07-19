@@ -2,7 +2,7 @@
 	<div id="uploadTemplate">				
 		<div>
 		<el-progress :percentage="percentage"></el-progress>
-		<div style="height: 16px;display: flex;justify-content: space-around;margin: 0 80px;font-size: 12px;" >
+		<div style="height: 12px;display: flex;justify-content: space-around;margin: 0 80px;font-size: 12px;line-height: 12px;" >
 			<span v-show="!stopStatus" style="margin-right: 20px;display: inline-block;width: 70px;">{{speed}}</span>
 			<span v-show="!stopStatus" style="display: inline-block;width:80px;">{{restTime}}</span>
 		</div>
@@ -42,16 +42,22 @@
 // 				})
 // 			}
 // 		},
+//     watch: {
+//     	file(newValue, oldValue) {
+//     		 console.log(newValue, oldValue,"newValue, oldValue")
+//     	}
+//     },
 		methods:{
       start(){
-				console.log(this.file.upState)
-				if(this.file.upState == "0" || this.file.upState == "1"){
+				console.log(this.file.upState,"[[]]")
+				if(this.file.upState == "1"){
 					this.stopStatus = false				
 					var path = this.file.path
 					var _this = this
 					// console.log(this.file,"start")
 					this.Upload(this.file.currentNum,this.file)
-					this.$store.commit("INCREMENT_MAIN_COUNTER")
+// 					this.$store.commit("INCREMENT_MAIN_COUNTER")
+// 					console.log(this.$store.state.Counter.main)
 				}else if(this.file.upState == "2"){
 					this.stopStatus = true
 					var percentage = this.file.currentNum/this.file.size >1 ? 1: (this.file.currentNum/this.file.size)
@@ -61,15 +67,22 @@
 			},
       stop(){
         	this.stopStatus = true
-					this.$store.commit("DECREMENT_MAIN_COUNTER")
+					this.$store.commit("NEXT")
+					// this.$store.commit("DECREMENT_MAIN_COUNTER")
 			    console.log(this.file)
       },
+			stop1(){
+					this.stopStatus = true
+					// this.$store.commit("NEXT")
+					// this.$store.commit("DECREMENT_MAIN_COUNTER")
+					console.log(this.file)
+			},
       Upload(start,file){
         	var type = file.type				    	 
         	var buf = new Buffer(1024*1024);
         	var _this = this
 					
-        	fs.open(file.path, 'r+', function(err, fd) {
+        	fs.open(file.path, 'r', function(err, fd) {
 							if (err) {
 									return console.error(err);
 							}
@@ -102,7 +115,8 @@
         	        var xhr = new XMLHttpRequest();
         	        xhr.open('post', 'http://localhost:8888/video', true);
         	        xhr.onreadystatechange = function () {
-        	            if (xhr.readyState == 4 && xhr.status == 200) {				               
+        	            if (xhr.readyState == 4 && xhr.status == 200) {
+						              Blod = null;              
         									var timestampEnd = new Date().getTime();
         									var time = (timestampEnd-timestampStart)/1000
         									var speed = 1/time	
@@ -113,15 +127,7 @@
 														"value":currentNum
 													}
 													_this.$store.commit("goo",obj)
-// 													var a = Math.floor(currentNum/1024/1024) >1024? Math.floor(currentNum/1024/1024)/1024+"G" : Math.floor(currentNum/1024/1024)+"M";
-// 												  var b = Math.floor(file.size/1024/1024) >1024? Math.floor(file.size/1024/1024)/1024+"G" : Math.floor(file.size/1024/1024)+"M";
-// 													var c= a+"/"+b;
-// 												  var obj1 = {									
-// 														"id":file.id,
-// 														"key":"daxiao",
-// 														"value":c
-// 													}
-// 													_this.$store.commit("goo",obj)
+
         									if(speed<1){
         										_this.speed = Math.floor(speed*1024)+"kb\/s"
         									}else{
@@ -151,8 +157,10 @@
 																							"value":"8"
 																						}
 																						_this.$store.commit("goo",obj)
-																						_this.$store.commit("DECREMENT_MAIN_COUNTER")
+																						// _this.$store.commit("DECREMENT_MAIN_COUNTER")
+																						// console.log(_this.$store.state.Counter.main)
 																						_this.$store.commit("NEXT")
+																						
 																				}		
 // 											 	
         	            }
@@ -163,6 +171,9 @@
 		},
 		mounted(){
 			this.start()			
+		},
+		beforeDestroy(){
+			console.log("beforeDestroy")
 		}
 		
 	}

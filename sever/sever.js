@@ -39,7 +39,7 @@ obj = {
 	"video":function(req,res){
 		var post = '';   
 		 req.on('data', function(chunk){  
-		 // console.log(chunk)
+		 console.log(chunk)
         post += chunk;
     });
 		req.on('end', function(){    

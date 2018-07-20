@@ -175,7 +175,18 @@
 				return this.tableData.length;
 			},
 			tableData(){
+				
 				return this.$store.state.Counter.data
+				
+			},
+			tableData1(){
+				  var arr = []
+					this.$store.state.Counter.data.map(function(item){
+						   if(item.upState !== "9"){
+								 arr.push(item)
+							 }
+					})
+					return arr;
 			}
 		},
 // 		watch: {
@@ -296,12 +307,18 @@
 			uploadDelect(id){
 				this.currentID = id;
 				this.delecteVisible = true
+				var _this = this;
+				this.tableData.map(function(item){
+					  if(item.upState == "1"){
+							 _this.$refs[item.id].stop();
+						}
+				})
 			},
 			StopUpload(){
 				var _this = this;
 				var arr = [];
 				if(this.flageAll){
-					arr = this.tableData
+					arr = [...this.tableData]
 					
 				}else{
 					arr = this.multipleSelection
@@ -314,7 +331,7 @@
 										 "value":"2"
 										 
 									}
-								_this.$refs[item.id].stop1()
+								_this.$refs[item.id].stop()
 								_this.$store.commit("goo",obj)
 						 }else if(item.upState == "4"){
 							   var obj = {
@@ -325,12 +342,13 @@
 								_this.$store.commit("goo",obj)
 						 }
 				})
+				// this.$store.commit("NEXT")
 			},
 			StartUpload(){
 				var _this = this;
 				var arrAll = [];
 				if(this.flageAll){
-					arrAll = this.tableData
+					arrAll = [...this.tableData]
 				}else{
 					arrAll = this.multipleSelection
 				}
@@ -368,10 +386,20 @@
 							_this.$store.commit("goo",obj)
 						}
 				})
+				
+					// this.$store.commit("NEXT")
+				
 			},
 			DelectUpload(){
 				if(this.tableData.length>0){				
 				   this.delectesVisible = true;
+					 var _this = this;
+					 console.log("oolkkjmbb")
+					 this.tableData.map(function(item){
+					 		if(item.upState == "1"){
+					 			_this.$refs[item.id].stop();
+					 		}
+					 })
 				}
 			},
 			delectAllBtn(){
@@ -384,43 +412,62 @@
 					arrAll = this.multipleSelection
 				}
 				console.log(arrAll)
+				
 				setTimeout(function(){
-						fs.readFile(filename,function(error,data){
-							 if(error){
-								 console.log(error)
-							 }else{
-								 var arr = JSON.parse(data);
-								 arrAll.map(function(item,index){
-									 var flage = false;
-									 
-										if(item.upState == "1"){
-											_this.$refs[item.id].stop()
-										 }
-									  _this.$store.commit("delect",item.id)
-									  arr.map(function(item1,index1){											
-											
-									  	if(item.id == item1.id){
-
-                          arr.splice(index1,1)
-												 }
-
-										})
-
-								 })
-								console.log(arr)
-								 var str = JSON.stringify(arr)
-								 fs.writeFile(filename,str,function(error){
-									 if(error){
-										 console.log(error)
-									 }else{
-										 _this.delectesLoading = false;
-										 _this.delectesVisible = false;
-										 console.log(_this.delectesVisible)
-										 Bus.$emit("getNumber")
+					_this.$store.commit("delectAll",arrAll)
+					setTimeout(function(){
+						_this.$store.state.Counter.data.map(function(item){
+							     if(item.upState == "1"){
+										 _this.$refs[item.id].start()
 									 }
-								 })															
-							 }
-						})			    
+						    })
+						  _this.$store.commit("NEXT")
+							_this.delectesLoading = false;
+							_this.delectesVisible = false;
+					},100)
+// 						fs.readFile(filename,function(error,data){
+// 							 if(error){
+// 								 console.log(error)
+// 							 }else{
+// 								 var arr = JSON.parse(data);
+// 								 arrAll.map(function(item,index){
+// 									 var flage = false;
+// 									 
+// 										if(item.upState == "1"){
+// 											var obj = {
+// 												"id":item.id,
+// 												"key":"upState",
+// 												"value":"2"
+// 											}
+// 											_this.$store.commit("goo",obj)
+// 											_this.$refs[item.id].stop()
+// 										 }
+// 									  _this.$store.commit("delect",item.id)
+// 									  arr.map(function(item1,index1){											
+// 											
+// 									  	if(item.id == item1.id){
+// 
+//                           arr.splice(index1,1)
+// 												 }
+// 
+// 										})
+// 
+// 								 })
+// 								console.log(arr)
+// 								 var str = JSON.stringify(arr)
+// 								 fs.writeFile(filename,str,function(error){
+// 									 if(error){
+// 										 console.log(error)
+// 									 }else{
+// 										 _this.delectesLoading = false;
+// 										 _this.delectesVisible = false;
+// 										 console.log(_this.delectesVisible)
+// 										 Bus.$emit("getNumber")
+// 										  _this.$store.commit("NEXT")
+// 									 }
+// 								 })															
+// 							 }
+// 						})			    
 				},1000)				
 			},
 			delecteBtn(){
@@ -429,37 +476,61 @@
 			var id = this.currentID;
 			
 			setTimeout(function(){
-				_this.delecteVisible = false;
-				_this.delecteLoading = false;
+				
 		    _this.$store.state.Counter.data.map(function(item){
 					if(item.id == id && item.upState == "1"){
-						_this.$refs[id].stop()
-						return;
+						var obj = {
+							"id":item.id,
+							"key":"upState",
+							"value":"2"
+						}
+						_this.$store.commit("goo",obj)
+					
+						
+						
 					}
 				})
-				_this.$store.commit("delect",_this.currentID)
-				fs.readFile(filename,function(error,data){
-						if(error){
-							console.log(error)
-						}else{
-							var arr = JSON.parse(data);
-							arr.map(function(item,index){
-									if(item.id == id){
-										arr.splice(index,1)
-										// console.log(item)
-									}
-							})
-							// console.log(arr)
-							var str = JSON.stringify(arr)
-							fs.writeFile(filename,str,function(error){
-								if(error){
-									console.log(error)
-								}else{
-									Bus.$emit("getNumber") 
-								}
-							})
-						}
-				})
+				// _this.$refs[id].stop()
+				console.log("delect")
+				_this.$store.commit("delect",id)
+				
+				console.log(_this.tableData,"this.tableData")
+				setTimeout(function(){
+						_this.tableData.map(function(item){
+						 if(item.upState == "1"){
+							 _this.$refs[item.id].start()
+						 }
+					})	
+					_this.$store.commit("NEXT")
+
+				_this.delecteVisible = false;
+				_this.delecteLoading = false;
+				},100)
+// 				fs.readFile(filename,function(error,data){
+// 						if(error){
+// 							console.log(error)
+// 						}else{
+// 							var arr = JSON.parse(data);
+// 							arr.map(function(item,index){
+// 									if(item.id == id){
+// 										arr.splice(index,1)
+// 										// console.log(item)
+// 									}
+// 							})
+// 							// console.log(arr)
+// 							var str = JSON.stringify(arr)
+// 							fs.writeFile(filename,str,function(error){
+// 								if(error){
+// 									console.log(error)
+// 								}else{
+// 									Bus.$emit("getNumber") 
+// 									_this.$store.commit("NEXT")
+// 									_this.delecteVisible = false;
+// 									_this.delecteLoading = false;
+// 								}
+// 							})
+// 						}
+// 				})
 				},1000)
 			}
 		 

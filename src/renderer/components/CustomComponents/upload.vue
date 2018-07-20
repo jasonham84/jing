@@ -3,8 +3,8 @@
 		<div>
 		<el-progress :percentage="percentage"></el-progress>
 		<div style="height: 12px;display: flex;justify-content: space-around;margin: 0 80px;font-size: 12px;line-height: 12px;" >
-			<span v-show="!stopStatus" style="margin-right: 20px;display: inline-block;width: 70px;">{{speed}}</span>
-			<span v-show="!stopStatus" style="display: inline-block;width:80px;">{{restTime}}</span>
+			<span  style="margin-right: 20px;display: inline-block;width: 70px;">{{speed}}</span>
+			<span  style="display: inline-block;width:80px;">{{restTime}}</span>
 		</div>
 		</div>
 		
@@ -49,7 +49,7 @@
 //     },
 		methods:{
       start(){
-				console.log(this.file.upState,"[[]]")
+				console.log(this.file.id,"[[]]")
 				if(this.file.upState == "1"){
 					this.stopStatus = false				
 					var path = this.file.path
@@ -67,21 +67,21 @@
 			},
       stop(){
         	this.stopStatus = true
-					this.$store.commit("NEXT")
-					// this.$store.commit("DECREMENT_MAIN_COUNTER")
-			    console.log(this.file)
-      },
-			stop1(){
-					this.stopStatus = true
 					// this.$store.commit("NEXT")
 					// this.$store.commit("DECREMENT_MAIN_COUNTER")
-					console.log(this.file)
-			},
+			    console.log(this.file.id,"stop")
+      },
+// 			stop1(){
+// 					this.stopStatus = true
+// 					// this.$store.commit("NEXT")
+// 					// this.$store.commit("DECREMENT_MAIN_COUNTER")
+// 					console.log(this.file)
+// 			},
       Upload(start,file){
         	var type = file.type				    	 
         	var buf = new Buffer(1024*1024);
         	var _this = this
-					
+					console.log(file.id)
         	fs.open(file.path, 'r', function(err, fd) {
 							if (err) {
 									return console.error(err);
@@ -99,7 +99,7 @@
 								if(!_this.stopStatus){
 									_this.send_data(content,file,(start+buf.length))
 								}else{
-									console.log(file,"stop")
+									console.log(file,"stop",_this.$store.getters.number)
 								}
 								
 							}
@@ -173,7 +173,8 @@
 			this.start()			
 		},
 		beforeDestroy(){
-			console.log("beforeDestroy")
+			// this.stop()
+			console.log("beforeDestroy",this.file.id)
 		}
 		
 	}

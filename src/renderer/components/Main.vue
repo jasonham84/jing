@@ -223,7 +223,7 @@
 		},
 		computed: {
 		  UPnumber() {
-				return this.$store.state.Counter.UPnumber; 
+				return this.$store.state.Counter.data.length; 
 			},
 			DRnumber() {
 				return this.$store.state.Counter.DRnumber; 

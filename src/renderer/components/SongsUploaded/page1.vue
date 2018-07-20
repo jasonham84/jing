@@ -45,6 +45,7 @@
 				:data="fileList"
 				tooltip-effect="dark"
 				style="width: 100%"
+				:row-class-name="tableRowClassName"
 				@selection-change="handleSelectionChange">
 				<el-table-column
 				  type="selection"
@@ -147,7 +148,9 @@
 				tableData: [],
 				multipleSelection: [],
 				fileList:[],
-				height:"",
+				height:""
+				
+				// fileError:[]
 			}
 		},
 		computed: {
@@ -158,9 +161,53 @@
 				}else{
 				  	  return true
 				 }
+			},
+			fileRepeat(){
+				 var arr = this.fileList;
+				 var arr1 = [];
+				     arr.map(function(item,index){
+							  if(item.isRepeated){
+									 arr1.push(index)
+								}
+						 })
+					return arr1;
+			},
+			fileError(){
+				  var arr = this.fileList;
+					var arr1 = [];
+							arr.map(function(item,index){
+								if(item.content.songeState == "不可上传"){
+										arr1.push(index)
+								}
+							})
+					return arr1;
 			}
 		},
 		methods:{
+			tableRowClassName({row, rowIndex}) {
+				console.log(this.fileRepeat)
+// 				this.fileRepeat.map(function(item){
+// 					  if (rowIndex === item) {
+// 					  	return 'warning-row';
+// 					  }else{
+// 							return 'error';
+// 						}
+				// })
+				if(this.fileRepeat.indexOf(rowIndex)>-1&&this.fileError.indexOf(rowIndex)>-1){
+					    return 'warning-error-row';
+				}else if(this.fileError.indexOf(rowIndex)>-1){
+					    return 'error-row'
+				}else if(this.fileRepeat.indexOf(rowIndex)>-1){
+					    return 'warning-row'
+				}				
+				      return '';
+//         if (rowIndex === 1) {
+//           return 'warning-row';
+//         } else if (rowIndex === 3) {
+//           return 'success-row';
+//         }
+        // return '';
+      },
 			handleSelectionChange(val) {
 				this.multipleSelection = val;
 						console.log(val)
@@ -512,7 +559,7 @@
 				}
 			},
 			isRepeated(obj,flage){
-				console.log("isRepeated")
+				// console.log("isRepeated")
 				var _this = this;
 				fs.readFile(filename,function(error,data){
 					 if(error){
@@ -521,22 +568,27 @@
 					 }else{
 				 var arr = JSON.parse(data);
 				 if(flage){
+               console.log(obj)
 					arr.map(function(item){
-						if(obj.name = item.name){
+						if(obj.id == item.id){
+							  console.log(obj.id)
 								obj.isRepeated = true
-								return;
+								item.isRepeated = true
+								
 							}
 						})
+						console.log(obj)
 					_this.fileList.push(obj)
 					_this.saveFile([obj])
 				 }else{
 					var arr1 = obj;
 					for(var i=0;i<arr1.length;i++){
-							var name = arr1[i].name
+							var id = arr1[i].id
 							arr.map(function(item){
-								if(name = item.name){
+								if(id == item.id){
 										arr1[i].isRepeated = true
-										return;
+										item.isRepeated = true
+										
 									}
 							})
 						_this.fileList.push(arr1[i])
@@ -552,8 +604,10 @@
 			 }else{
 				 var currentFile = this.$refs.file.files[0]
 			 }		
-			 console.log(currentFile)
+			 // console.log(currentFile)
 			 var arr1 = currentFile.name.split(".")[0].split("-")
+			 console.log(arr1[0])
+
 			 if(arr1.length!=10){
 			 	var obj = {
 			 			"currentNum":0,
@@ -650,7 +704,7 @@
 					 _this.delectesVisible = true	
 				})
 			Bus.$on("DRfoo",function(data){	
-			console.log(data,"坎坎坷坷扩扩扩扩扩扩扩扩扩扩扩扩")
+			// console.log(data,"坎坎坷坷扩扩扩扩扩扩扩扩扩扩扩扩")
 				_this.foo("",data)
 			})
 					
@@ -670,6 +724,18 @@
 	 .el-table__row{
 		font-size:12px ;
 	}
+	.el-table .warning-row {
+    background: oldlace;
+  }
+
+  .el-table .error-row {
+    color: red;
+  }
+	.el-table .warning-error-row{
+		background: oldlace;
+     color: red;
+	}
+	
 </style>
 
 <style scoped="scoped">
